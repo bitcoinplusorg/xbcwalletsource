@@ -230,7 +230,8 @@ OBJS= \
 	obj/scrypt-x86_64.o \
 	obj/json_spirit_reader.o \
 	obj/json_spirit_writer.o \
-	obj/smessage.o
+        obj/smessage.o \
+        obj/rpcmessage.o
 	
 all: bitcoinplusd
 
