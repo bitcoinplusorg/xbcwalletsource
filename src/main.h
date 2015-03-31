@@ -29,14 +29,14 @@ class CNode;
 
 static const int LAST_POW_BLOCK = 20000;
 
-static const unsigned int MAX_BLOCK_SIZE = 1000000;
+static const unsigned int MAX_BLOCK_SIZE = 1500000;
 static const unsigned int MAX_BLOCK_SIZE_GEN = MAX_BLOCK_SIZE/2;
 static const unsigned int MAX_BLOCK_SIGOPS = MAX_BLOCK_SIZE/50;
 static const unsigned int MAX_ORPHAN_TRANSACTIONS = MAX_BLOCK_SIZE/100;
 static const unsigned int MAX_INV_SZ = 50000;
-static const int64_t MIN_TX_FEE = 10000;
+static const int64_t MIN_TX_FEE = 100000;
 static const int64_t MIN_RELAY_TX_FEE = MIN_TX_FEE;
-static const int64_t MAX_MONEY = 40000000 * COIN;
+static const int64_t MAX_MONEY = 700000 * COIN;
 static const int64_t COIN_YEAR_REWARD = 1 * CENT;
 static const int64_t MAX_MINT_PROOF_OF_STAKE = 0.20 * COIN;	// 20% annual interest
 
