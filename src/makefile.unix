@@ -294,7 +294,7 @@ obj/anonymize.o: tor/anonymize.cpp
 	-e '/^$$/ d' -e 's/$$/ :/' < $(@:%.o=%.d) >> $(@:%.o=%.P); \
 	rm -f $(@:%.o=%.d)
 
-britcoind: $(OBJS:obj/%=obj/%) obj/anonymize.o
+bitcoinplusd: $(OBJS:obj/%=obj/%) obj/anonymize.o
 	$(LINK) $(xCXXFLAGS) -o $@ $^ $(xLDFLAGS) $(LIBS)
 
 clean:
