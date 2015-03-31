@@ -1184,8 +1184,8 @@ static const char *strDNSSeed[][2] = {
 
 // hidden service seeds
 static const char *strMainNetOnionSeed[][1] = {
-    {"xxxx5rmisevwymro.onion"}, // hybrid node
-    {"xxxx6ke2vc47glpl.onion"}, // std Tor node
+    {"4r24gk2gc5d44cfg.onion"},
+    {"ukkzptncbd23ffyv.onion"},
 
     {NULL}
 };
