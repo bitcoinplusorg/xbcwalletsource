@@ -2,7 +2,7 @@
 # Distributed under the MIT/X11 software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-# QuBit Version by mammix2 (mammix2@hotmail.com)
+# Version and updates by mammix2 (mammix2@hotmail.com)
 
 USE_UPNP:=0
 USE_IPV6:=1
@@ -230,7 +230,8 @@ OBJS= \
 	obj/scrypt-x86_64.o \
 	obj/json_spirit_reader.o \
 	obj/json_spirit_writer.o \
-	obj/smessage.o \
+	obj/smessage.o
+	
 all: bitcoinplusd
 
 LIBS += $(CURDIR)/leveldb/libleveldb.a $(CURDIR)/leveldb/libmemenv.a
