@@ -231,7 +231,7 @@ OBJS= \
 	obj/json_spirit_reader.o \
 	obj/json_spirit_writer.o \
         obj/smessage.o \
-        obj/rpcmessage.o
+        obj/rpcsmessage.o
 	
 all: bitcoinplusd
 
