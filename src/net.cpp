@@ -1184,7 +1184,7 @@ static const char *strDNSSeed[][2] = {
 
 // hidden service seeds
 static const char *strMainNetOnionSeed[][1] = {
-    {"4r24gk2gc5d44cfg.onion"},
+    {"ep5batyjb6ews5ln.onion"}, // hybrid node
     {"ukkzptncbd23ffyv.onion"},
 
     {NULL}
