@@ -36,7 +36,7 @@ const std::string CLIENT_NAME("bitcoinplus");
 // git will put "#define GIT_ARCHIVE 1" on the next line inside archives. 
 #define GIT_ARCHIVE 1
 #ifdef GIT_ARCHIVE
-#    define GIT_COMMIT_ID ": NextGen"
+#    define GIT_COMMIT_ID ": satoshi"
 //#    define GIT_COMMIT_DATE "$Format:%cD"
 #endif
 

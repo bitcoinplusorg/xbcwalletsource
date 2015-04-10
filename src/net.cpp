@@ -1179,13 +1179,16 @@ void MapPort()
 static const char *strDNSSeed[][2] = {
     {"seednode1.bitcoinplus.net", "seednode1.bitcoinplus.net"},
     {"seednode2.bitcoinplus.net", "seednode2.bitcoinplus.net"},
+    {"seednode3.bitcoinplus.net", "seednode3.bitcoinplus.net"},
+    {"seednode4.bitcoinplus.net", "seednode4.bitcoinplus.net"},
+    {"seednode5.bitcoinplus.net", "seednode5.bitcoinplus.net"},
 };
 
 
 // hidden service seeds
 static const char *strMainNetOnionSeed[][1] = {
-    {"ep5batyjb6ews5ln.onion"}, // hybrid node
-    {"ukkzptncbd23ffyv.onion"},
+    {"ep5batyjb6ews5ln.onion"},
+    {"imsddb53a43dyezm.onion"},
 
     {NULL}
 };
