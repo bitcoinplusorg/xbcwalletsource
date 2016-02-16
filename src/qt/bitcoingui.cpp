@@ -86,8 +86,17 @@ BitcoinGUI::BitcoinGUI(QWidget *parent):
     notificator(0),
     rpcConsole(0)
 {
+
+#ifdef Q_OS_MAC
+    resize(960, 610);
+    setWindowTitle(tr("Bitcoinplus wallet - Mac"));
+#elif _WIN32
     resize(850, 550);
-    setWindowTitle(tr("bitcoinplus") + tr("Wallet"));
+    setWindowTitle(tr("Bitcoinplus wallet - Windows"));
+#else
+    resize(1020, 650);
+    setWindowTitle(tr("Bitcoinplus wallet - Linux"));
+#endif
 
 
 #ifndef Q_OS_MAC
@@ -294,7 +303,11 @@ void BitcoinGUI::createActions()
 
     aboutAction->setToolTip(tr("Show information about bitcoinplus"));
     aboutAction->setMenuRole(QAction::AboutRole);
+#if QT_VERSION < 0x050000
     aboutQtAction = new QAction(QIcon(":/trolltech/qmessagebox/images/qtlogo-64.png"), tr("About &Qt"), this);
+#else
+    aboutQtAction = new QAction(QIcon(":/qt-project.org/qmessagebox/images/qtlogo-64.png"), tr("About &Qt"), this);
+#endif
     aboutQtAction->setToolTip(tr("Show information about Qt"));
     aboutQtAction->setMenuRole(QAction::AboutQtRole);
     optionsAction = new QAction(QIcon(":/icons/options"), tr("&Options..."), this);
