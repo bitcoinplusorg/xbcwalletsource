@@ -52,10 +52,11 @@ static const int64_t nInterval = nTargetTimespan_legacy / nTargetSpacing;
 
 static const int64_t nTargetTimespan = 16 * 60;
 
+int64_t devCoin = 0 * COIN;
 int nCoinbaseMaturity = 100;
 CBlockIndex* pindexGenesisBlock = NULL;
 int nBestHeight = -1;
-int64_t devCoin;
+
 uint256 nBestChainTrust = 0;
 uint256 nBestInvalidTrust = 0;
 
@@ -980,9 +981,9 @@ int64_t GetProofOfWorkReward(int64_t nFees)
 			printf("GetProofOfWorkReward() : create=%s nSubsidy=%"PRId64"\n", FormatMoney(nSubsidy).c_str(), nSubsidy);
 			return nSubsidy + nFees;
 		} 
-			else if (pindexBest->nHeight > P2_Start && pindexBest->nHeight < P2_End)
+            else if (pindexBest->nHeight > P1_Start && pindexBest->nHeight < P2_Start)
 		{
-            int64_t nSubsidy = 0.5 * COIN;
+            int64_t nSubsidy = 0.3 * COIN;
 			if (fDebug && GetBoolArg("-printcreation"))
 			printf("GetProofOfWorkReward() : create=%s nSubsidy=%"PRId64"\n", FormatMoney(nSubsidy).c_str(), nSubsidy);
 			return nSubsidy + nFees;
@@ -2190,14 +2191,14 @@ bool CBlock::AcceptBlock()
 
     if (IsProofOfWork()){
         if (GetBoolArg("-testnet")){
-            if (nHeight > P1_End_TestNet && nHeight < P2_Start_TestNet){
+            if (nHeight > RP1_End_TestNet && nHeight < P1_Start_TestNet){
                 return DoS(100, error("AcceptBlock() : reject proof-of-work at height %d", nHeight));
             }
             else if (nHeight > P2_End_TestNet){
                 return DoS(100, error("AcceptBlock() : reject proof-of-work at height %d", nHeight));
             }
         }else{
-            if (nHeight > P1_End && nHeight < P2_Start){
+            if (nHeight > RP1_End && nHeight < P1_Start){
                 return DoS(100, error("AcceptBlock() : reject proof-of-work at height %d", nHeight));
             }
             else if (nHeight > P2_End){

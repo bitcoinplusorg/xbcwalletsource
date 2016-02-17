@@ -37,7 +37,7 @@ static const unsigned int MAX_INV_SZ = 50000;
 static const int64_t MIN_TX_FEE = 100000;
 static const int64_t MIN_RELAY_TX_FEE = MIN_TX_FEE;
 static const int64_t MAX_MONEY = 1000000 * COIN;
-static const int64_t COIN_YEAR_REWARD = 1 * CENT;
+static const int64_t POS_STAKE_REWARD = 1 * CENT;
 static const int64_t MAX_MINT_PROOF_OF_STAKE = 0.20 * COIN;	// 20% annual interest
 static const int V2_CHAIN_PARAMS_TIME = 1455825600; // V2 chain switch, Thu, 18 Feb 2016 20:00:00 GMT
 #define FOUNDATION "0x"

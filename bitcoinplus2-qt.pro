@@ -3,7 +3,7 @@
 
 TEMPLATE = app
 TARGET = bitcoinplus-qt
-VERSION = 2.3.0.0
+VERSION = 2.5.0.1
 INCLUDEPATH += src src/json \
     src/qt \
     src/qt/plugins/mrichtexteditor \
@@ -404,6 +404,7 @@ HEADERS += src/qt/bitcoingui.h \
     src/threadsafety.h \
     src/txdb-leveldb.h \
     src/lz4/lz4.h \
+    src/pow_control.h \
     src/xxhash/xxhash.h
 
 SOURCES += src/qt/bitcoin.cpp \

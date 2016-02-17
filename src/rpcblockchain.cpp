@@ -47,13 +47,13 @@ double GetDifficulty(const CBlockIndex* blockindex)
 double GetPoWMHashPS()
 {
     if (GetBoolArg("-testnet")){
-        if (pindexBest->nHeight >= P1_End_TestNet && pindexBest->nHeight < P2_Start_TestNet){
+        if (pindexBest->nHeight >= RP1_End_TestNet && pindexBest->nHeight < P1_Start_TestNet){
             return 0;
         } else if (pindexBest->nHeight > P2_End_TestNet){
             return 0;
         }
     }else {
-        if (pindexBest->nHeight >= P1_End && pindexBest->nHeight < P2_Start){
+        if (pindexBest->nHeight >= RP1_End && pindexBest->nHeight < P1_Start){
             return 0;
         } else if (pindexBest->nHeight > P2_End){
             return 0;
