@@ -9,14 +9,7 @@ AboutDialog::AboutDialog(QWidget *parent) :
     ui(new Ui::AboutDialog)
 {
     ui->setupUi(this);
-
-    if ((mapArgs["-torconnect"] == "1")){
-        ui->about_lbl->setPixmap(QPixmap(":/images/about_dark"));
-    } else {
-       ui->about_lbl->setPixmap(QPixmap(":/images/about"));
-    }
-
-
+    ui->about_lbl->setPixmap(QPixmap(":/images/about_dark"));
 }
 
 void AboutDialog::setModel(ClientModel *model)

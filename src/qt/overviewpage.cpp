@@ -147,13 +147,9 @@ void OverviewPage::setBalance(qint64 balance, qint64 stake, qint64 unconfirmedBa
     // for the non-mining users
     bool showImmature = immatureBalance != 0;
     ui->labelImmature->setVisible(showImmature);
-    ui->labelImmatureText->setVisible(showImmature);\
+    ui->labelImmatureText->setVisible(showImmature);
+    ui->wallet_logo_lbl->setPixmap(QPixmap(":images/wallet_logo_dark"));
 
-    if ((mapArgs["-torconnect"] == "1")){
-        ui->wallet_logo_lbl->setPixmap(QPixmap(":images/wallet_logo_dark"));
-    } else {
-        ui->wallet_logo_lbl->setPixmap(QPixmap(":images/wallet_logo"));
-    }
 }
 
 

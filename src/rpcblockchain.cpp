@@ -5,6 +5,7 @@
 
 #include "main.h"
 #include "bitcoinrpc.h"
+#include "pow_control.h"
 
 using namespace json_spirit;
 using namespace std;
@@ -45,8 +46,20 @@ double GetDifficulty(const CBlockIndex* blockindex)
 
 double GetPoWMHashPS()
 {
-    if (pindexBest->nHeight >= LAST_POW_BLOCK)
-        return 0;
+    if (GetBoolArg("-testnet")){
+        if (pindexBest->nHeight >= P1_End_TestNet && pindexBest->nHeight < P2_Start_TestNet){
+            return 0;
+        } else if (pindexBest->nHeight > P2_End_TestNet){
+            return 0;
+        }
+    }else {
+        if (pindexBest->nHeight >= P1_End && pindexBest->nHeight < P2_Start){
+            return 0;
+        } else if (pindexBest->nHeight > P2_End){
+            return 0;
+        }
+    }
+
 
     int nPoWInterval = 72;
     int64_t nTargetSpacingWorkMin = 30, nTargetSpacingWork = 30;

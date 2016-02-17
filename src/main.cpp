@@ -13,6 +13,7 @@
 #include "kernel.h"
 #include "genesis.h"
 #include "smessage.h"
+#include "pow_control.h"
 #include <boost/algorithm/string/replace.hpp>
 #include <boost/filesystem.hpp>
 #include <boost/filesystem/fstream.hpp>
@@ -51,11 +52,10 @@ static const int64_t nInterval = nTargetTimespan_legacy / nTargetSpacing;
 
 static const int64_t nTargetTimespan = 16 * 60;
 
-int64_t devCoin = 0 * COIN;
 int nCoinbaseMaturity = 100;
 CBlockIndex* pindexGenesisBlock = NULL;
 int nBestHeight = -1;
-
+int64_t devCoin;
 uint256 nBestChainTrust = 0;
 uint256 nBestInvalidTrust = 0;
 
@@ -975,11 +975,19 @@ int64_t GetProofOfWorkReward(int64_t nFees)
 {
     if (pindexBest->nHeight == 1)
       {
-        int64_t nSubsidy = 71750 * COIN;
-        if (fDebug && GetBoolArg("-printcreation"))
-        printf("GetProofOfWorkReward() : create=%s nSubsidy=%"PRId64"\n", FormatMoney(nSubsidy).c_str(), nSubsidy);
-        return nSubsidy + nFees;
-      }
+			int64_t nSubsidy = 71750 * COIN;
+			if (fDebug && GetBoolArg("-printcreation"))
+			printf("GetProofOfWorkReward() : create=%s nSubsidy=%"PRId64"\n", FormatMoney(nSubsidy).c_str(), nSubsidy);
+			return nSubsidy + nFees;
+		} 
+			else if (pindexBest->nHeight > P2_Start && pindexBest->nHeight < P2_End)
+		{
+            int64_t nSubsidy = 0.5 * COIN;
+			if (fDebug && GetBoolArg("-printcreation"))
+			printf("GetProofOfWorkReward() : create=%s nSubsidy=%"PRId64"\n", FormatMoney(nSubsidy).c_str(), nSubsidy);
+			return nSubsidy + nFees;
+        }
+
     else
     {
         int64_t nSubsidy = 0 * COIN;
@@ -2180,8 +2188,25 @@ bool CBlock::AcceptBlock()
     CBlockIndex* pindexPrev = (*mi).second;
     int nHeight = pindexPrev->nHeight+1;
 
-    if (IsProofOfWork() && nHeight > LAST_POW_BLOCK)
-        return DoS(100, error("AcceptBlock() : reject proof-of-work at height %d", nHeight));
+    if (IsProofOfWork()){
+        if (GetBoolArg("-testnet")){
+            if (nHeight > P1_End_TestNet && nHeight < P2_Start_TestNet){
+                return DoS(100, error("AcceptBlock() : reject proof-of-work at height %d", nHeight));
+            }
+            else if (nHeight > P2_End_TestNet){
+                return DoS(100, error("AcceptBlock() : reject proof-of-work at height %d", nHeight));
+            }
+        }else{
+            if (nHeight > P1_End && nHeight < P2_Start){
+                return DoS(100, error("AcceptBlock() : reject proof-of-work at height %d", nHeight));
+            }
+            else if (nHeight > P2_End){
+                return DoS(100, error("AcceptBlock() : reject proof-of-work at height %d", nHeight));
+            }
+        }
+
+    }
+
 
     // Check proof-of-work or proof-of-stake
     if (nBits != GetNextTargetRequired(pindexPrev, IsProofOfStake()))

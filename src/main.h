@@ -27,7 +27,7 @@ class CInv;
 class CRequestTracker;
 class CNode;
 
-static const int LAST_POW_BLOCK = 60000;
+// static const int LAST_POW_BLOCK = 60000;
 
 static const unsigned int MAX_BLOCK_SIZE = 1500000;
 static const unsigned int MAX_BLOCK_SIZE_GEN = MAX_BLOCK_SIZE/2;
@@ -36,10 +36,10 @@ static const unsigned int MAX_ORPHAN_TRANSACTIONS = MAX_BLOCK_SIZE/100;
 static const unsigned int MAX_INV_SZ = 50000;
 static const int64_t MIN_TX_FEE = 100000;
 static const int64_t MIN_RELAY_TX_FEE = MIN_TX_FEE;
-static const int64_t MAX_MONEY = 700000 * COIN;
+static const int64_t MAX_MONEY = 1000000 * COIN;
 static const int64_t COIN_YEAR_REWARD = 1 * CENT;
 static const int64_t MAX_MINT_PROOF_OF_STAKE = 0.20 * COIN;	// 20% annual interest
-
+static const int V2_CHAIN_PARAMS_TIME = 1455825600; // V2 chain switch, Thu, 18 Feb 2016 20:00:00 GMT
 #define FOUNDATION "0x"
 #define FOUNDATION_TEST "0x"
 
@@ -54,20 +54,20 @@ static const int fHaveUPnP = false;
 #endif
 
 inline int64_t PastDrift(int64_t nTime)   {
-    if (nTime < 4579862332){
+    if (nTime < V2_CHAIN_PARAMS_TIME){
         return nTime - 2 * 60 * 60;
         }
     else {
-        return nTime - 2 * 60 * 60;
+        return nTime - 10 * 60; // New time drift maximum
         }
 }
 
 inline int64_t FutureDrift(int64_t nTime) {
-    if (nTime < 4579862332){
+    if (nTime < V2_CHAIN_PARAMS_TIME){
         return nTime + 2 * 60 * 60;
         }
     else {
-        return nTime + 2 * 60 * 60;
+        return nTime + 10 * 60; // New time drift maximum
         }
 }
 

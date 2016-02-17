@@ -53,7 +53,7 @@ struct LocalServiceInfo {
 bool fClient = false;
 bool fDiscover = true;
 bool fUseUPnP = false;
-bool fTorEnabled = false;
+bool fTorEnabled = true;
 uint64_t nLocalServices = (fClient ? 0 : NODE_NETWORK);
 static CCriticalSection cs_mapLocalHost;
 static map<CNetAddr, LocalServiceInfo> mapLocalHost;
@@ -1952,7 +1952,7 @@ void StartNode(void* parg)
         if (!NewThread(ThreadDNSAddressSeed, NULL))
             printf("Error: NewThread(ThreadDNSAddressSeed) failed\n");
 
-    int isfTor = GetArg("-torconnect", 0);
+    int isfTor = GetArg("-torconnect", 1);
 	
     if (!(isfTor == 1) || (fTorEnabled != 1))
         	printf(".onion seeding disabled\n");

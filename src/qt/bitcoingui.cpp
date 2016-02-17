@@ -29,6 +29,7 @@
 #include "guiutil.h"
 #include "rpcconsole.h"
 #include "wallet.h"
+#include "init.h"
 #include "net.h"
 
 #ifdef Q_OS_MAC
@@ -101,16 +102,8 @@ BitcoinGUI::BitcoinGUI(QWidget *parent):
 
 #ifndef Q_OS_MAC
 
-
-    if ((mapArgs["-torconnect"] == "1")){
         qApp->setWindowIcon(QIcon(":icons/bitcoin_dark"));
         setWindowIcon(QIcon(":icons/bitcoin_dark"));
-    } else {
-        qApp->setWindowIcon(QIcon(":icons/bitcoin"));
-        setWindowIcon(QIcon(":icons/bitcoin"));
-    }
-
-
 #else
     setUnifiedTitleAndToolBarOnMac(true);
     QApplication::setAttribute(Qt::AA_DontShowIconsInMenus);
@@ -294,12 +287,7 @@ void BitcoinGUI::createActions()
     quitAction->setToolTip(tr("Quit application"));
     quitAction->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_Q));
     quitAction->setMenuRole(QAction::QuitRole);
-
-    if ((mapArgs["-torconnect"] == "1")){
-        aboutAction = new QAction(QIcon(":/icons/bitcoin_dark"), tr("&About bitcoinplus"), this);
-    } else {
-        aboutAction = new QAction(QIcon(":/icons/bitcoin"), tr("&About bitcoinplus"), this);
-    }
+    aboutAction = new QAction(QIcon(":/icons/bitcoin_dark"), tr("&About bitcoinplus"), this);
 
     aboutAction->setToolTip(tr("Show information about bitcoinplus"));
     aboutAction->setMenuRole(QAction::AboutRole);
@@ -416,24 +404,12 @@ void BitcoinGUI::setClientModel(ClientModel *clientModel)
             if(trayIcon)
             {
                 trayIcon->setToolTip(tr("bitcoinplus client") + QString(" ") + tr("[testnet]")); 
-
-
-                if ((mapArgs["-torconnect"] == "1")){
-                    trayIcon->setIcon(QIcon(":/icons/toolbar_testnet_dark"));
-                    toggleHideAction->setIcon(QIcon(":/icons/toolbar_testnet_dark"));
-                } else {
-                    trayIcon->setIcon(QIcon(":/icons/toolbar_testnet"));
-                    toggleHideAction->setIcon(QIcon(":/icons/toolbar_testnet"));
-                }
+                trayIcon->setIcon(QIcon(":/icons/toolbar_testnet_dark"));
+                toggleHideAction->setIcon(QIcon(":/icons/toolbar_testnet_dark"));
             }
 
 
-
-            if ((mapArgs["-torconnect"] == "1")){
                aboutAction->setIcon(QIcon(":/icons/toolbar_testnet_dark"));
-            } else {
-               aboutAction->setIcon(QIcon(":/icons/toolbar_testnet"));
-            }
 
         }
 
@@ -508,11 +484,8 @@ void BitcoinGUI::createTrayIcon()
     trayIcon->setContextMenu(trayIconMenu);
     trayIcon->setToolTip(tr("bitcoinplus client"));
 
-    if ((mapArgs["-torconnect"] == "1")) {
-       trayIcon->setIcon(QIcon(":/icons/toolbar_dark"));
-    }else{
-       trayIcon->setIcon(QIcon(":/icons/toolbar"));
-    }
+	trayIcon->setIcon(QIcon(":/icons/toolbar_dark"));
+
 
 
     connect(trayIcon, SIGNAL(activated(QSystemTrayIcon::ActivationReason)),
