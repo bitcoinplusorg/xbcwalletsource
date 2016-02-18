@@ -251,11 +251,26 @@
      </item>
      <item>
       <widget class="QLabel" name="wallet_logo_lbl">
+       <property name="frameShape">
+        <enum>QFrame::NoFrame</enum>
+       </property>
+       <property name="lineWidth">
+        <number>1</number>
+       </property>
        <property name="text">
         <string/>
        </property>
+       <property name="pixmap">
+        <pixmap resource="../bitcoin.qrc">:/images/about_new</pixmap>
+       </property>
+       <property name="scaledContents">
+        <bool>false</bool>
+       </property>
        <property name="alignment">
         <set>Qt::AlignCenter</set>
+       </property>
+       <property name="indent">
+        <number>0</number>
        </property>
       </widget>
      </item>
@@ -351,6 +366,8 @@
    </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="../bitcoin.qrc"/>
+ </resources>
  <connections/>
 </ui>

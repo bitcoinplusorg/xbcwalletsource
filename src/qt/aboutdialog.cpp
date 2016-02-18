@@ -9,7 +9,6 @@ AboutDialog::AboutDialog(QWidget *parent) :
     ui(new Ui::AboutDialog)
 {
     ui->setupUi(this);
-    ui->about_lbl->setPixmap(QPixmap(":/images/about_dark"));
 }
 
 void AboutDialog::setModel(ClientModel *model)

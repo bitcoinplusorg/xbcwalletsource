@@ -44,21 +44,12 @@
         <file alias="bitcoin_testnet">res/icons/bitcoin_testnet.png</file>
         <file alias="toolbar">res/icons/toolbar.png</file>
         <file alias="toolbar_testnet">res/icons/toolbar_testnet.png</file>
-        <file alias="bitcoin_dark">res/icons/bitcoin_dark.png</file>
-        <file alias="bitcoin_testnet_dark">res/icons/bitcoin_testnet_dark.png</file>
-        <file alias="toolbar_dark">res/icons/toolbar_dark.png</file>
-        <file alias="toolbar_testnet_dark">res/icons/toolbar_testnet_dark.png</file>
     </qresource>
     <qresource prefix="/images">
-        <file alias="about">res/images/about.png</file>
-        <file alias="about_dark">res/images/about_dark.png</file>
+        <file alias="about_new">res/images/about.png</file>
         <file alias="splash">res/images/splash.png</file>
         <file alias="splash_testnet">res/images/splash_testnet.png</file>
-        <file alias="splash_dark">res/images/splash_dark.png</file>
-        <file alias="splash_testnet_dark">res/images/splash_testnet_dark.png</file>
         <file alias="wallet_logo">res/images/wallet_logo.png</file>
-        <file alias="wallet_logo_dark">res/images/wallet_logo_dark.png</file>
-
     </qresource>
     <qresource prefix="/movies">
         <file alias="update_spinner">res/movies/update_spinner.mng</file>
@@ -105,6 +96,6 @@
         <file alias="zh_TW">locale/bitcoin_zh_TW.qm</file>
     </qresource>
     <qresource prefix="/styles">
-        <file alias="styles">res/styles/style.qss</file>
+        <file>res/styles/style.qss</file>
     </qresource>
 </RCC>

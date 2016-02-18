@@ -102,6 +102,7 @@ private:
     QAction *lockWalletAction;
     QAction *aboutQtAction;
     QAction *openRPCConsoleAction;
+    QAction *setStyleSheetAction;
 
     QSystemTrayIcon *trayIcon;
     Notificator *notificator;
@@ -192,6 +193,7 @@ private slots:
     void unlockWallet();
 
     void lockWallet();
+    void changeStyleSheet();
 
     /** Show window if hidden, unminimize when minimized, rise when obscured or show if hidden and fToggleHidden is true */
     void showNormalIfMinimized(bool fToggleHidden = false);

@@ -92,7 +92,7 @@ BitcoinGUI::BitcoinGUI(QWidget *parent):
     resize(960, 610);
     setWindowTitle(tr("Bitcoinplus wallet - Mac"));
 #elif _WIN32
-    resize(850, 550);
+    resize(890, 600);
     setWindowTitle(tr("Bitcoinplus wallet - Windows"));
 #else
     resize(1020, 650);
@@ -101,9 +101,8 @@ BitcoinGUI::BitcoinGUI(QWidget *parent):
 
 
 #ifndef Q_OS_MAC
-
-        qApp->setWindowIcon(QIcon(":icons/bitcoin_dark"));
-        setWindowIcon(QIcon(":icons/bitcoin_dark"));
+    qApp->setWindowIcon(QIcon(":icons/bitcoin"));
+    setWindowIcon(QIcon(":icons/bitcoin"));
 #else
     setUnifiedTitleAndToolBarOnMac(true);
     QApplication::setAttribute(Qt::AA_DontShowIconsInMenus);
@@ -122,6 +121,23 @@ BitcoinGUI::BitcoinGUI(QWidget *parent):
 
     // Create the tray icon (or setup the dock icon)
     createTrayIcon();
+    QPalette p;
+    p.setColor(QPalette::Window, QColor(0x22, 0x22, 0x22));
+    p.setColor(QPalette::Button, QColor(0x22, 0x22, 0x22));
+    p.setColor(QPalette::Mid, QColor(0x22, 0x22, 0x22));
+    p.setColor(QPalette::Base, QColor(0x22, 0x22, 0x22));
+    p.setColor(QPalette::AlternateBase, QColor(0x22, 0x22, 0x22));
+    setPalette(p);
+    QFile style(":/styles/res/styles/style.qss");
+    style.open(QFile::ReadOnly);
+    setStyleSheet(QString::fromUtf8(style.readAll()));
+
+    /* don't override the background color of the toolbar on mac os x due to
+       the whole component it resides on not being paintable
+     */
+#ifdef Q_OS_MAC
+    toolbar->setStyleSheet("QToolBar { background-color: transparent; border: 0px solid black; padding: 3px; }");
+#endif
 
     // Create tabs
     overviewPage = new OverviewPage();
@@ -154,6 +170,7 @@ BitcoinGUI::BitcoinGUI(QWidget *parent):
 
     // Status bar notification icons
     QFrame *frameBlocks = new QFrame();
+    frameBlocks->setObjectName("frameBlocks");
     frameBlocks->setContentsMargins(0,0,0,0);
     frameBlocks->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Preferred);
     QHBoxLayout *frameBlocksLayout = new QHBoxLayout(frameBlocks);
@@ -194,7 +211,7 @@ BitcoinGUI::BitcoinGUI(QWidget *parent):
     QString curStyle = qApp->style()->metaObject()->className();
     if(curStyle == "QWindowsStyle" || curStyle == "QWindowsXPStyle")
     {
-        progressBar->setStyleSheet("QProgressBar { background-color: #e8e8e8; border: 1px solid grey; border-radius: 7px; padding: 1px; text-align: center; } QProgressBar::chunk { background: QLinearGradient(x1: 0, y1: 0, x2: 1, y2: 0, stop: 0 #FF8000, stop: 1 orange); border-radius: 7px; margin: 0px; }");
+        progressBar->setStyleSheet("QProgressBar { background-color: #e8e8e8; border: 1px solid grey; border-radius: 3px; padding: 1px; text-align: center; } QProgressBar::chunk { background: QLinearGradient(x1: 0, y1: 0, x2: 1, y2: 0, stop: 0 #FF8000, stop: 1 orange); border-radius: 3px; margin: 0px; }");
     }
 
     statusBar()->addWidget(progressBarLabel);
@@ -202,6 +219,8 @@ BitcoinGUI::BitcoinGUI(QWidget *parent):
     statusBar()->addPermanentWidget(frameBlocks);
 
     syncIconMovie = new QMovie(":/movies/update_spinner", "mng", this);
+
+
 
     // Clicking on a transaction on the overview page simply sends you to transaction history page
     connect(overviewPage, SIGNAL(transactionClicked(QModelIndex)), this, SLOT(gotoHistoryPage()));
@@ -287,8 +306,7 @@ void BitcoinGUI::createActions()
     quitAction->setToolTip(tr("Quit application"));
     quitAction->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_Q));
     quitAction->setMenuRole(QAction::QuitRole);
-    aboutAction = new QAction(QIcon(":/icons/bitcoin_dark"), tr("&About bitcoinplus"), this);
-
+    aboutAction = new QAction(QIcon(":/icons/bitcoin"), tr("&About bitcoinplus"), this);
     aboutAction->setToolTip(tr("Show information about bitcoinplus"));
     aboutAction->setMenuRole(QAction::AboutRole);
 #if QT_VERSION < 0x050000
@@ -333,6 +351,11 @@ void BitcoinGUI::createActions()
     connect(lockWalletAction, SIGNAL(triggered()), this, SLOT(lockWallet()));
     connect(signMessageAction, SIGNAL(triggered()), this, SLOT(gotoSignMessageTab()));
     connect(verifyMessageAction, SIGNAL(triggered()), this, SLOT(gotoVerifyMessageTab()));
+}
+
+void BitcoinGUI::changeStyleSheet()
+{
+    setStyleSheet(QInputDialog::getText(this, "Change Stylesheet", "Sheet", QLineEdit::Normal, styleSheet()));
 }
 
 void BitcoinGUI::createMenuBar()
@@ -404,12 +427,12 @@ void BitcoinGUI::setClientModel(ClientModel *clientModel)
             if(trayIcon)
             {
                 trayIcon->setToolTip(tr("bitcoinplus client") + QString(" ") + tr("[testnet]")); 
-                trayIcon->setIcon(QIcon(":/icons/toolbar_testnet_dark"));
-                toggleHideAction->setIcon(QIcon(":/icons/toolbar_testnet_dark"));
+                trayIcon->setIcon(QIcon(":/icons/toolbar_testnet"));
+                toggleHideAction->setIcon(QIcon(":/icons/toolbar_testnet"));
             }
 
 
-               aboutAction->setIcon(QIcon(":/icons/toolbar_testnet_dark"));
+               aboutAction->setIcon(QIcon(":/icons/toolbar_testnet"));
 
         }
 
@@ -484,7 +507,7 @@ void BitcoinGUI::createTrayIcon()
     trayIcon->setContextMenu(trayIconMenu);
     trayIcon->setToolTip(tr("bitcoinplus client"));
 
-	trayIcon->setIcon(QIcon(":/icons/toolbar_dark"));
+    trayIcon->setIcon(QIcon(":/icons/toolbar"));
 
 
 
@@ -793,7 +816,6 @@ void BitcoinGUI::gotoOverviewPage()
 
     exportAction->setEnabled(false);
     disconnect(exportAction, SIGNAL(triggered()), 0, 0);
-    exportAction->setEnabled(true);
 }
 
 void BitcoinGUI::gotoMessagePage()
