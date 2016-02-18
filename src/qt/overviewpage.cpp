@@ -117,6 +117,7 @@ OverviewPage::OverviewPage(QWidget *parent) :
 
     // start with displaying the "out of sync" warnings
     showOutOfSyncWarning(true);
+    ui->wallet_logo_lbl->setPixmap(QPixmap(":images/about_new"));
 }
 
 void OverviewPage::handleTransactionClicked(const QModelIndex &index)
@@ -148,6 +149,7 @@ void OverviewPage::setBalance(qint64 balance, qint64 stake, qint64 unconfirmedBa
     bool showImmature = immatureBalance != 0;
     ui->labelImmature->setVisible(showImmature);
     ui->labelImmatureText->setVisible(showImmature);
+
 
 }
 
