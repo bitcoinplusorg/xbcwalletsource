@@ -17,6 +17,10 @@
 #include <boost/algorithm/string/replace.hpp>
 #include <boost/filesystem.hpp>
 #include <boost/filesystem/fstream.hpp>
+#include <iostream>
+#include <openssl/rsa.h>
+#include <openssl/rand.h>
+#include <openssl/bn.h>
 
 
 using namespace std;
@@ -977,23 +981,17 @@ int64_t GetProofOfWorkReward(int64_t nFees)
     if (pindexBest->nHeight == 1)
       {
 			int64_t nSubsidy = 71750 * COIN;
-			if (fDebug && GetBoolArg("-printcreation"))
-			printf("GetProofOfWorkReward() : create=%s nSubsidy=%"PRId64"\n", FormatMoney(nSubsidy).c_str(), nSubsidy);
 			return nSubsidy + nFees;
 		} 
-            else if (pindexBest->nHeight > P1_Start && pindexBest->nHeight < P2_Start)
+            else if (pindexBest->nHeight > 100606 && pindexBest->nHeight < P2_Start)
 		{
             int64_t nSubsidy = 0.3 * COIN;
-			if (fDebug && GetBoolArg("-printcreation"))
-			printf("GetProofOfWorkReward() : create=%s nSubsidy=%"PRId64"\n", FormatMoney(nSubsidy).c_str(), nSubsidy);
 			return nSubsidy + nFees;
         }
 
     else
     {
         int64_t nSubsidy = 0 * COIN;
-        if (fDebug && GetBoolArg("-printcreation"))
-        printf("GetProofOfWorkReward() : create=%s nSubsidy=%"PRId64"\n", FormatMoney(nSubsidy).c_str(), nSubsidy);
         return nSubsidy + nFees;
     }
 

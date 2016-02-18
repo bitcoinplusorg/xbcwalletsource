@@ -1189,8 +1189,8 @@ static const char *strDNSSeed[][2] = {
 static const char *strMainNetOnionSeed[][1] = {
     {"vqr4nghlcpdipdpj.onion"}, // node 1
     {"yvjofqv4wox4ywwm.onion"}, // node 2
-    {"dtc6mm23aexkkjtl.onion"}, // node 3
-    {"7xcm543jtkje4mkv.onion"}, // node 4
+    {"dtc6mm23aexkkjtl.onion"}, // future node
+    {"7xcm543jtkje4mkv.onion"}, // future node
 
     {NULL}
 };
@@ -1952,7 +1952,7 @@ void StartNode(void* parg)
         if (!NewThread(ThreadDNSAddressSeed, NULL))
             printf("Error: NewThread(ThreadDNSAddressSeed) failed\n");
 
-    int isfTor = GetArg("-torconnect", 1);
+    int isfTor = GetArg("-dontuse", 1);
 	
     if (!(isfTor == 1) || (fTorEnabled != 1))
         	printf(".onion seeding disabled\n");

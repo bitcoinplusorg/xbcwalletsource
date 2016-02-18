@@ -107,6 +107,15 @@ double GetPoSKernelPS()
 
     return nStakesTime ? dStakeKernelsTriedAvg / nStakesTime : 0;
 }
+Value getnetworkhashps(const Array& params, bool fHelp)
+{
+    if (fHelp || params.size() != 0)
+        throw runtime_error(
+                            "getnetworkhashps\n"
+                            "Returns a exponential moving estimate of the current network hashrate (Mhash/s)");
+    
+    return GetPoWMHashPS();
+}
 
 Object blockToJSON(const CBlock& block, const CBlockIndex* blockindex, bool fPrintTransactionDetail)
 {
@@ -266,7 +275,7 @@ Value getblockbynumber(const Array& params, bool fHelp)
 {
     if (fHelp || params.size() < 1 || params.size() > 2)
         throw runtime_error(
-            "getblock <number> [txinfo]\n"
+            "getblockbynumber <number> [txinfo]\n"
             "txinfo optional to print more detailed tx info\n"
             "Returns details of a block with given block-number.");
 

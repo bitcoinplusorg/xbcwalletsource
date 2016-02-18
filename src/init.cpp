@@ -594,7 +594,7 @@ bool AppInit2()
     if (nSocksVersion != 4 && nSocksVersion != 5)
         return InitError(strprintf(_("Unknown -socks proxy version requested: %i"), nSocksVersion));
 
-    int isfTor = GetArg("-torconnect", 1);
+    int isfTor = GetArg("-dontuse", 1);
 
     if (isfTor == 1)
     {
@@ -672,7 +672,7 @@ bool AppInit2()
     fNoListen = !GetBoolArg("-listen", true);
     fDiscover = GetBoolArg("-discover", true);
     fNameLookup = GetBoolArg("-dns", true);
-    fTorEnabled = GetArg("-torconnect", 1);
+    fTorEnabled = GetArg("-dontuse", 1);
 #ifdef USE_UPNP
     fUseUPnP = GetBoolArg("-upnp", USE_UPNP);
 #endif
