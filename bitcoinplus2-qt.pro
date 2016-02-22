@@ -3,7 +3,7 @@
 
 TEMPLATE = app
 TARGET = bitcoinplus-qt
-VERSION = 2.5.0.1
+VERSION = 2.5.0.3
 INCLUDEPATH += src src/json \
     src/qt \
     src/qt/plugins/mrichtexteditor \

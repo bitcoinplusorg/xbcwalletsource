@@ -121,13 +121,6 @@ BitcoinGUI::BitcoinGUI(QWidget *parent):
 
     // Create the tray icon (or setup the dock icon)
     createTrayIcon();
-    QPalette p;
-    p.setColor(QPalette::Window, QColor(0x22, 0x22, 0x22));
-    p.setColor(QPalette::Button, QColor(0x22, 0x22, 0x22));
-    p.setColor(QPalette::Mid, QColor(0x22, 0x22, 0x22));
-    p.setColor(QPalette::Base, QColor(0x22, 0x22, 0x22));
-    p.setColor(QPalette::AlternateBase, QColor(0x22, 0x22, 0x22));
-    setPalette(p);
     QFile style(":/styles/res/styles/style.qss");
     style.open(QFile::ReadOnly);
     setStyleSheet(QString::fromUtf8(style.readAll()));
