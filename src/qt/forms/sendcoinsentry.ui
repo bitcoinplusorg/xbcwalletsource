@@ -118,7 +118,7 @@ QLineEdit {
         border-color: #222222;
         padding: 8px;
         background-color: #0e585f;
-        color: black;
+        color: white;
 }
 
 QLineEdit:disabled {
@@ -126,7 +126,7 @@ QLineEdit:disabled {
         border-width: 1px;
         border-color: #222222;
         padding: 8px;
-        background-color: #262626;
+        background-color: #0a393d;
         color: black;
 }
 

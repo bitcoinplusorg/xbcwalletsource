@@ -37,10 +37,10 @@ QProgressBar::chunk {
 }
 
 QScrollArea {
-        border-radius: 3px;
+        border-radius: 1px;
         border-width: 0;
         border-style: none;
-        padding: 8px;
+        padding: 2px;
         background-color: #000000;
         color: white;
 }
@@ -59,7 +59,7 @@ QCheckBox {
         border-width: 0;
         border-style: none;
         padding: 8px;
-        background-color: #000000;
+        background-color: #0e585f;
         color: white;
 }
 
@@ -74,7 +74,7 @@ QVBoxLayout {
 
 QFrame#central {
         background-color: #0e585f;
-        border: none
+        border: none;
 }
 
 QFrame#SendCoinsEntry {
@@ -97,16 +97,16 @@ QFrame#frame, QFrame#frame_2, QFrame#frame_3 {
 QLabel {
         background-color: transparent;
         color: white;
-        font-weight: normal
+        font-weight: normal;
 }
 
 QLabel[openExternalLinks=true], QHeaderView {
-        color: #aaaaaa
+        color: #aaaaaa;
 }
 
 QLabel[openExternalLinks=false] {
         color: white;
-        font-weight: normal
+        font-weight: normal;
 }
 
 QPushButton, QToolButton, QDialogButtonBox {
@@ -129,7 +129,7 @@ QPushButton:pressed, QToolButton:pressed {
 
 QPushButton:disabled, QToolButton:disabled {
         color: #444;
-        background-color: #222222;
+        background-color: #0a393d;
 }
 
 scrollAreaWidgetContents QToolButton {
@@ -138,7 +138,7 @@ scrollAreaWidgetContents QToolButton {
 }
 
 scrollAreaWidgetContents {
-        background: #222222
+        background: #222222;
 }
 
 scrollAreaWidgetContents > QFrame {
@@ -176,7 +176,7 @@ QLineEdit {
         border-color: #222222;
         padding: 8px;
         background-color: #0e585f;
-        color: black;
+        color: white;
 }
 
 QLineEdit:disabled {
@@ -184,7 +184,7 @@ QLineEdit:disabled {
         border-width: 1px;
         border-color: #222222;
         padding: 8px;
-        background-color: #262626;
+        background-color: #0a393d;
         color: black;
 }
 
@@ -215,10 +215,10 @@ QComboBox::drop-down {
 
 QTableView {
         background: #0e585f;
-        color: black;
+        color: white;
         border-style: none;
-        selection-background-color: #aaaaaa;
-        alternate-background-color: #222222;
+        selection-background-color: #367379;
+        alternate-background-color: #0e585f;
         selection-color: #000000;
         border: 0px solid black;
 }

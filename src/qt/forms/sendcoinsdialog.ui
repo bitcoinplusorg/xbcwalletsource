@@ -15,9 +15,8 @@
   </property>
   <property name="styleSheet">
    <string notr="true">QDialog {
-        color: black;
         background-color: #ffffff;
-        border: none;
+        color: black;
 }
 
 QMainWindow {
@@ -58,7 +57,7 @@ QScrollArea {
         border-width: 0;
         border-style: none;
         padding: 2px;
-        background-color: #0e585f;
+        background-color: #000000;
         color: white;
 }
 
@@ -72,7 +71,7 @@ QFormLayout {
 }
 
 QCheckBox {
-        border-radius: 2px;
+        border-radius: 4px;
         border-width: 0;
         border-style: none;
         padding: 8px;
@@ -91,7 +90,7 @@ QVBoxLayout {
 
 QFrame#central {
         background-color: #0e585f;
-        border: none
+        border: none;
 }
 
 QFrame#SendCoinsEntry {
@@ -113,7 +112,7 @@ QFrame#frame, QFrame#frame_2, QFrame#frame_3 {
 
 QLabel {
         background-color: transparent;
-        color: #000000;
+        color: white;
         font-weight: normal;
 }
 
@@ -122,7 +121,7 @@ QLabel[openExternalLinks=true], QHeaderView {
 }
 
 QLabel[openExternalLinks=false] {
-        color: black;
+        color: white;
         font-weight: normal;
 }
 
@@ -146,20 +145,20 @@ QPushButton:pressed, QToolButton:pressed {
 
 QPushButton:disabled, QToolButton:disabled {
         color: #444;
-        background-color: #222222;
+        background-color: #0a393d;
 }
 
 scrollAreaWidgetContents QToolButton {
-        border-radius: 1px;
+        border-radius: 8px;
         border-width: 0px;
 }
 
 scrollAreaWidgetContents {
-        background: #0e585f;
+        background: #222222;
 }
 
 scrollAreaWidgetContents &gt; QFrame {
-        background-color: #0e585f;
+        background-color: #222222;
         border-width: 0px;
         border-style: none;
 }
@@ -179,8 +178,8 @@ QMenuBar {
 }
 
 QMenuBar::item {
-        background: #333333;
-        color: white;
+        background: #ffffff;
+        color: black;
 }
 
 QStatusBar {
@@ -193,7 +192,7 @@ QLineEdit {
         border-color: #222222;
         padding: 8px;
         background-color: #0e585f;
-        color: black;
+        color: white;
 }
 
 QLineEdit:disabled {
@@ -201,8 +200,8 @@ QLineEdit:disabled {
         border-width: 1px;
         border-color: #222222;
         padding: 8px;
-        background-color: #262626;
-        color: white;
+        background-color: #0a393d;
+        color: black;
 }
 
 QComboBox {
@@ -234,8 +233,8 @@ QTableView {
         background: #0e585f;
         color: white;
         border-style: none;
-        selection-background-color: #aaaaaa;
-        alternate-background-color: #222222;
+        selection-background-color: #367379;
+        alternate-background-color: #0e585f;
         selection-color: #000000;
         border: 0px solid black;
 }

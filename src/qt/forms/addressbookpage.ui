@@ -24,8 +24,8 @@ QTableView {
         background: #0e585f;
         color: white;
         border-style: none;
-        selection-background-color: #aaaaaa;
-        alternate-background-color: #222222;
+        selection-background-color: #367379;
+        alternate-background-color: #0e585f;
         selection-color: #000000;
         border: 0px solid black;
 }
