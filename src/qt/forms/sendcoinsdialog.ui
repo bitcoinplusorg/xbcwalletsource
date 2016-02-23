@@ -112,7 +112,7 @@ QFrame#frame, QFrame#frame_2, QFrame#frame_3 {
 
 QLabel {
         background-color: transparent;
-        color: white;
+        color: black;
         font-weight: normal;
 }
 
@@ -121,7 +121,7 @@ QLabel[openExternalLinks=true], QHeaderView {
 }
 
 QLabel[openExternalLinks=false] {
-        color: white;
+        color: black;
         font-weight: normal;
 }
 
