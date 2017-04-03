@@ -209,8 +209,8 @@ bool OptionsModel::setData(const QModelIndex & index, const QVariant & value, in
             MapPort();
             break;
         case TorProxyEnabled:
-            fDarkEnabled = value.toBool();
-            settings.setValue("fTorEnabled", fDarkEnabled);
+            fTorEnabled = value.toBool();
+            settings.setValue("fTorEnabled", fTorEnabled);
             break;
         case MinimizeOnClose:
             fMinimizeOnClose = value.toBool();
