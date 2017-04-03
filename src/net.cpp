@@ -1255,7 +1255,7 @@ void ThreadDNSAddressSeed2(void* parg)
 void ThreadOnionSeed(void* parg)
 {
     // Make this thread recognisable as the DNS seeding thread
-    RenameThread("britcoin-dnsseed");
+    RenameThread("bitcoinplus-dnsseed");
 
     try
     {
