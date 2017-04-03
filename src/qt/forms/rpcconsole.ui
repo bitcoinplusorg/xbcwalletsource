@@ -683,9 +683,12 @@
         </spacer>
        </item>
        <item row="9" column="1">
-        <widget class="QLabel" name="isTorProxy">
+        <widget class="QCheckBox" name="isTorProxy">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
          <property name="text">
-          <string>Standard P2P connectivity</string>
+          <string>Standard P2P connection</string>
          </property>
         </widget>
        </item>
