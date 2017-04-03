@@ -31,6 +31,7 @@ public:
         DisplayAddresses,  // bool
         DetachDatabases,   // bool
         Language,          // QString
+        TorProxyEnabled,    // bool
         CoinControlFeatures, // bool
         OptionIDRowCount,
     };
