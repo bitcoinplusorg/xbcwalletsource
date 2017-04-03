@@ -62,6 +62,9 @@ void OptionsModel::Init()
         SoftSetBoolArg("-detachdb", settings.value("detachDB").toBool());
     if (!language.isEmpty())
         SoftSetArg("-lang", language.toStdString());
+    if (settings.contains("fTorEnabled"))
+        SoftSetBoolArg("-torproxy", settings.value("fTorEnabled").toBool());
+
 }
 
 bool OptionsModel::Upgrade()
@@ -142,6 +145,8 @@ QVariant OptionsModel::data(const QModelIndex & index, int role) const
             return QVariant(fMinimizeToTray);
         case MapPortUPnP:
             return settings.value("fUseUPnP", GetBoolArg("-upnp", true));
+        case TorProxyEnabled:
+            return settings.value("fTorEnabled", GetBoolArg("-torproxy", false));
         case MinimizeOnClose:
             return QVariant(fMinimizeOnClose);
         case ProxyUse:
@@ -202,6 +207,10 @@ bool OptionsModel::setData(const QModelIndex & index, const QVariant & value, in
             fUseUPnP = value.toBool();
             settings.setValue("fUseUPnP", fUseUPnP);
             MapPort();
+            break;
+        case TorProxyEnabled:
+            fDarkEnabled = value.toBool();
+            settings.setValue("fTorEnabled", fDarkEnabled);
             break;
         case MinimizeOnClose:
             fMinimizeOnClose = value.toBool();
