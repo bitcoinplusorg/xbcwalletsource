@@ -25,7 +25,9 @@
 using namespace std;
 using namespace boost;
 
-extern "C" { int tor_main(int argc, char *argv[]); }
+extern "C" {
+    int tor_main(int argc, char *argv[]);
+}
 
 static const int MAX_OUTBOUND_CONNECTIONS = 16;
 
@@ -638,7 +640,7 @@ void CNode::copyStats(CNodeStats &stats)
 void ThreadTorNet(void* parg)
 {
     // Make this thread recognisable as the connection opening thread
-    RenameThread("britcoin-tornet");
+    RenameThread("bitcoinplus-tornet");
 
     try
     {
