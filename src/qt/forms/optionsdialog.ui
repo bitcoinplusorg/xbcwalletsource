@@ -536,9 +536,6 @@ QTabWidget::tab-bar {
          <property name="text">
           <string>Connect using native Tor Proxy, Requires wallet restart!</string>
          </property>
-         <property name="checked">
-          <bool>true</bool>
-         </property>
         </widget>
        </item>
        <item>
@@ -665,7 +662,7 @@ QTabWidget::tab-bar {
           <string>Whether to show coin control features or not.</string>
          </property>
          <property name="text">
-          <string>Display coin &amp;control features (experts only!)</string>
+          <string>Display coin &amp;control features</string>
          </property>
         </widget>
        </item>

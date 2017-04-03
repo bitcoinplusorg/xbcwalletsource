@@ -146,7 +146,7 @@ QVariant OptionsModel::data(const QModelIndex & index, int role) const
         case MapPortUPnP:
             return settings.value("fUseUPnP", GetBoolArg("-upnp", true));
         case TorProxyEnabled:
-            return settings.value("fTorEnabled", GetBoolArg("-torproxy", false));
+            return settings.value("fTorEnabled", GetArg("-torproxy", 1));
         case MinimizeOnClose:
             return QVariant(fMinimizeOnClose);
         case ProxyUse:

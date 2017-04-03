@@ -688,7 +688,7 @@
           <bool>false</bool>
          </property>
          <property name="text">
-          <string>Standard P2P connection</string>
+          <string>P2P over IP (Standard non Tor)</string>
          </property>
         </widget>
        </item>

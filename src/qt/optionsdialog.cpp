@@ -44,7 +44,6 @@ OptionsDialog::OptionsDialog(QWidget *parent) :
     connect(ui->connectSocks, SIGNAL(toggled(bool)), ui->proxyPort, SLOT(setEnabled(bool)));
     connect(ui->connectSocks, SIGNAL(toggled(bool)), ui->socksVersion, SLOT(setEnabled(bool)));
     connect(ui->connectSocks, SIGNAL(clicked(bool)), this, SLOT(showRestartWarning_Proxy()));
-
     connect(ui->connectTorProxy, SIGNAL(clicked(bool)), this, SLOT(showRestartWarning_fTor()));
 
     ui->proxyIp->installEventFilter(this);
@@ -54,6 +53,7 @@ OptionsDialog::OptionsDialog(QWidget *parent) :
         ui->proxyIp->setEnabled(false);
         ui->proxyPort->setEnabled(false);
         ui->socksVersion->setEnabled(false);
+        ui->connectTorProxy->setChecked(true);
     }
 
     /* Window elements init */

@@ -220,7 +220,7 @@ RPCConsole::RPCConsole(QWidget *parent) :
 
     if (isfDark == 1) {
         ui->isTorProxy->setChecked(true);
-        ui->isTorProxy->setText("Connected via native Tor proxy");
+        ui->isTorProxy->setText("P2P via native Tor proxy");
     }
 
 
