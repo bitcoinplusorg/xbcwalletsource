@@ -215,6 +215,16 @@ RPCConsole::RPCConsole(QWidget *parent) :
     startExecutor();
 
     clear();
+
+    int isfDark = GetArg("-torproxy", 1);
+
+    if (isfDark == 1) {
+        ui->labelTorLogo->setEnabled(true);
+        ui->isTorProxy->setChecked(true);
+        ui->isTorProxy->setText("Connected via native Tor proxy");
+    }
+
+
 }
 
 RPCConsole::~RPCConsole()
