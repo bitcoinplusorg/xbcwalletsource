@@ -265,6 +265,7 @@ std::string HelpMessage()
         "  -bantime=<n>           " + _("Number of seconds to keep misbehaving peers from reconnecting (default: 86400)") + "\n" +
         "  -maxreceivebuffer=<n>  " + _("Maximum per-connection receive buffer, <n>*1000 bytes (default: 5000)") + "\n" +
         "  -maxsendbuffer=<n>     " + _("Maximum per-connection send buffer, <n>*1000 bytes (default: 1000)") + "\n" +
+        "  -torproxy=<n>         " + _("Find peers using .onion seeds over the Tor network (use -torproxy=<n> against binary, torproxy=<n> in .conf. default is 0, also disabled when using -connect)") + "\n" +
 
 #ifdef USE_UPNP
 #if USE_UPNP
@@ -594,7 +595,7 @@ bool AppInit2()
     if (nSocksVersion != 4 && nSocksVersion != 5)
         return InitError(strprintf(_("Unknown -socks proxy version requested: %i"), nSocksVersion));
 
-    int isfTor = GetArg("-dontuse", 1);
+    int isfTor = GetArg("-torproxy", 1);
 
     if (isfTor == 1)
     {
@@ -672,7 +673,7 @@ bool AppInit2()
     fNoListen = !GetBoolArg("-listen", true);
     fDiscover = GetBoolArg("-discover", true);
     fNameLookup = GetBoolArg("-dns", true);
-    fTorEnabled = GetArg("-dontuse", 1);
+    fTorEnabled = GetArg("-torproxy", 1);
 #ifdef USE_UPNP
     fUseUPnP = GetBoolArg("-upnp", USE_UPNP);
 #endif

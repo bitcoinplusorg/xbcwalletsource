@@ -32,7 +32,6 @@ win32 {
     LIBS += -lws2_32 -lole32 -loleaut32 -luuid -lgdi32
     LIBS += -lboost_system-mgw49-mt-s-1_57 -lboost_filesystem-mgw49-mt-s-1_57 -lboost_program_options-mgw49-mt-s-1_57 -lboost_thread-mgw49-mt-s-1_57
     LIBS += -L"C:/deps/MinGW/msys/1.0/local/lib"
-    LIBS += -L"C:/deps/libcommuni-3.2.0/lib"
 
     INCLUDEPATH += "C:/deps/MinGW/msys/1.0/local/include"
 
