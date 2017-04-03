@@ -5,6 +5,7 @@
 #include "monitoreddatamapper.h"
 #include "netbase.h"
 #include "optionsmodel.h"
+#include "net.h"
 
 #include <QDir>
 #include <QIntValidator>
@@ -19,6 +20,7 @@ OptionsDialog::OptionsDialog(QWidget *parent) :
     model(0),
     mapper(0),
     fRestartWarningDisplayed_Proxy(false),
+    fRestartWarningDisplayed_fTor(false),
     fRestartWarningDisplayed_Lang(false),
     fProxyIpValid(true)
 {
@@ -43,7 +45,16 @@ OptionsDialog::OptionsDialog(QWidget *parent) :
     connect(ui->connectSocks, SIGNAL(toggled(bool)), ui->socksVersion, SLOT(setEnabled(bool)));
     connect(ui->connectSocks, SIGNAL(clicked(bool)), this, SLOT(showRestartWarning_Proxy()));
 
+    connect(ui->connectTorProxy, SIGNAL(clicked(bool)), this, SLOT(showRestartWarning_fTor()));
+
     ui->proxyIp->installEventFilter(this);
+
+    if (fTorEnabled == 1 ) {
+        ui->connectSocks->setEnabled(false);
+        ui->proxyIp->setEnabled(false);
+        ui->proxyPort->setEnabled(false);
+        ui->socksVersion->setEnabled(false);
+    }
 
     /* Window elements init */
 #ifdef Q_OS_MAC
@@ -133,7 +144,7 @@ void OptionsDialog::setMapper()
 
     /* Network */
     mapper->addMapping(ui->mapPortUpnp, OptionsModel::MapPortUPnP);
-
+    mapper->addMapping(ui->connectTorProxy, OptionsModel::TorProxyEnabled);
     mapper->addMapping(ui->connectSocks, OptionsModel::ProxyUse);
     mapper->addMapping(ui->proxyIp, OptionsModel::ProxyIP);
     mapper->addMapping(ui->proxyPort, OptionsModel::ProxyPort);
@@ -203,6 +214,15 @@ void OptionsDialog::showRestartWarning_Proxy()
     {
         QMessageBox::warning(this, tr("Warning"), tr("This setting will take effect after restarting bitcoinplus."), QMessageBox::Ok);
         fRestartWarningDisplayed_Proxy = true;
+    }
+}
+
+void OptionsDialog::showRestartWarning_fTor()
+{
+    if(!fRestartWarningDisplayed_fTor)
+    {
+        QMessageBox::warning(this, tr("Warning"), tr("This setting will take effect after restarting the wallet."), QMessageBox::Ok);
+        fRestartWarningDisplayed_fTor = true;
     }
 }
 
