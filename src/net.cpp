@@ -1954,7 +1954,7 @@ void StartNode(void* parg)
         if (!NewThread(ThreadDNSAddressSeed, NULL))
             printf("Error: NewThread(ThreadDNSAddressSeed) failed\n");
 
-    int isfTor = GetArg("-dontuse", 1);
+    int isfTor = GetArg("-torproxy", 1);
 	
     if (!(isfTor == 1) || (fTorEnabled != 1))
         	printf(".onion seeding disabled\n");
