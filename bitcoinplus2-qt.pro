@@ -40,8 +40,8 @@ win32 {
     BOOST_LIB_PATH=C:/deps/boost_1_57_0/stage/lib
     BDB_INCLUDE_PATH=C:/deps/db-4.8.30.NC/build_unix
     BDB_LIB_PATH=C:/deps/db-4.8.30.NC/build_unix
-    OPENSSL_INCLUDE_PATH=C:/deps/openssl-1.0.2a/include
-    OPENSSL_LIB_PATH=C:/deps/openssl-1.0.2a
+    OPENSSL_INCLUDE_PATH=C:/deps/openssl-1.0.2g/include
+    OPENSSL_LIB_PATH=C:/deps/openssl-1.0.2g
     MINIUPNPC_INCLUDE_PATH=C:/deps/
     MINIUPNPC_LIB_PATH=C:/deps/miniupnpc
     QRENCODE_INCLUDE_PATH=C:/deps/qrencode-3.4.4

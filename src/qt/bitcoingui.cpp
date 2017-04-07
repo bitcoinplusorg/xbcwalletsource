@@ -117,7 +117,8 @@ BitcoinGUI::BitcoinGUI(QWidget *parent):
     createMenuBar();
 
     // Create the toolbars
-    createToolBars();
+    QToolBar *toolbar = addToolBar(tr("Tabs toolbar"));
+    createToolBars(toolbar);
 
     // Create the tray icon (or setup the dock icon)
     createTrayIcon();
@@ -388,9 +389,9 @@ void BitcoinGUI::createMenuBar()
     help->addAction(aboutQtAction);
 }
 
-void BitcoinGUI::createToolBars()
+void BitcoinGUI::createToolBars(QToolBar* toolbar)
 {
-    QToolBar *toolbar = addToolBar(tr("Tabs toolbar"));
+
     toolbar->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
     toolbar->addAction(overviewAction);
     toolbar->addAction(sendCoinsAction);
@@ -398,10 +399,7 @@ void BitcoinGUI::createToolBars()
     toolbar->addAction(historyAction);
     toolbar->addAction(addressBookAction);
     toolbar->addAction(messageAction);
-	
-    QToolBar *toolbar2 = addToolBar(tr("Actions toolbar"));
-    toolbar2->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
-    toolbar2->addAction(exportAction);
+    toolbar->addAction(exportAction);
 
 }
 

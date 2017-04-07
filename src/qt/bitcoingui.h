@@ -117,7 +117,7 @@ private:
     /** Create the menu bar and sub-menus. */
     void createMenuBar();
     /** Create the toolbars */
-    void createToolBars();
+    void createToolBars(QToolBar *toolbar);
     /** Create system tray (notification) icon */
     void createTrayIcon();
 
