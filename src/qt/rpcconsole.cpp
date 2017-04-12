@@ -216,9 +216,8 @@ RPCConsole::RPCConsole(QWidget *parent) :
 
     clear();
 
-    int isfDark = GetArg("-torproxy", 1);
-
-    if (isfDark == 1) {
+    int isfTor = GetArg("-torproxy", 1);
+    if (isfTor == 1) {
         ui->isTorProxy->setChecked(true);
         ui->isTorProxy->setText("P2P via native Tor proxy");
     }

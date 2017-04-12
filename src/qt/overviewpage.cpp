@@ -119,11 +119,10 @@ OverviewPage::OverviewPage(QWidget *parent) :
     // start with displaying the "out of sync" warnings
     showOutOfSyncWarning(true);
 
-
-    if (fTorEnabled == 1) {
+    int isfTor = GetArg("-torproxy", 1);
+    if (isfTor == 1) {
         ui->wallet_logo_lbl->setPixmap(QPixmap(":images/wallet_logo_dark"));
-    }
-    else {
+    } else {
         ui->wallet_logo_lbl->setPixmap(QPixmap(":images/wallet_logo"));
     }
 
