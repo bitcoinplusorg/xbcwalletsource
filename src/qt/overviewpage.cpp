@@ -10,6 +10,7 @@
 #include "guiconstants.h"
 #include "askpassphrasedialog.h"
 #include "util.h"
+#include "net.h"
 
 #include <QAbstractItemDelegate>
 #include <QPainter>
@@ -117,7 +118,17 @@ OverviewPage::OverviewPage(QWidget *parent) :
 
     // start with displaying the "out of sync" warnings
     showOutOfSyncWarning(true);
-    ui->wallet_logo_lbl->setPixmap(QPixmap(":images/about_new"));
+
+
+    if (fTorEnabled == 1) {
+        ui->wallet_logo_lbl->setPixmap(QPixmap(":images/wallet_logo_dark"));
+    }
+    else {
+        ui->wallet_logo_lbl->setPixmap(QPixmap(":images/wallet_logo"));
+    }
+
+
+
 }
 
 void OverviewPage::handleTransactionClicked(const QModelIndex &index)
