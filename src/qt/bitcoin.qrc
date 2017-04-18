@@ -44,7 +44,7 @@
         <file alias="bitcoin_testnet">res/icons/bitcoin_testnet.png</file>
         <file alias="toolbar">res/icons/toolbar.png</file>
         <file alias="toolbar_testnet">res/icons/toolbar_testnet.png</file>
-        <file alias="onion_small">res/icons/onion_logo_16x16.png</file>
+        <file alias="tor_small">res/icons/tor.png</file>
     </qresource>
     <qresource prefix="/images">
         <file alias="about_new">res/images/about.png</file>
