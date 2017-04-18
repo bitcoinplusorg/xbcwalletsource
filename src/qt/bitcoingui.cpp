@@ -576,7 +576,7 @@ void BitcoinGUI::setNumConnections(int count)
     labelConnectionsIcon->setToolTip(tr("%n active connection(s) to bitcoinplus network", "", count));
     if (fTorEnabled == 1)
     {
-        labelOnionIcon->setPixmap(QIcon(":/icons/onion_small").pixmap(STATUSBAR_ICONSIZE,STATUSBAR_ICONSIZE));
+        labelOnionIcon->setPixmap(QIcon(":/icons/tor_small").pixmap(STATUSBAR_ICONSIZE,STATUSBAR_ICONSIZE));
         labelOnionIcon->setToolTip(tr("Connected over the Tor network"));
     }
 }
