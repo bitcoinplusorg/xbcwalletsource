@@ -1,2 +1,40 @@
 *.user
 *.3.2-pre1
+src/*.exe
+src/bitcoinplusd
+src/qt/locale/*.qm
+release/*
+debug/*
+*.Debug
+*.Release
+bitcoinplus2-qt_plugin_import.cpp
+.*.swp
+*.*~*
+*.bak
+*.rej
+*.orig
+*.o
+*.patch
+.bitcoinplus
+
+# Compilation and Qt preprocessor part
+*.qm
+Makefile
+bitcoinplus-qt
+bitcoinplus-Qt.app
+
+# Unit-tests
+Makefile.test
+bitcoinplus-qt_test
+
+# Resources cpp
+qrc_*.cpp
+
+# Qt creator
+*.pro.user
+
+# Mac specific
+.DS_Store
+build
+
+!src/leveldb*/Makefile
