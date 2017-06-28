@@ -10,12 +10,10 @@ SetCompressor /SOLID lzma
 !define URL https://www.bitcoinplus.org/
 
 # MUI Symbol Definitions
-!define MUI_COMPONENTSPAGE_NODESC
-!define MUI_ICON ".\pixmaps\bitcoinplus.ico"
-!define MUI_WELCOMEFINISHPAGE_BITMAP ".\pixmaps\nsis-wizard.bmp"
+!define MUI_ICON "pixmaps\bitcoinplus.ico"
 !define MUI_HEADERIMAGE
 !define MUI_HEADERIMAGE_RIGHT
-!define MUI_HEADERIMAGE_BITMAP ".\pixmaps\nsis-header.bmp"
+!define MUI_HEADERIMAGE_BITMAP "pixmaps\nsis-header.bmp"
 !define MUI_STARTMENUPAGE_REGISTRY_ROOT HKLM
 !define MUI_STARTMENUPAGE_REGISTRY_KEY ${REGKEY}
 !define MUI_STARTMENUPAGE_REGISTRY_VALUENAME StartMenuGroup
@@ -23,7 +21,6 @@ SetCompressor /SOLID lzma
 !define MUI_FINISHPAGE_RUN $INSTDIR\bitcoinplus-qt.exe
 !define MUI_FINISHPAGE_RUN_TEXT "Launch bitcoinplus"
 !define MUI_UNICON "${NSISDIR}\Contrib\Graphics\Icons\modern-uninstall.ico"
-!define MUI_UNWELCOMEFINISHPAGE_BITMAP ".\pixmaps\nsis-wizard.bmp"
 !define MUI_UNFINISHPAGE_NOAUTOCLOSE
 
 # Included files
