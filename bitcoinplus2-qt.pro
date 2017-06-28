@@ -3,6 +3,7 @@
 
 TEMPLATE = app
 TARGET = bitcoinplus-qt
+macx:TARGET = "bitcoinplus-Qt"
 VERSION = 2.6.0.0
 INCLUDEPATH += src src/json \
     src/qt \
