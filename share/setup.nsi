@@ -1,28 +1,29 @@
-Name NovaCoin
+Name bitcoinplus
 
 RequestExecutionLevel highest
 SetCompressor /SOLID lzma
 
 # General Symbol Definitions
 !define REGKEY "SOFTWARE\$(^Name)"
-!define VERSION 0.3.0
-!define COMPANY "NovaCoin project"
-!define URL http://www.novacoin.ru/
+!define VERSION 2.6.0.0
+!define COMPANY "bitcoinplus project"
+!define URL https://www.bitcoinplus.org/
 
 # MUI Symbol Definitions
-!define MUI_ICON "../share/pixmaps/novacoin.ico"
-!define MUI_WELCOMEFINISHPAGE_BITMAP "../share/pixmaps/nsis-wizard.bmp"
+!define MUI_COMPONENTSPAGE_NODESC
+!define MUI_ICON ".\pixmaps\bitcoinplus.ico"
+!define MUI_WELCOMEFINISHPAGE_BITMAP ".\pixmaps\nsis-wizard.bmp"
 !define MUI_HEADERIMAGE
 !define MUI_HEADERIMAGE_RIGHT
-!define MUI_HEADERIMAGE_BITMAP "../share/pixmaps/nsis-header.bmp"
-!define MUI_FINISHPAGE_NOAUTOCLOSE
+!define MUI_HEADERIMAGE_BITMAP ".\pixmaps\nsis-header.bmp"
 !define MUI_STARTMENUPAGE_REGISTRY_ROOT HKLM
 !define MUI_STARTMENUPAGE_REGISTRY_KEY ${REGKEY}
 !define MUI_STARTMENUPAGE_REGISTRY_VALUENAME StartMenuGroup
-!define MUI_STARTMENUPAGE_DEFAULTFOLDER NovaCoin
-#!define MUI_FINISHPAGE_RUN $INSTDIR\novacoin-qt.exe
+!define MUI_STARTMENUPAGE_DEFAULTFOLDER bitcoinplus
+!define MUI_FINISHPAGE_RUN $INSTDIR\bitcoinplus-qt.exe
+!define MUI_FINISHPAGE_RUN_TEXT "Launch bitcoinplus"
 !define MUI_UNICON "${NSISDIR}\Contrib\Graphics\Icons\modern-uninstall.ico"
-!define MUI_UNWELCOMEFINISHPAGE_BITMAP "../share/pixmaps/nsis-wizard.bmp"
+!define MUI_UNWELCOMEFINISHPAGE_BITMAP ".\pixmaps\nsis-wizard.bmp"
 !define MUI_UNFINISHPAGE_NOAUTOCLOSE
 
 # Included files
@@ -33,26 +34,25 @@ SetCompressor /SOLID lzma
 Var StartMenuGroup
 
 # Installer pages
-!insertmacro MUI_PAGE_WELCOME
 !insertmacro MUI_PAGE_DIRECTORY
 !insertmacro MUI_PAGE_STARTMENU Application $StartMenuGroup
 !insertmacro MUI_PAGE_INSTFILES
-!insertmacro MUI_PAGE_FINISH
 !insertmacro MUI_UNPAGE_CONFIRM
 !insertmacro MUI_UNPAGE_INSTFILES
+!insertmacro MUI_PAGE_FINISH
 
 # Installer languages
 !insertmacro MUI_LANGUAGE English
 
 # Installer attributes
-OutFile novacoin-0.3.0-win32-setup.exe
-InstallDir $PROGRAMFILES\NovaCoin
+OutFile bitcoinplus-${VERSION}-setup.exe
+InstallDir $PROGRAMFILES\bitcoinplus
 CRCCheck on
 XPStyle on
 BrandingText " "
 ShowInstDetails show
-VIProductVersion 0.3.0.0
-VIAddVersionKey ProductName NovaCoin
+VIProductVersion ${VERSION}
+VIAddVersionKey ProductName bitcoinplus
 VIAddVersionKey ProductVersion "${VERSION}"
 VIAddVersionKey CompanyName "${COMPANY}"
 VIAddVersionKey CompanyWebsite "${URL}"
@@ -66,19 +66,10 @@ ShowUninstDetails show
 Section -Main SEC0000
     SetOutPath $INSTDIR
     SetOverwrite on
-    #File ../release/novacoin-qt.exe
-    File /oname=license.txt ../COPYING
-    File /oname=readme.txt ../doc/README_windows.txt
-    SetOutPath $INSTDIR\daemon
-    File ../src/novacoind.exe
-    SetOutPath $INSTDIR\src
-    File /r /x *.exe /x *.o ../src\*.*
+    File ..\release\bitcoinplus-qt.exe
+    File /oname=license.txt ..\COPYING
     SetOutPath $INSTDIR
     WriteRegStr HKCU "${REGKEY}\Components" Main 1
-
-    # Remove old wxwidgets-based-bitcoin executable and locales:
-    #Delete /REBOOTOK $INSTDIR\novacoin.exe
-    #RMDir /r /REBOOTOK $INSTDIR\locale
 SectionEnd
 
 Section -post SEC0001
@@ -87,7 +78,8 @@ Section -post SEC0001
     WriteUninstaller $INSTDIR\uninstall.exe
     !insertmacro MUI_STARTMENU_WRITE_BEGIN Application
     CreateDirectory $SMPROGRAMS\$StartMenuGroup
-    CreateShortcut "$SMPROGRAMS\$StartMenuGroup\Uninstall NovaCoin.lnk" $INSTDIR\uninstall.exe
+	CreateShortcut "$SMPROGRAMS\$StartMenuGroup\bitcoinplus.lnk" $INSTDIR\bitcoinplus-qt.exe
+    CreateShortcut "$SMPROGRAMS\$StartMenuGroup\Uninstall bitcoinplus.lnk" $INSTDIR\uninstall.exe
     !insertmacro MUI_STARTMENU_WRITE_END
     WriteRegStr HKCU "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\$(^Name)" DisplayName "$(^Name)"
     WriteRegStr HKCU "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\$(^Name)" DisplayVersion "${VERSION}"
@@ -97,12 +89,10 @@ Section -post SEC0001
     WriteRegStr HKCU "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\$(^Name)" UninstallString $INSTDIR\uninstall.exe
     WriteRegDWORD HKCU "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\$(^Name)" NoModify 1
     WriteRegDWORD HKCU "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\$(^Name)" NoRepair 1
-
-    # bitcoin: URI handling disabled for 0.6.0
-    #    WriteRegStr HKCR "bitcoin" "URL Protocol" ""
-    #    WriteRegStr HKCR "bitcoin" "" "URL:Bitcoin"
-    #    WriteRegStr HKCR "bitcoin\DefaultIcon" "" $INSTDIR\bitcoin-qt.exe
-    #    WriteRegStr HKCR "bitcoin\shell\open\command" "" '"$INSTDIR\bitcoin-qt.exe" "$$1"'
+    WriteRegStr HKCR "bitcoinplus" "URL Protocol" ""
+    WriteRegStr HKCR "bitcoinplus" "" "URL:bitcoinplus"
+    WriteRegStr HKCR "bitcoinplus\DefaultIcon" "" $INSTDIR\bitcoinplus-qt.exe
+    WriteRegStr HKCR "bitcoinplus\shell\open\command" "" '"$INSTDIR\bitcoinplus-qt.exe" "$$1"'
 SectionEnd
 
 # Macro for selecting uninstaller sections
@@ -120,27 +110,22 @@ done${UNSECTION_ID}:
 
 # Uninstaller sections
 Section /o -un.Main UNSEC0000
-    #Delete /REBOOTOK $INSTDIR\novacoin-qt.exe
-    Delete /REBOOTOK $INSTDIR\license.txt
-    Delete /REBOOTOK $INSTDIR\readme.txt
-    RMDir /r /REBOOTOK $INSTDIR\daemon
-    RMDir /r /REBOOTOK $INSTDIR\src
+    Delete /REBOOTOK $INSTDIR\bitcoinplus-qt.exe
+	Delete /REBOOTOK $INSTDIR\COPYING.txt
     DeleteRegValue HKCU "${REGKEY}\Components" Main
 SectionEnd
 
 Section -un.post UNSEC0001
     DeleteRegKey HKCU "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\$(^Name)"
-    Delete /REBOOTOK "$SMPROGRAMS\$StartMenuGroup\Uninstall NovaCoin.lnk"
-    #Delete /REBOOTOK "$SMPROGRAMS\$StartMenuGroup\Bitcoin.lnk"
-    #Delete /REBOOTOK "$SMSTARTUP\Bitcoin.lnk"
+    Delete /REBOOTOK "$SMPROGRAMS\$StartMenuGroup\Uninstall bitcoinplus.lnk"
+    Delete /REBOOTOK "$SMPROGRAMS\$StartMenuGroup\bitcoinplus.lnk"
+    Delete /REBOOTOK "$SMSTARTUP\bitcoinplus.lnk"
     Delete /REBOOTOK $INSTDIR\uninstall.exe
-    Delete /REBOOTOK $INSTDIR\debug.log
-    Delete /REBOOTOK $INSTDIR\db.log
     DeleteRegValue HKCU "${REGKEY}" StartMenuGroup
     DeleteRegValue HKCU "${REGKEY}" Path
     DeleteRegKey /IfEmpty HKCU "${REGKEY}\Components"
     DeleteRegKey /IfEmpty HKCU "${REGKEY}"
-    DeleteRegKey HKCR "novacoin"
+    DeleteRegKey HKCR "bitcoinplus"
     RmDir /REBOOTOK $SMPROGRAMS\$StartMenuGroup
     RmDir /REBOOTOK $INSTDIR
     Push $R0
