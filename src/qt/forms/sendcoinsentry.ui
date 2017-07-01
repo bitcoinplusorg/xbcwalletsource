@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>729</width>
-    <height>136</height>
+    <height>161</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -90,7 +90,7 @@
      <item>
       <widget class="QValidatedLineEdit" name="payTo">
        <property name="toolTip">
-        <string>The address to send the payment to  (e.g. B8gZqgY4r2RoEdqYk3QsAqFckyf9pRHN6i)</string>
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#000000;&quot;&gt;The address to send the payment to  (e.g. &lt;/span&gt;&lt;span style=&quot; color:#000000;&quot;&gt;XBC1xGeKnTkaAotEVgs2rnUfVsFv8LVSM&lt;/span&gt;&lt;span style=&quot; color:#000000;&quot;&gt;)&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
        <property name="maxLength">
         <number>34</number>
@@ -151,15 +151,15 @@
  </widget>
  <customwidgets>
   <customwidget>
+   <class>BitcoinAmountField</class>
+   <extends>QSpinBox</extends>
+   <header>bitcoinamountfield.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
    <class>QValidatedLineEdit</class>
    <extends>QLineEdit</extends>
    <header>qvalidatedlineedit.h</header>
-  </customwidget>
-  <customwidget>
-   <class>BitcoinAmountField</class>
-   <extends>QLineEdit</extends>
-   <header>bitcoinamountfield.h</header>
-   <container>1</container>
   </customwidget>
  </customwidgets>
  <resources>

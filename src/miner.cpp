@@ -120,12 +120,14 @@ CBlock* CreateNewBlock(CWallet* pwallet, bool fProofOfStake, int64_t* pFees)
     CTransaction txNew;
     txNew.vin.resize(1);
     txNew.vin[0].prevout.SetNull();
-    txNew.vout.resize(1);
+    CBitcoinAddress address(!fTestNet ? FOUNDATION : FOUNDATION_TEST);
+    txNew.vout.resize(2);
 
     if (!fProofOfStake)
     {
         CReserveKey reservekey(pwallet);
         txNew.vout[0].scriptPubKey.SetDestination(reservekey.GetReservedKey().GetID());
+        txNew.vout[1].scriptPubKey.SetDestination(address.Get());
     }
     else
     {
@@ -134,6 +136,7 @@ CBlock* CreateNewBlock(CWallet* pwallet, bool fProofOfStake, int64_t* pFees)
         assert(txNew.vin[0].scriptSig.size() <= 100);
 
         txNew.vout[0].SetEmpty();
+        txNew.vout[1].SetEmpty();
     }
 
     // Add our coinbase tx as first transaction
@@ -357,7 +360,10 @@ CBlock* CreateNewBlock(CWallet* pwallet, bool fProofOfStake, int64_t* pFees)
             printf("CreateNewBlock(): total size %"PRIu64"\n", nBlockSize);
 
         if (!fProofOfStake)
-            pblock->vtx[0].vout[0].nValue = GetProofOfWorkReward(nFees);
+        {
+            pblock->vtx[0].vout[0].nValue = GetProofOfWorkReward(nFees) - devCoin;
+            pblock->vtx[0].vout[1].nValue = devCoin;
+        }
 
         if (pFees)
             *pFees = nFees;
@@ -454,7 +460,7 @@ bool CheckWork(CBlock* pblock, CWallet& wallet, CReserveKey& reservekey)
     //// debug print
     printf("CheckWork() : new proof-of-work block found  \n  hash: %s  \ntarget: %s\n", hashBlock.GetHex().c_str(), hashTarget.GetHex().c_str());
     pblock->print();
-    printf("generated %s\n", FormatMoney(pblock->vtx[0].vout[0].nValue).c_str());
+    printf("generated %s\n", FormatMoney(pblock->vtx[0].vout[0].nValue + pblock->vtx[0].vout[1].nValue).c_str());
 
     // Found a solution
     {
@@ -521,7 +527,7 @@ void StakeMiner(CWallet *pwallet)
     SetThreadPriority(THREAD_PRIORITY_LOWEST);
 
     // Make this thread recognisable as the mining thread
-    RenameThread("blackcoin-miner");
+    RenameThread("bitcoinplus-miner");
 
     bool fTryToSync = true;
 

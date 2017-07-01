@@ -7,6 +7,7 @@
 #define BITCOIN_UTIL_H
 
 #include "uint256.h"
+#include "uint256_t.h"
 
 #ifndef WIN32
 #include <sys/types.h>
@@ -34,7 +35,8 @@
 
 #include <stdint.h>
 #include <inttypes.h>
-
+typedef long long  int64;
+typedef unsigned long long  uint64;
 static const int64_t COIN = 100000000;
 static const int64_t CENT = 1000000;
 
@@ -138,6 +140,8 @@ extern std::map<std::string, std::string> mapArgs;
 extern std::map<std::string, std::vector<std::string> > mapMultiArgs;
 extern bool fDebug;
 extern bool fDebugNet;
+extern bool fDebugSmsg;
+extern bool fNoSmsg;
 extern bool fPrintToConsole;
 extern bool fPrintToDebugger;
 extern bool fRequestShutdown;

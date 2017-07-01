@@ -1,32 +1,23 @@
+bitcoinplus (XBC)
 
-BlackCoin official development tree
+QuBit PoW algorithm
 
-BlackCoin is a PoS-based cryptocurrency.
+120 second block time
 
-Development process
-===========================
+PoW + PoS Hybrid
 
-Developers work in their own trees, then submit pull requests when
-they think their feature or bug fix is ready.
+Mining Ends at Block 8500, (7 days mining estimated 5040 PoW bocks) 2 - 100 = 0 Coins, to avoid instamining and create Checkpoint. 101 - 8500 = Ascending PoW block Reward is equal to previous block number
 
-The patch will be accepted if there is broad consensus that it is a
-good thing.  Developers should expect to rework and resubmit patches
-if they don't match the project's coding conventions (see coding.txt)
-or are controversial.
+12703320 estimated coin total (5040 x ascending PoW block rewards target)
 
-The master branch is regularly built and tested, but is not guaranteed
-to be completely stable. Tags are regularly created to indicate new
-official, stable release versions of BlackCoin.
+PoS starts at block 50 
 
-Feature branches are created when there are major new features being
-worked on by several people.
+12 hours minimum stake aged for mature coins
 
-From time to time a pull request will become outdated. If this occurs, and
-the pull is no longer automatically mergeable; a comment on the pull will
-be used to issue a warning of closure. The pull will be closed 15 days
-after the warning if action is not taken by the author. Pull requests closed
-in this manner will have their corresponding issue labeled 'stagnant'.
+20% Annual Interest on Staked coins
 
-Issues with no commits will be given a similar warning, and closed after
-15 days from their last activity. Issues closed in this manner will be 
-labeled 'stale'.
+Pre-mine is Set at 225000 on Block 1
+
+Ports 8885 & RPC 8884
+
+Testnet 18885 & RPC 18884

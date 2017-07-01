@@ -3,22 +3,22 @@
     <name>AboutDialog</name>
     <message>
         <location filename="../forms/aboutdialog.ui" line="+14"/>
-        <source>About BlackCoin</source>
-        <translation>Vad du behöver veta om Blackcoin</translation>
+        <source>About bitcoinplus</source>
+        <translation>Vad du behöver veta om bitcoinplus</translation>
     </message>
     <message>
         <location line="+39"/>
-        <source>&lt;b&gt;BlackCoin&lt;/b&gt; version</source>
-        <translation>&lt;b&gt;BlackCoin&lt;/b&gt; version</translation>
+        <source>&lt;b&gt;bitcoinplus&lt;/b&gt; version</source>
+        <translation>&lt;b&gt;bitcoinplus&lt;/b&gt; version</translation>
     </message>
     <message>
         <location line="+41"/>
         <source>Copyright © 2009-2014 The Bitcoin developers
 Copyright © 2012-2014 The NovaCoin developers
-Copyright © 2014 The BlackCoin developers</source>
+Copyright © 2014 The bitcoinplus developers</source>
         <translation>Copyright © 2009-2014 The Bitcoin developers
 Copyright © 2012-2014 The NovaCoin developers
-Copyright © 2014 The BlackCoin developers</translation>
+Copyright © 2014 The bitcoinplus developers</translation>
     </message>
     <message>
         <location line="+15"/>
@@ -66,8 +66,8 @@ Denna produkten innehåller mjukvara utvecklad av OpenSSL Project för användni
     </message>
     <message>
         <location line="-46"/>
-        <source>These are your BlackCoin addresses for receiving payments. You may want to give a different one to each sender so you can keep track of who is paying you.</source>
-        <translation>Dessa är dina BlackCoin adesser för att mottaga betalningsförsändelser. Du kan även använda olika adresser för varje avsändare för att enkelt hålla koll på vem som har skickat en betalning.</translation>
+        <source>These are your bitcoinplus addresses for receiving payments. You may want to give a different one to each sender so you can keep track of who is paying you.</source>
+        <translation>Dessa är dina bitcoinplus adesser för att mottaga betalningsförsändelser. Du kan även använda olika adresser för varje avsändare för att enkelt hålla koll på vem som har skickat en betalning.</translation>
     </message>
     <message>
         <location line="+60"/>
@@ -81,8 +81,8 @@ Denna produkten innehåller mjukvara utvecklad av OpenSSL Project för användni
     </message>
     <message>
         <location line="+11"/>
-        <source>Sign a message to prove you own a BlackCoin address</source>
-        <translation>Signera ett meddelande för att bevisa att du äger BlackCoin adressen</translation>
+        <source>Sign a message to prove you own a bitcoinplus address</source>
+        <translation>Signera ett meddelande för att bevisa att du äger bitcoinplus adressen</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -96,8 +96,8 @@ Denna produkten innehåller mjukvara utvecklad av OpenSSL Project för användni
     </message>
     <message>
         <location line="-14"/>
-        <source>Verify a message to ensure it was signed with a specified BlackCoin address</source>
-        <translation>Verifiera ett meddelande för att försäkra dig över att det var signerat av en specifik BlackCoin adress</translation>
+        <source>Verify a message to ensure it was signed with a specified bitcoinplus address</source>
+        <translation>Verifiera ett meddelande för att försäkra dig över att det var signerat av en specifik bitcoinplus adress</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -264,8 +264,8 @@ Denna produkten innehåller mjukvara utvecklad av OpenSSL Project för användni
     </message>
     <message>
         <location line="-58"/>
-        <source>BlackCoin will close now to finish the encryption process. Remember that encrypting your wallet cannot fully protect your coins from being stolen by malware infecting your computer.</source>
-        <translation>Blackcoin plånboken kommer nu att stängas för att slutföra krypteringen: Kom ihåg att även en krypterad plånboks säkerhet kan äventyras genom keyloggers eller dylika malwares.</translation>
+        <source>bitcoinplus will close now to finish the encryption process. Remember that encrypting your wallet cannot fully protect your coins from being stolen by malware infecting your computer.</source>
+        <translation>bitcoinplus plånboken kommer nu att stängas för att slutföra krypteringen: Kom ihåg att även en krypterad plånboks säkerhet kan äventyras genom keyloggers eller dylika malwares.</translation>
     </message>
     <message>
         <location line="+13"/>
@@ -378,8 +378,8 @@ Denna produkten innehåller mjukvara utvecklad av OpenSSL Project för användni
     </message>
     <message>
         <location line="+6"/>
-        <source>Show information about BlackCoin</source>
-        <translation>Visa information om BlackCoin</translation>
+        <source>Show information about bitcoinplus</source>
+        <translation>Visa information om bitcoinplus</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -428,13 +428,13 @@ Denna produkten innehåller mjukvara utvecklad av OpenSSL Project för användni
     </message>
     <message>
         <location line="-64"/>
-        <source>Send coins to a BlackCoin address</source>
-        <translation>Skicka coins till en BlackCoin adress</translation>
+        <source>Send coins to a bitcoinplus address</source>
+        <translation>Skicka coins till en bitcoinplus adress</translation>
     </message>
     <message>
         <location line="+47"/>
-        <source>Modify configuration options for BlackCoin</source>
-        <translation>Modifiera konfigurations-alternativ för BlackCoin</translation>
+        <source>Modify configuration options for bitcoinplus</source>
+        <translation>Modifiera konfigurations-alternativ för bitcoinplus</translation>
     </message>
     <message>
         <location line="+18"/>
@@ -473,8 +473,8 @@ Denna produkten innehåller mjukvara utvecklad av OpenSSL Project för användni
     </message>
     <message>
         <location line="-202"/>
-        <source>BlackCoin</source>
-        <translation>BlackCoin</translation>
+        <source>bitcoinplus</source>
+        <translation>bitcoinplus</translation>
     </message>
     <message>
         <location line="+0"/>
@@ -483,8 +483,8 @@ Denna produkten innehåller mjukvara utvecklad av OpenSSL Project för användni
     </message>
     <message>
         <location line="+180"/>
-        <source>&amp;About BlackCoin</source>
-        <translation>&amp;Om BlackCoin</translation>
+        <source>&amp;About bitcoinplus</source>
+        <translation>&amp;Om bitcoinplus</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -540,13 +540,13 @@ Denna produkten innehåller mjukvara utvecklad av OpenSSL Project för användni
     <message>
         <location line="+0"/>
         <location line="+60"/>
-        <source>BlackCoin client</source>
-        <translation>BlackCoin klient</translation>
+        <source>bitcoinplus client</source>
+        <translation>bitcoinplus klient</translation>
     </message>
     <message numerus="yes">
         <location line="+75"/>
-        <source>%n active connection(s) to BlackCoin network</source>
-        <translation><numerusform>%n aktiv anslutning till BlackCoin nätverket</numerusform><numerusform>%n aktiva anslutning till BlackCoin nätverket</numerusform></translation>
+        <source>%n active connection(s) to bitcoinplus network</source>
+        <translation><numerusform>%n aktiv anslutning till bitcoinplus nätverket</numerusform><numerusform>%n aktiva anslutning till bitcoinplus nätverket</numerusform></translation>
     </message>
     <message>
         <location line="+40"/>
@@ -585,13 +585,13 @@ Denna produkten innehåller mjukvara utvecklad av OpenSSL Project för användni
     </message>
     <message>
         <location line="-312"/>
-        <source>About BlackCoin card</source>
-        <translation>Om BlackCoin kortet</translation>
+        <source>About bitcoinplus card</source>
+        <translation>Om bitcoinplus kortet</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>Show information about BlackCoin card</source>
-        <translation>Via information om BlackCoin kortet</translation>
+        <source>Show information about bitcoinplus card</source>
+        <translation>Via information om bitcoinplus kortet</translation>
     </message>
     <message>
         <location line="+18"/>
@@ -670,8 +670,8 @@ Adress: %4
     <message>
         <location line="-15"/>
         <location line="+15"/>
-        <source>URI can not be parsed! This can be caused by an invalid BlackCoin address or malformed URI parameters.</source>
-        <translation>URI:n kan inte tolkas! Detta kan bero på en ogiltig BlackCoin adress eller felaktiga URI parametrar.</translation>
+        <source>URI can not be parsed! This can be caused by an invalid bitcoinplus address or malformed URI parameters.</source>
+        <translation>URI:n kan inte tolkas! Detta kan bero på en ogiltig bitcoinplus adress eller felaktiga URI parametrar.</translation>
     </message>
     <message>
         <location line="+18"/>
@@ -730,8 +730,8 @@ Adress: %4
     </message>
     <message>
         <location filename="../bitcoin.cpp" line="+109"/>
-        <source>A fatal error occurred. BlackCoin can no longer continue safely and will quit.</source>
-        <translation>Ett fatalt fel uppstod. Blackcoin kan inte fortsätta och stänger programmet.</translation>
+        <source>A fatal error occurred. bitcoinplus can no longer continue safely and will quit.</source>
+        <translation>Ett fatalt fel uppstod. bitcoinplus kan inte fortsätta och stänger programmet.</translation>
     </message>
 </context>
 <context>
@@ -1025,7 +1025,7 @@ Detta betyder att en avgift på minst %2 krävs.</translation>
     <message>
         <location line="+10"/>
         <source>The label associated with this address book entry</source>
-        <translation>Namnet som kopplats till denna Blackcoin-adress</translation>
+        <translation>Namnet som kopplats till denna bitcoinplus-adress</translation>
     </message>
     <message>
         <location line="+7"/>
@@ -1064,8 +1064,8 @@ Detta betyder att en avgift på minst %2 krävs.</translation>
     </message>
     <message>
         <location line="-5"/>
-        <source>The entered address &quot;%1&quot; is not a valid BlackCoin address.</source>
-        <translation>Den inslagna adressen &quot;%1&quot; är inte en giltig Blackcoin adress.</translation>
+        <source>The entered address &quot;%1&quot; is not a valid bitcoinplus address.</source>
+        <translation>Den inslagna adressen &quot;%1&quot; är inte en giltig bitcoinplus adress.</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -1083,8 +1083,8 @@ Detta betyder att en avgift på minst %2 krävs.</translation>
     <message>
         <location filename="../guiutil.cpp" line="+420"/>
         <location line="+12"/>
-        <source>BlackCoin-Qt</source>
-        <translation>BlackCoin-Qt</translation>
+        <source>bitcoinplus-Qt</source>
+        <translation>bitcoinplus-Qt</translation>
     </message>
     <message>
         <location line="-12"/>
@@ -1156,13 +1156,13 @@ Detta betyder att en avgift på minst %2 krävs.</translation>
     </message>
     <message>
         <location line="+31"/>
-        <source>Automatically start BlackCoin after logging in to the system.</source>
-        <translation>Starta Blackcoin automatiskt vid inloggning.</translation>
+        <source>Automatically start bitcoinplus after logging in to the system.</source>
+        <translation>Starta bitcoinplus automatiskt vid inloggning.</translation>
     </message>
     <message>
         <location line="+3"/>
-        <source>&amp;Start BlackCoin on system login</source>
-        <translation>&amp;Starta Blackcoin vid inloggning</translation>
+        <source>&amp;Start bitcoinplus on system login</source>
+        <translation>&amp;Starta bitcoinplus vid inloggning</translation>
     </message>
     <message>
         <location line="+7"/>
@@ -1181,8 +1181,8 @@ Detta betyder att en avgift på minst %2 krävs.</translation>
     </message>
     <message>
         <location line="+6"/>
-        <source>Automatically open the BlackCoin client port on the router. This only works when your router supports UPnP and it is enabled.</source>
-        <translation>Öppna automatiskt BlackCoin klientens port på routern. Detta fungerar endast om din router stödjer UPnP och det är aktiverat.</translation>
+        <source>Automatically open the bitcoinplus client port on the router. This only works when your router supports UPnP and it is enabled.</source>
+        <translation>Öppna automatiskt bitcoinplus klientens port på routern. Detta fungerar endast om din router stödjer UPnP och det är aktiverat.</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -1191,8 +1191,8 @@ Detta betyder att en avgift på minst %2 krävs.</translation>
     </message>
     <message>
         <location line="+7"/>
-        <source>Connect to the BlackCoin network through a SOCKS proxy (e.g. when connecting through Tor).</source>
-        <translation>Anslut till BlackCoin nätverket via en SOCKS proxy (t.ex. när du ansluter genom Tor).</translation>
+        <source>Connect to the bitcoinplus network through a SOCKS proxy (e.g. when connecting through Tor).</source>
+        <translation>Anslut till bitcoinplus nätverket via en SOCKS proxy (t.ex. när du ansluter genom Tor).</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -1266,8 +1266,8 @@ Detta betyder att en avgift på minst %2 krävs.</translation>
     </message>
     <message>
         <location line="+13"/>
-        <source>The user interface language can be set here. This setting will take effect after restarting BlackCoin.</source>
-        <translation>Användargränssnittets språk kan ställas in här. Inställningen börjar gälla efter omstart av BlackCoin.</translation>
+        <source>The user interface language can be set here. This setting will take effect after restarting bitcoinplus.</source>
+        <translation>Användargränssnittets språk kan ställas in här. Inställningen börjar gälla efter omstart av bitcoinplus.</translation>
     </message>
     <message>
         <location line="+11"/>
@@ -1281,8 +1281,8 @@ Detta betyder att en avgift på minst %2 krävs.</translation>
     </message>
     <message>
         <location line="+9"/>
-        <source>Whether to show BlackCoin addresses in the transaction list or not.</source>
-        <translation>Om BlackCoin adresser skall visas i transaktionslistan eller inte.</translation>
+        <source>Whether to show bitcoinplus addresses in the transaction list or not.</source>
+        <translation>Om bitcoinplus adresser skall visas i transaktionslistan eller inte.</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -1328,8 +1328,8 @@ Detta betyder att en avgift på minst %2 krävs.</translation>
     <message>
         <location line="-9"/>
         <location line="+9"/>
-        <source>This setting will take effect after restarting BlackCoin.</source>
-        <translation>Inställningen börjar gälla efter omstart av BlackCoin.</translation>
+        <source>This setting will take effect after restarting bitcoinplus.</source>
+        <translation>Inställningen börjar gälla efter omstart av bitcoinplus.</translation>
     </message>
     <message>
         <location line="+29"/>
@@ -1347,8 +1347,8 @@ Detta betyder att en avgift på minst %2 krävs.</translation>
     <message>
         <location line="+33"/>
         <location line="+231"/>
-        <source>The displayed information may be out of date. Your wallet automatically synchronizes with the BlackCoin network after a connection is established, but this process has not completed yet.</source>
-        <translation>Den visade informationen kan vara gammal. Din plånbok synkroniseras automatiskt med BlackCoin nätverket efter att en anslutning skapats, men denna process är inte klar än.</translation>
+        <source>The displayed information may be out of date. Your wallet automatically synchronizes with the bitcoinplus network after a connection is established, but this process has not completed yet.</source>
+        <translation>Den visade informationen kan vara gammal. Din plånbok synkroniseras automatiskt med bitcoinplus nätverket efter att en anslutning skapats, men denna process är inte klar än.</translation>
     </message>
     <message>
         <location line="-160"/>
@@ -1563,8 +1563,8 @@ Detta betyder att en avgift på minst %2 krävs.</translation>
     </message>
     <message>
         <location line="+7"/>
-        <source>Show the BlackCoin-Qt help message to get a list with possible BlackCoin command-line options.</source>
-        <translation>Visa BlackCoin-Qt hjälp meddelandet för att få en lista över möjliga BlackCoin kommandoradsalternativ.</translation>
+        <source>Show the bitcoinplus-Qt help message to get a list with possible bitcoinplus command-line options.</source>
+        <translation>Visa bitcoinplus-Qt hjälp meddelandet för att få en lista över möjliga bitcoinplus kommandoradsalternativ.</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -1583,13 +1583,13 @@ Detta betyder att en avgift på minst %2 krävs.</translation>
     </message>
     <message>
         <location line="-104"/>
-        <source>BlackCoin - Debug window</source>
-        <translation>BlackCoin - Felsökningsfönster</translation>
+        <source>bitcoinplus - Debug window</source>
+        <translation>bitcoinplus - Felsökningsfönster</translation>
     </message>
     <message>
         <location line="+25"/>
-        <source>BlackCoin Core</source>
-        <translation>BlackCoin Core</translation>
+        <source>bitcoinplus Core</source>
+        <translation>bitcoinplus Core</translation>
     </message>
     <message>
         <location line="+279"/>
@@ -1598,8 +1598,8 @@ Detta betyder att en avgift på minst %2 krävs.</translation>
     </message>
     <message>
         <location line="+7"/>
-        <source>Open the BlackCoin debug log file from the current data directory. This can take a few seconds for large log files.</source>
-        <translation>Öppna BlackCoin felsöknings-loggfilen från nuvarande data mapp. Detta kan kan ta ett par minuter för stora log filer.</translation>
+        <source>Open the bitcoinplus debug log file from the current data directory. This can take a few seconds for large log files.</source>
+        <translation>Öppna bitcoinplus felsöknings-loggfilen från nuvarande data mapp. Detta kan kan ta ett par minuter för stora log filer.</translation>
     </message>
     <message>
         <location line="+102"/>
@@ -1608,8 +1608,8 @@ Detta betyder att en avgift på minst %2 krävs.</translation>
     </message>
     <message>
         <location filename="../rpcconsole.cpp" line="-33"/>
-        <source>Welcome to the BlackCoin RPC console.</source>
-        <translation>Välkommen till BlackCoin RPC konsoll.</translation>
+        <source>Welcome to the bitcoinplus RPC console.</source>
+        <translation>Välkommen till bitcoinplus RPC konsoll.</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -1682,8 +1682,8 @@ Detta betyder att en avgift på minst %2 krävs.</translation>
         <location line="+86"/>
         <location line="+86"/>
         <location line="+32"/>
-        <source>0.00 BC</source>
-        <translation>123.456 BC {0.00 ?}</translation>
+        <source>0.00 XBC</source>
+        <translation>123.456 XBC {0.00 ?}</translation>
     </message>
     <message>
         <location line="-191"/>
@@ -1752,8 +1752,8 @@ Detta betyder att en avgift på minst %2 krävs.</translation>
     </message>
     <message>
         <location line="+16"/>
-        <source>123.456 BC</source>
-        <translation>123.456 BC</translation>
+        <source>123.456 XBC</source>
+        <translation>123.456 XBC</translation>
     </message>
     <message>
         <location line="+31"/>
@@ -1767,8 +1767,8 @@ Detta betyder att en avgift på minst %2 krävs.</translation>
     </message>
     <message>
         <location filename="../sendcoinsdialog.cpp" line="-173"/>
-        <source>Enter a BlackCoin address (e.g. B8gZqgY4r2RoEdqYk3QsAqFckyf9pRHN6i)</source>
-        <translation>Fyll i en BlackCoin adress (t.ex. B8gZqgY4r2RoEdqYk3QsAqFckyf9pRHN6i)</translation>
+        <source>Enter a bitcoinplus address (e.g. XBC1xGeKnTkaAotEVgs2rnUfVsFv8LVSM)</source>
+        <translation>Fyll i en bitcoinplus adress (t.ex. XBC1xGeKnTkaAotEVgs2rnUfVsFv8LVSM)</translation>
     </message>
     <message>
         <location line="+15"/>
@@ -1867,8 +1867,8 @@ Detta betyder att en avgift på minst %2 krävs.</translation>
     </message>
     <message>
         <location line="+251"/>
-        <source>WARNING: Invalid BlackCoin address</source>
-        <translation>VARNING: Ogiltig BlackCoin adress</translation>
+        <source>WARNING: Invalid bitcoinplus address</source>
+        <translation>VARNING: Ogiltig bitcoinplus adress</translation>
     </message>
     <message>
         <location line="+13"/>
@@ -1911,8 +1911,8 @@ Detta betyder att en avgift på minst %2 krävs.</translation>
     </message>
     <message>
         <location line="+18"/>
-        <source>The address to send the payment to  (e.g. B8gZqgY4r2RoEdqYk3QsAqFckyf9pRHN6i)</source>
-        <translation>Adressen att skicka betalningen till  (t.ex. B8gZqgY4r2RoEdqYk3QsAqFckyf9pRHN6i)</translation>
+        <source>The address to send the payment to  (e.g. XBC1xGeKnTkaAotEVgs2rnUfVsFv8LVSM)</source>
+        <translation>Adressen att skicka betalningen till  (t.ex. XBC1xGeKnTkaAotEVgs2rnUfVsFv8LVSM)</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -1941,8 +1941,8 @@ Detta betyder att en avgift på minst %2 krävs.</translation>
     </message>
     <message>
         <location filename="../sendcoinsentry.cpp" line="+1"/>
-        <source>Enter a BlackCoin address (e.g. B8gZqgY4r2RoEdqYk3QsAqFckyf9pRHN6i)</source>
-        <translation>Fyll i en BlackCoin adress (t.ex. B8gZqgY4r2RoEdqYk3QsAqFckyf9pRHN6i)</translation>
+        <source>Enter a bitcoinplus address (e.g. XBC1xGeKnTkaAotEVgs2rnUfVsFv8LVSM)</source>
+        <translation>Fyll i en bitcoinplus adress (t.ex. XBC1xGeKnTkaAotEVgs2rnUfVsFv8LVSM)</translation>
     </message>
 </context>
 <context>
@@ -1965,8 +1965,8 @@ Detta betyder att en avgift på minst %2 krävs.</translation>
     </message>
     <message>
         <location line="+18"/>
-        <source>The address to sign the message with (e.g. B8gZqgY4r2RoEdqYk3QsAqFckyf9pRHN6i)</source>
-        <translation>Adressen att signera meddelandet med (t.ex. B8gZqgY4r2RoEdqYk3QsAqFckyf9pRHN6i)</translation>
+        <source>The address to sign the message with (e.g. XBC1xGeKnTkaAotEVgs2rnUfVsFv8LVSM)</source>
+        <translation>Adressen att signera meddelandet med (t.ex. XBC1xGeKnTkaAotEVgs2rnUfVsFv8LVSM)</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -2002,8 +2002,8 @@ Detta betyder att en avgift på minst %2 krävs.</translation>
     </message>
     <message>
         <location line="+21"/>
-        <source>Sign the message to prove you own this BlackCoin address</source>
-        <translation>Signera meddelandet för att verifiera att du äger denna BlackCoin adressen</translation>
+        <source>Sign the message to prove you own this bitcoinplus address</source>
+        <translation>Signera meddelandet för att verifiera att du äger denna bitcoinplus adressen</translation>
     </message>
     <message>
         <location line="+17"/>
@@ -2029,13 +2029,13 @@ Detta betyder att en avgift på minst %2 krävs.</translation>
     </message>
     <message>
         <location line="+21"/>
-        <source>The address the message was signed with (e.g. B8gZqgY4r2RoEdqYk3QsAqFckyf9pRHN6i)</source>
-        <translation>Adressen meddelandet var signerad med (t.ex. B8gZqgY4r2RoEdqYk3QsAqFckyf9pRHN6i)</translation>
+        <source>The address the message was signed with (e.g. XBC1xGeKnTkaAotEVgs2rnUfVsFv8LVSM)</source>
+        <translation>Adressen meddelandet var signerad med (t.ex. XBC1xGeKnTkaAotEVgs2rnUfVsFv8LVSM)</translation>
     </message>
     <message>
         <location line="+40"/>
-        <source>Verify the message to ensure it was signed with the specified BlackCoin address</source>
-        <translation>Verifiera meddelandet för att vara säker på att det var signerat med den angivna BlackCoin adressen</translation>
+        <source>Verify the message to ensure it was signed with the specified bitcoinplus address</source>
+        <translation>Verifiera meddelandet för att vara säker på att det var signerat med den angivna bitcoinplus adressen</translation>
     </message>
     <message>
         <location line="+17"/>
@@ -2045,8 +2045,8 @@ Detta betyder att en avgift på minst %2 krävs.</translation>
     <message>
         <location filename="../signverifymessagedialog.cpp" line="+27"/>
         <location line="+3"/>
-        <source>Enter a BlackCoin address (e.g. B8gZqgY4r2RoEdqYk3QsAqFckyf9pRHN6i)</source>
-        <translation>Fyll i en BlackCoin adress (t.ex. B8gZqgY4r2RoEdqYk3QsAqFckyf9pRHN6i)</translation>
+        <source>Enter a bitcoinplus address (e.g. XBC1xGeKnTkaAotEVgs2rnUfVsFv8LVSM)</source>
+        <translation>Fyll i en bitcoinplus adress (t.ex. XBC1xGeKnTkaAotEVgs2rnUfVsFv8LVSM)</translation>
     </message>
     <message>
         <location line="-2"/>
@@ -2055,8 +2055,8 @@ Detta betyder att en avgift på minst %2 krävs.</translation>
     </message>
     <message>
         <location line="+3"/>
-        <source>Enter BlackCoin signature</source>
-        <translation>Fyll i BlackCoin signatur</translation>
+        <source>Enter bitcoinplus signature</source>
+        <translation>Fyll i bitcoinplus signatur</translation>
     </message>
     <message>
         <location line="+82"/>
@@ -2260,7 +2260,7 @@ Detta betyder att en avgift på minst %2 krävs.</translation>
     </message>
     <message>
         <location line="+3"/>
-        <source>Generated coins must mature 510 blocks before they can be spent. When you generated this block, it was broadcast to the network to be added to the block chain. If it fails to get into the chain, its state will change to &quot;not accepted&quot; and it won&apos;t be spendable. This may occasionally happen if another node generates a block within a few seconds of yours.</source>
+        <source>Generated coins must mature 110 blocks before they can be spent. When you generated this block, it was broadcast to the network to be added to the block chain. If it fails to get into the chain, its state will change to &quot;not accepted&quot; and it won&apos;t be spendable. This may occasionally happen if another node generates a block within a few seconds of yours.</source>
         <translation>Genererad mynt måste mogna i 510 block före de kan användas. När du genererade detta blocket sändes det ut till nätverket för att läggas till i blockkedjan. Om det inte kan läggas till i kedjan kommer dess status att ändras till &quot;Ej accepterat&quot; och det kommer inte gå att använda. Detta kan hända imellanåt om en annan klient genererar ett block inom ett par sekunder från ditt.</translation>
     </message>
     <message>
@@ -2626,8 +2626,8 @@ Detta betyder att en avgift på minst %2 krävs.</translation>
     <name>bitcoin-core</name>
     <message>
         <location filename="../bitcoinstrings.cpp" line="+33"/>
-        <source>BlackCoin version</source>
-        <translation>BlackCoin version</translation>
+        <source>bitcoinplus version</source>
+        <translation>bitcoinplus version</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -2636,8 +2636,8 @@ Detta betyder att en avgift på minst %2 krävs.</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>Send command to -server or blackcoind</source>
-        <translation>Skicka kommando till -server eller blackcoind</translation>
+        <source>Send command to -server or bitcoinplusd</source>
+        <translation>Skicka kommando till -server eller bitcoinplusd</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -2656,13 +2656,13 @@ Detta betyder att en avgift på minst %2 krävs.</translation>
     </message>
     <message>
         <location line="+2"/>
-        <source>Specify configuration file (default: blackcoin.conf)</source>
-        <translation>Ange konfigurationsfilen (standard: blackcoin.conf)</translation>
+        <source>Specify configuration file (default: bitcoinplus.conf)</source>
+        <translation>Ange konfigurationsfilen (standard: bitcoinplus.conf)</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>Specify pid file (default: blackcoind.pid)</source>
-        <translation>Ange pid filen (standard blackcoind.pid)</translation>
+        <source>Specify pid file (default: bitcoinplusd.pid)</source>
+        <translation>Ange pid filen (standard bitcoinplusd.pid)</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -2811,8 +2811,8 @@ Detta betyder att en avgift på minst %2 krävs.</translation>
     </message>
     <message>
         <location line="+61"/>
-        <source>Warning: Please check that your computer&apos;s date and time are correct! If your clock is wrong BlackCoin will not work properly.</source>
-        <translation>Varning: Kolla att din dators tid och datum är rätt. Blackcoin kan inte fungera ordentligt om tiden i datorn är fel.</translation>
+        <source>Warning: Please check that your computer&apos;s date and time are correct! If your clock is wrong bitcoinplus will not work properly.</source>
+        <translation>Varning: Kolla att din dators tid och datum är rätt. bitcoinplus kan inte fungera ordentligt om tiden i datorn är fel.</translation>
     </message>
     <message>
         <location line="-31"/>
@@ -3001,24 +3001,24 @@ Detta betyder att en avgift på minst %2 krävs.</translation>
         <source>%s, you must set a rpcpassword in the configuration file:
  %s
 It is recommended you use the following random password:
-rpcuser=blackcoinrpc
+rpcuser=bitcoinplusrpc
 rpcpassword=%s
 (you do not need to remember this password)
 The username and password MUST NOT be the same.
 If the file does not exist, create it with owner-readable-only file permissions.
 It is also recommended to set alertnotify so you are notified of problems;
-for example: alertnotify=echo %%s | mail -s &quot;BlackCoin Alert&quot; admin@foo.com
+for example: alertnotify=echo %%s | mail -s &quot;bitcoinplus Alert&quot; admin@foo.com
 </source>
         <translation>%s, du måste sätta rpcpassword i konfigurationsfilen:
  %s
 Det är rekommenderat att du använder följande slumpmässiga lösenord:
-rpcuser=blackcoinrpc
+rpcuser=bitcoinplusrpc
 rpcpassword=%s
 (du behöver inte komma ihåg detta lösenord)
 Användarnamnet och lösenordet FÅR INTE vara samma.
 Om filen inte finns, skapa den med endast ägarrättigheter.
 Det är också rekommenderat att sätta alertnotify så du blir notifierad om problem;
-till exempel: alertnotify=echo %%s | mail -s &quot;BlackCoin Varning&quot; admin@foo.com
+till exempel: alertnotify=echo %%s | mail -s &quot;bitcoinplus Varning&quot; admin@foo.com
 </translation>
     </message>
     <message>
@@ -3143,13 +3143,13 @@ till exempel: alertnotify=echo %%s | mail -s &quot;BlackCoin Varning&quot; admin
     </message>
     <message>
         <location line="+1"/>
-        <source>Cannot obtain a lock on data directory %s.  BlackCoin is probably already running.</source>
-        <translation>Kan inte låsa datan i mappen %s. Blackcoin är kanske redan startad.</translation>
+        <source>Cannot obtain a lock on data directory %s.  bitcoinplus is probably already running.</source>
+        <translation>Kan inte låsa datan i mappen %s. bitcoinplus är kanske redan startad.</translation>
     </message>
     <message>
         <location line="-98"/>
-        <source>BlackCoin</source>
-        <translation>BlackCoin</translation>
+        <source>bitcoinplus</source>
+        <translation>bitcoinplus</translation>
     </message>
     <message>
         <location line="+140"/>
@@ -3183,13 +3183,13 @@ till exempel: alertnotify=echo %%s | mail -s &quot;BlackCoin Varning&quot; admin
     </message>
     <message>
         <location line="+4"/>
-        <source>Error loading wallet.dat: Wallet requires newer version of BlackCoin</source>
-        <translation>Kunde inte ladda wallet.dat: En nyare version av Blackcoin krävs</translation>
+        <source>Error loading wallet.dat: Wallet requires newer version of bitcoinplus</source>
+        <translation>Kunde inte ladda wallet.dat: En nyare version av bitcoinplus krävs</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>Wallet needed to be rewritten: restart BlackCoin to complete</source>
-        <translation>Plånboken måste skrivas om: Starta om Blackcoin för att slutföra</translation>
+        <source>Wallet needed to be rewritten: restart bitcoinplus to complete</source>
+        <translation>Plånboken måste skrivas om: Starta om bitcoinplus för att slutföra</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -3258,8 +3258,8 @@ till exempel: alertnotify=echo %%s | mail -s &quot;BlackCoin Varning&quot; admin
     </message>
     <message>
         <location line="+122"/>
-        <source>Unable to bind to %s on this computer. BlackCoin is probably already running.</source>
-        <translation>Kan inte binda till %s på denna dator. Blackcoin är sannolikt redan startad.</translation>
+        <source>Unable to bind to %s on this computer. bitcoinplus is probably already running.</source>
+        <translation>Kan inte binda till %s på denna dator. bitcoinplus är sannolikt redan startad.</translation>
     </message>
     <message>
         <location line="-97"/>

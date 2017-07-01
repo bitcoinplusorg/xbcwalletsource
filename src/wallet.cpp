@@ -11,13 +11,14 @@
 #include "base58.h"
 #include "kernel.h"
 #include "coincontrol.h"
+#include "smessage.h"
 #include <boost/algorithm/string/replace.hpp>
 
 using namespace std;
 extern unsigned int nStakeMaxAge;
 
 unsigned int nStakeSplitAge = 1 * 24 * 60 * 60;
-int64_t nStakeCombineThreshold = 1000 * COIN;
+int64_t nStakeCombineThreshold = 100 * COIN;
 
 //////////////////////////////////////////////////////////////////////////////
 //
@@ -131,9 +132,13 @@ bool CWallet::Unlock(const SecureString& strWalletPassphrase)
                 return false;
             if (!crypter.Decrypt(pMasterKey.second.vchCryptedKey, vMasterKey))
                 return false;
-            if (CCryptoKeyStore::Unlock(vMasterKey))
-                return true;
+            if (!CCryptoKeyStore::Unlock(vMasterKey))
+                return false;
+            break;
         }
+
+        SecureMsgWalletUnlocked();
+        return true;
     }
     return false;
 }
@@ -379,7 +384,7 @@ void CWallet::WalletUpdateSpent(const CTransaction &tx, bool fBlock)
                     printf("WalletUpdateSpent: bad wtx %s\n", wtx.GetHash().ToString().c_str());
                 else if (!wtx.IsSpent(txin.prevout.n) && IsMine(wtx.vout[txin.prevout.n]))
                 {
-                    printf("WalletUpdateSpent found spent coin %s BC %s\n", FormatMoney(wtx.GetCredit()).c_str(), wtx.GetHash().ToString().c_str());
+                    printf("WalletUpdateSpent found spent coin %s XBC %s\n", FormatMoney(wtx.GetCredit()).c_str(), wtx.GetHash().ToString().c_str());
                     wtx.MarkSpent(txin.prevout.n);
                     wtx.WriteToDisk();
                     NotifyTransactionChanged(this, txin.prevout.hash, CT_UPDATED);
@@ -914,7 +919,7 @@ void CWallet::ReacceptWalletTransactions()
                 }
                 if (fUpdated)
                 {
-                    printf("ReacceptWalletTransactions found spent coin %s BC %s\n", FormatMoney(wtx.GetCredit()).c_str(), wtx.GetHash().ToString().c_str());
+                    printf("ReacceptWalletTransactions found spent coin %s XBC %s\n", FormatMoney(wtx.GetCredit()).c_str(), wtx.GetHash().ToString().c_str());
                     wtx.MarkDirty();
                     wtx.WriteToDisk();
                 }
@@ -1164,7 +1169,7 @@ static void ApproximateBestSubset(vector<pair<int64_t, pair<const CWalletTx*,uns
     }
 }
 
-// ppcoin: total coins staked (non-spendable until maturity)
+// bitcoinplus: total coins staked (non-spendable until maturity)
 int64_t CWallet::GetStake() const
 {
     int64_t nTotal = 0;
@@ -1897,9 +1902,24 @@ DBErrors CWallet::LoadWallet(bool& fFirstRunRet)
 
 bool CWallet::SetAddressBookName(const CTxDestination& address, const string& strName)
 {
-    std::map<CTxDestination, std::string>::iterator mi = mapAddressBook.find(address);
-    mapAddressBook[address] = strName;
-    NotifyAddressBookChanged(this, address, strName, ::IsMine(*this, address), (mi == mapAddressBook.end()) ? CT_NEW : CT_UPDATED);
+    bool fOwned;
+    ChangeType nMode;
+    {
+        LOCK(cs_wallet); // mapAddressBook
+        std::map<CTxDestination, std::string>::iterator mi = mapAddressBook.find(address);
+        nMode = (mi == mapAddressBook.end()) ? CT_NEW : CT_UPDATED;
+        fOwned = ::IsMine(*this, address);
+        
+        mapAddressBook[address] = strName;
+    }
+    
+    if (fOwned)
+    {
+        const CBitcoinAddress& caddress = address;
+        SecureMsgWalletKeyChanged(caddress.ToString(), strName, nMode);
+    }
+    NotifyAddressBookChanged(this, address, strName, fOwned, nMode);
+    
     if (!fFileBacked)
         return false;
     return CWalletDB(strWalletFile).WriteName(CBitcoinAddress(address).ToString(), strName);
@@ -1907,8 +1927,21 @@ bool CWallet::SetAddressBookName(const CTxDestination& address, const string& st
 
 bool CWallet::DelAddressBookName(const CTxDestination& address)
 {
-    mapAddressBook.erase(address);
-    NotifyAddressBookChanged(this, address, "", ::IsMine(*this, address), CT_DELETED);
+    {
+        LOCK(cs_wallet); // mapAddressBook
+
+        mapAddressBook.erase(address);
+    }
+    
+    bool fOwned = ::IsMine(*this, address);
+    string sName = "";
+    if (fOwned)
+    {
+        const CBitcoinAddress& caddress = address;
+        SecureMsgWalletKeyChanged(caddress.ToString(), sName, CT_DELETED);
+    }
+    NotifyAddressBookChanged(this, address, "", fOwned, CT_DELETED);
+
     if (!fFileBacked)
         return false;
     return CWalletDB(strWalletFile).EraseName(CBitcoinAddress(address).ToString());
@@ -2250,8 +2283,8 @@ set< set<CTxDestination> > CWallet::GetAddressGroupings()
     return ret;
 }
 
-// ppcoin: check 'spent' consistency between wallet and txindex
-// ppcoin: fix wallet spent state according to txindex
+// bitcoinplus: check 'spent' consistency between wallet and txindex
+// bitcoinplus: fix wallet spent state according to txindex
 void CWallet::FixSpentCoins(int& nMismatchFound, int64_t& nBalanceInQuestion, bool fCheckOnly)
 {
     nMismatchFound = 0;
@@ -2274,7 +2307,7 @@ void CWallet::FixSpentCoins(int& nMismatchFound, int64_t& nBalanceInQuestion, bo
         {
             if (IsMine(pcoin->vout[n]) && pcoin->IsSpent(n) && (txindex.vSpent.size() <= n || txindex.vSpent[n].IsNull()))
             {
-                printf("FixSpentCoins found lost coin %s BC %s[%d], %s\n",
+                printf("FixSpentCoins found lost coin %s XBC %s[%d], %s\n",
                     FormatMoney(pcoin->vout[n].nValue).c_str(), pcoin->GetHash().ToString().c_str(), n, fCheckOnly? "repair not attempted" : "repairing");
                 nMismatchFound++;
                 nBalanceInQuestion += pcoin->vout[n].nValue;
@@ -2286,7 +2319,7 @@ void CWallet::FixSpentCoins(int& nMismatchFound, int64_t& nBalanceInQuestion, bo
             }
             else if (IsMine(pcoin->vout[n]) && !pcoin->IsSpent(n) && (txindex.vSpent.size() > n && !txindex.vSpent[n].IsNull()))
             {
-                printf("FixSpentCoins found spent coin %s BC %s[%d], %s\n",
+                printf("FixSpentCoins found spent coin %s XBC %s[%d], %s\n",
                     FormatMoney(pcoin->vout[n].nValue).c_str(), pcoin->GetHash().ToString().c_str(), n, fCheckOnly? "repair not attempted" : "repairing");
                 nMismatchFound++;
                 nBalanceInQuestion += pcoin->vout[n].nValue;
@@ -2300,7 +2333,7 @@ void CWallet::FixSpentCoins(int& nMismatchFound, int64_t& nBalanceInQuestion, bo
     }
 }
 
-// ppcoin: disable transaction (only for coinstake)
+// bitcoinplus: disable transaction (only for coinstake)
 void CWallet::DisableTransaction(const CTransaction &tx)
 {
     if (!tx.IsCoinStake() || !IsFromMe(tx))

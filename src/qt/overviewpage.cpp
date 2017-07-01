@@ -8,6 +8,8 @@
 #include "transactionfilterproxy.h"
 #include "guiutil.h"
 #include "guiconstants.h"
+#include "askpassphrasedialog.h"
+#include "util.h"
 
 #include <QAbstractItemDelegate>
 #include <QPainter>
@@ -145,7 +147,32 @@ void OverviewPage::setBalance(qint64 balance, qint64 stake, qint64 unconfirmedBa
     // for the non-mining users
     bool showImmature = immatureBalance != 0;
     ui->labelImmature->setVisible(showImmature);
-    ui->labelImmatureText->setVisible(showImmature);
+    ui->labelImmatureText->setVisible(showImmature);\
+
+    if ((mapArgs["-torconnect"] == "1")){
+        ui->wallet_logo_lbl->setPixmap(QPixmap(":images/wallet_logo_dark"));
+    } else {
+        ui->wallet_logo_lbl->setPixmap(QPixmap(":images/wallet_logo"));
+    }
+}
+
+
+void OverviewPage::unlockWallet()
+{
+    if(model->getEncryptionStatus() == WalletModel::Locked)
+    {
+        AskPassphraseDialog dlg(AskPassphraseDialog::Unlock, this);
+        dlg.setModel(model);
+        if(dlg.exec() == QDialog::Accepted)
+        {
+//            ui->unlockWalletButton->setText(QString("Lock Wallet"));
+        }
+    }
+    else
+    {
+        model->setWalletLocked(true);
+//        ui->unlockWalletButton->setText(QString("Unlock Wallet"));
+    }
 }
 
 void OverviewPage::setModel(WalletModel *model)
@@ -170,6 +197,21 @@ void OverviewPage::setModel(WalletModel *model)
         connect(model, SIGNAL(balanceChanged(qint64, qint64, qint64, qint64)), this, SLOT(setBalance(qint64, qint64, qint64, qint64)));
 
         connect(model->getOptionsModel(), SIGNAL(displayUnitChanged(int)), this, SLOT(updateDisplayUnit()));
+
+        // Unlock wallet button
+        WalletModel::EncryptionStatus status = model->getEncryptionStatus();
+        if(status == WalletModel::Unencrypted)
+        {
+//            ui->unlockWalletButton->setDisabled(true);
+//            ui->unlockWalletButton->setText(QString("Wallet is not encrypted!"));
+
+        }
+
+        else
+        {
+//            ui->unlockWalletButton->setText(QString("Unlock wallet"));
+        }
+//        connect(ui->unlockWalletButton, SIGNAL(clicked()), this, SLOT(unlockWallet()));
     }
 
     // update the display unit, to not use the default ("BTC")

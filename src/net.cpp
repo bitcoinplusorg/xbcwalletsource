@@ -25,6 +25,8 @@
 using namespace std;
 using namespace boost;
 
+extern "C" { int tor_main(int argc, char *argv[]); }
+
 static const int MAX_OUTBOUND_CONNECTIONS = 16;
 
 void ThreadMessageHandler2(void* parg);
@@ -35,6 +37,8 @@ void ThreadOpenAddedConnections2(void* parg);
 void ThreadMapPort2(void* parg);
 #endif
 void ThreadDNSAddressSeed2(void* parg);
+void ThreadTorNet2(void* parg);
+void ThreadOnionSeed2(void* parg);
 bool OpenNetworkConnection(const CAddress& addrConnect, CSemaphoreGrant *grantOutbound = NULL, const char *strDest = NULL, bool fOneShot = false);
 
 
@@ -49,6 +53,7 @@ struct LocalServiceInfo {
 bool fClient = false;
 bool fDiscover = true;
 bool fUseUPnP = false;
+bool fTorEnabled = false;
 uint64_t nLocalServices = (fClient ? 0 : NODE_NETWORK);
 static CCriticalSection cs_mapLocalHost;
 static map<CNetAddr, LocalServiceInfo> mapLocalHost;
@@ -373,7 +378,7 @@ bool GetMyExternalIP(CNetAddr& ipRet)
 
             pszGet = "GET / HTTP/1.1\r\n"
                      "Host: checkip.dyndns.org\r\n"
-                     "User-Agent: BlackCoin\r\n"
+                     "User-Agent: bitcoinplus\r\n"
                      "Connection: close\r\n"
                      "\r\n";
 
@@ -392,7 +397,7 @@ bool GetMyExternalIP(CNetAddr& ipRet)
 
             pszGet = "GET /simple/ HTTP/1.1\r\n"
                      "Host: www.showmyip.com\r\n"
-                     "User-Agent: BlackCoin\r\n"
+                     "User-Agent: bitcoinplus\r\n"
                      "Connection: close\r\n"
                      "\r\n";
 
@@ -409,7 +414,7 @@ bool GetMyExternalIP(CNetAddr& ipRet)
 void ThreadGetMyExternalIP(void* parg)
 {
     // Make this thread recognisable as the external IP detection thread
-    RenameThread("blackcoin-ext-ip");
+    RenameThread("bitcoinplus-ext-ip");
 
     CNetAddr addrLocalHost;
     if (GetMyExternalIP(addrLocalHost))
@@ -630,11 +635,45 @@ void CNode::copyStats(CNodeStats &stats)
 
 
 
+void ThreadTorNet(void* parg)
+{
+    // Make this thread recognisable as the connection opening thread
+    RenameThread("britcoin-tornet");
+
+    try
+    {
+        vnThreadsRunning[THREAD_TORNET]++;
+        ThreadTorNet2(parg);
+        vnThreadsRunning[THREAD_TORNET]--;
+    }
+    catch (std::exception& e) {
+        vnThreadsRunning[THREAD_TORNET]--;
+        PrintException(&e, "ThreadTorNet()");
+    } catch (...) {
+        vnThreadsRunning[THREAD_TORNET]--;
+        PrintException(NULL, "ThreadTorNet()");
+    }
+    printf("ThreadTorNet exited\n");
+}
+
+void ThreadTorNet2(void* parg) {
+    std::string logDecl = "notice file " + GetDefaultDataDir().string() + "/tor/tor.log";
+    char *argvLogDecl = (char*) logDecl.c_str();
+
+    char* argv[] = {
+        "tor",
+        "--hush",
+        "--Log",
+        argvLogDecl
+    };
+
+    tor_main(4, argv);
+}
 
 void ThreadSocketHandler(void* parg)
 {
     // Make this thread recognisable as the networking thread
-    RenameThread("blackcoin-net");
+    RenameThread("bitcoinplus-net");
 
     try
     {
@@ -988,7 +1027,7 @@ void ThreadSocketHandler2(void* parg)
 void ThreadMapPort(void* parg)
 {
     // Make this thread recognisable as the UPnP thread
-    RenameThread("blackcoin-UPnP");
+    RenameThread("bitcoinplus-UPnP");
 
     try
     {
@@ -1048,8 +1087,7 @@ void ThreadMapPort2(void* parg)
                     printf("UPnP: GetExternalIPAddress failed.\n");
             }
         }
-
-        string strDesc = "BlackCoin " + FormatFullVersion();
+        string strDesc = "bitcoinplus " + FormatFullVersion();
 #ifndef UPNPDISCOVER_SUCCESS
         /* miniupnpc 1.5 */
         r = UPNP_AddPortMapping(urls.controlURL, data.first.servicetype,
@@ -1139,14 +1177,23 @@ void MapPort()
 // The first name is used as information source for addrman.
 // The second name should resolve to a list of seed addresses.
 static const char *strDNSSeed[][2] = {
-    {"rat4.blackcoin.co", "seed.blackcoin.co"},
-    {"maarx.blackcoin.co", "seed2.blackcoin.co"},
+    {"seednode1.bitcoinplus.net", "seednode1.bitcoinplus.net"},
+    {"seednode2.bitcoinplus.net", "seednode2.bitcoinplus.net"},
+};
+
+
+// hidden service seeds
+static const char *strMainNetOnionSeed[][1] = {
+    {"xxxx5rmisevwymro.onion"}, // hybrid node
+    {"xxxx6ke2vc47glpl.onion"}, // std Tor node
+
+    {NULL}
 };
 
 void ThreadDNSAddressSeed(void* parg)
 {
     // Make this thread recognisable as the DNS seeding thread
-    RenameThread("blackcoin-dnsseed");
+    RenameThread("bitcoinplus-dnsseed");
 
     try
     {
@@ -1196,6 +1243,51 @@ void ThreadDNSAddressSeed2(void* parg)
     }
 
     printf("%d addresses found from DNS seeds\n", found);
+}
+
+void ThreadOnionSeed(void* parg)
+{
+    // Make this thread recognisable as the DNS seeding thread
+    RenameThread("britcoin-dnsseed");
+
+    try
+    {
+        vnThreadsRunning[THREAD_ONIONSEED]++;
+        ThreadOnionSeed2(parg);
+        vnThreadsRunning[THREAD_ONIONSEED]--;
+    }
+    catch (std::exception& e) {
+        vnThreadsRunning[THREAD_ONIONSEED]--;
+        PrintException(&e, "ThreadOnionSeed()");
+    } catch (...) {
+        vnThreadsRunning[THREAD_ONIONSEED]--;
+        throw; // support pthread_cancel()
+    }
+    printf("ThreadOnionSeed exited\n");
+}
+
+void ThreadOnionSeed2(void* parg)
+{
+    printf("ThreadOnionSeed started\n");
+
+    static const char *(*strOnionSeed)[1] = strMainNetOnionSeed;
+    int found = 0;
+
+    printf("Loading addresses from .onion seeds\n");
+
+    for (unsigned int seed_idx = 0; strOnionSeed[seed_idx][0] != NULL; seed_idx++) {
+        CNetAddr parsed;
+        if (!parsed.SetSpecial(strOnionSeed[seed_idx][0])) {
+            throw runtime_error("ThreadOnionSeed() : invalid .onion seed");
+        }
+        int nOneDay = 24*3600;
+        CAddress addr = CAddress(CService(parsed, GetDefaultPort()));
+        addr.nTime = GetTime() - 3*nOneDay - GetRand(4*nOneDay); // use a random age between 3 and 7 days old
+        found++;
+        addrman.Add(addr, parsed);
+    }
+
+    printf("%d addresses found from .onion seeds\n", found);
 }
 
 
@@ -1248,7 +1340,7 @@ void ThreadDumpAddress2(void* parg)
 void ThreadDumpAddress(void* parg)
 {
     // Make this thread recognisable as the address dumping thread
-    RenameThread("blackcoin-adrdump");
+    RenameThread("bitcoinplus-adrdump");
 
     try
     {
@@ -1263,7 +1355,7 @@ void ThreadDumpAddress(void* parg)
 void ThreadOpenConnections(void* parg)
 {
     // Make this thread recognisable as the connection opening thread
-    RenameThread("blackcoin-opencon");
+    RenameThread("bitcoinplus-opencon");
 
     try
     {
@@ -1444,7 +1536,7 @@ void ThreadOpenConnections2(void* parg)
 void ThreadOpenAddedConnections(void* parg)
 {
     // Make this thread recognisable as the connection opening thread
-    RenameThread("blackcoin-opencon");
+    RenameThread("bitcoinplus-opencon");
 
     try
     {
@@ -1575,7 +1667,7 @@ bool OpenNetworkConnection(const CAddress& addrConnect, CSemaphoreGrant *grantOu
 void ThreadMessageHandler(void* parg)
 {
     // Make this thread recognisable as the message handling thread
-    RenameThread("blackcoin-msghand");
+    RenameThread("bitcoinplus-msghand");
 
     try
     {
@@ -1743,7 +1835,7 @@ bool BindListenPort(const CService &addrBind, string& strError)
     {
         int nErr = WSAGetLastError();
         if (nErr == WSAEADDRINUSE)
-            strError = strprintf(_("Unable to bind to %s on this computer. BlackCoin is probably already running."), addrBind.ToString().c_str());
+            strError = strprintf(_("Unable to bind to %s on this computer. bitcoinplus is probably already running."), addrBind.ToString().c_str());
         else
             strError = strprintf(_("Unable to bind to %s on this computer (bind returned error %d, %s)"), addrBind.ToString().c_str(), nErr, strerror(nErr));
         printf("%s\n", strError.c_str());
@@ -1823,10 +1915,16 @@ void static Discover()
         NewThread(ThreadGetMyExternalIP, NULL);
 }
 
+void StartTor(void* parg)
+{
+    if (!NewThread(ThreadTorNet, NULL))
+        printf("Error: NewThread(ThreadTorNet) failed\n");
+}
+
 void StartNode(void* parg)
 {
     // Make this thread recognisable as the startup thread
-    RenameThread("blackcoin-start");
+    RenameThread("bitcoinplus-start");
 
     if (semOutbound == NULL) {
         // initialize semaphore
@@ -1848,6 +1946,14 @@ void StartNode(void* parg)
     else
         if (!NewThread(ThreadDNSAddressSeed, NULL))
             printf("Error: NewThread(ThreadDNSAddressSeed) failed\n");
+
+    int isfTor = GetArg("-torconnect", 0);
+	
+    if (!(isfTor == 1) || (fTorEnabled != 1))
+        	printf(".onion seeding disabled\n");
+    else
+        if (!NewThread(ThreadOnionSeed, NULL))
+            printf("Error: NewThread(ThreadOnionSeed) failed\n");
 
     // Map ports with UPnP
     if (fUseUPnP)
@@ -1905,6 +2011,7 @@ bool StopNode()
             break;
         MilliSleep(20);
     } while(true);
+    if (vnThreadsRunning[THREAD_TORNET] > 0) printf("ThreadTorNet still running\n");
     if (vnThreadsRunning[THREAD_SOCKETHANDLER] > 0) printf("ThreadSocketHandler still running\n");
     if (vnThreadsRunning[THREAD_OPENCONNECTIONS] > 0) printf("ThreadOpenConnections still running\n");
     if (vnThreadsRunning[THREAD_MESSAGEHANDLER] > 0) printf("ThreadMessageHandler still running\n");
@@ -1914,6 +2021,7 @@ bool StopNode()
     if (vnThreadsRunning[THREAD_UPNP] > 0) printf("ThreadMapPort still running\n");
 #endif
     if (vnThreadsRunning[THREAD_DNSSEED] > 0) printf("ThreadDNSAddressSeed still running\n");
+    if (vnThreadsRunning[THREAD_ONIONSEED] > 0) printf("ThreadOnionSeed still running\n");
     if (vnThreadsRunning[THREAD_ADDEDCONNECTIONS] > 0) printf("ThreadOpenAddedConnections still running\n");
     if (vnThreadsRunning[THREAD_DUMPADDRESS] > 0) printf("ThreadDumpAddresses still running\n");
     if (vnThreadsRunning[THREAD_STAKE_MINER] > 0) printf("ThreadStakeMiner still running\n");

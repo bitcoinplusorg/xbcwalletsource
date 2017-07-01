@@ -39,6 +39,7 @@ CNode* ConnectNode(CAddress addrConnect, const char *strDest = NULL);
 void MapPort();
 unsigned short GetListenPort();
 bool BindListenPort(const CService &bindAddr, std::string& strError=REF(std::string()));
+void StartTor(void* parg);
 void StartNode(void* parg);
 bool StopNode();
 
@@ -96,12 +97,14 @@ public:
 /** Thread types */
 enum threadId
 {
+    THREAD_TORNET,
     THREAD_SOCKETHANDLER,
     THREAD_OPENCONNECTIONS,
     THREAD_MESSAGEHANDLER,
     THREAD_RPCLISTENER,
     THREAD_UPNP,
     THREAD_DNSSEED,
+    THREAD_ONIONSEED, 	
     THREAD_ADDEDCONNECTIONS,
     THREAD_DUMPADDRESS,
     THREAD_RPCHANDLER,
@@ -113,6 +116,7 @@ enum threadId
 extern bool fClient;
 extern bool fDiscover;
 extern bool fUseUPnP;
+extern bool fTorEnabled;
 extern uint64_t nLocalServices;
 extern uint64_t nLocalHostNonce;
 extern CAddress addrSeenByPeer;
@@ -145,7 +149,29 @@ public:
 };
 
 
-
+class SecMsgNode
+{
+public:
+    SecMsgNode()
+    {
+        lastSeen        = 0;
+        lastMatched     = 0;
+        ignoreUntil     = 0;
+        nWakeCounter    = 0;
+        nPeerId         = 0;
+        fEnabled        = false;
+    };
+    
+    ~SecMsgNode() {};
+    
+    int64_t                     lastSeen;
+    int64_t                     lastMatched;
+    int64_t                     ignoreUntil;
+    uint32_t                    nWakeCounter;
+    uint32_t                    nPeerId;
+    bool                        fEnabled;
+    
+};
 
 
 /** Information about a peer */
@@ -173,6 +199,7 @@ public:
     bool fOneShot;
     bool fClient;
     bool fInbound;
+    bool fVerified;
     bool fNetworkNode;
     bool fSuccessfullyConnected;
     bool fDisconnect;
@@ -199,13 +226,15 @@ public:
     std::set<CAddress> setAddrKnown;
     bool fGetAddr;
     std::set<uint256> setKnown;
-    uint256 hashCheckpointKnown; // ppcoin: known sent sync-checkpoint
+    uint256 hashCheckpointKnown; // last known sent sync-checkpoint
 
     // inventory based relay
     mruset<CInv> setInventoryKnown;
     std::vector<CInv> vInventoryToSend;
     CCriticalSection cs_inventory;
     std::multimap<int64_t, CInv> mapAskFor;
+	
+	SecMsgNode smsgData;
 
     CNode(SOCKET hSocketIn, CAddress addrIn, std::string addrNameIn = "", bool fInboundIn=false) : vSend(SER_NETWORK, MIN_PROTO_VERSION), vRecv(SER_NETWORK, MIN_PROTO_VERSION)
     {
@@ -224,6 +253,7 @@ public:
         fOneShot = false;
         fClient = false; // set by version message
         fInbound = fInboundIn;
+		fVerified = false;
         fNetworkNode = false;
         fSuccessfullyConnected = false;
         fDisconnect = false;

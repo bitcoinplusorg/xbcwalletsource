@@ -10,7 +10,8 @@
 #include "net.h"
 #include "script.h"
 #include "scrypt.h"
-#include "zerocoin/Zerocoin.h"
+#include "hashblock.h"
+#include "genesis.h"
 
 #include <list>
 
@@ -26,7 +27,7 @@ class CInv;
 class CRequestTracker;
 class CNode;
 
-static const int LAST_POW_BLOCK = 10000;
+static const int LAST_POW_BLOCK = 20000;
 
 static const unsigned int MAX_BLOCK_SIZE = 1000000;
 static const unsigned int MAX_BLOCK_SIZE_GEN = MAX_BLOCK_SIZE/2;
@@ -35,8 +36,12 @@ static const unsigned int MAX_ORPHAN_TRANSACTIONS = MAX_BLOCK_SIZE/100;
 static const unsigned int MAX_INV_SZ = 50000;
 static const int64_t MIN_TX_FEE = 10000;
 static const int64_t MIN_RELAY_TX_FEE = MIN_TX_FEE;
-static const int64_t MAX_MONEY = 2000000000 * COIN;
-static const int64_t COIN_YEAR_REWARD = 1 * CENT; // 1% per year
+static const int64_t MAX_MONEY = 40000000 * COIN;
+static const int64_t COIN_YEAR_REWARD = 1 * CENT;
+static const int64_t MAX_MINT_PROOF_OF_STAKE = 0.20 * COIN;	// 20% annual interest
+
+#define FOUNDATION "0x"
+#define FOUNDATION_TEST "0x"
 
 inline bool MoneyRange(int64_t nValue) { return (nValue >= 0 && nValue <= MAX_MONEY); }
 // Threshold for nLockTime: below this value it is interpreted as block number, otherwise as UNIX timestamp.
@@ -48,13 +53,25 @@ static const int fHaveUPnP = true;
 static const int fHaveUPnP = false;
 #endif
 
-static const uint256 hashGenesisBlock("0x000001faef25dec4fbcf906e6242621df2c183bf232f263d0ba5b101911e4563");
-static const uint256 hashGenesisBlockTestNet("0x0000724595fb3b9609d441cbfb9577615c292abf07d996d3edabc48de843642d");
+inline int64_t PastDrift(int64_t nTime)   {
+    if (nTime < 4579862332){
+        return nTime - 2 * 60 * 60;
+        }
+    else {
+        return nTime - 2 * 60 * 60;
+        }
+}
 
-inline int64_t PastDrift(int64_t nTime)   { return nTime - 10 * 60; } // up to 10 minutes from the past
-inline int64_t FutureDrift(int64_t nTime) { return nTime + 10 * 60; } // up to 10 minutes from the future
+inline int64_t FutureDrift(int64_t nTime) {
+    if (nTime < 4579862332){
+        return nTime + 2 * 60 * 60;
+        }
+    else {
+        return nTime + 2 * 60 * 60;
+        }
+}
 
-extern libzerocoin::Params* ZCParams;
+extern int64_t devCoin;
 extern CScript COINBASE_FLAGS;
 extern CCriticalSection cs_main;
 extern std::map<uint256, CBlockIndex*> mapBlockIndex;
@@ -528,7 +545,7 @@ public:
 
     bool IsCoinStake() const
     {
-        // ppcoin: the coin stake transaction is marked with the first output empty
+        // bitcoinplus: the coin stake transaction is marked with the first output empty
         return (vin.size() > 0 && (!vin[0].prevout.IsNull()) && vout.size() >= 2 && vout[0].IsEmpty());
     }
 
@@ -692,7 +709,7 @@ public:
     bool ClientConnectInputs();
     bool CheckTransaction() const;
     bool AcceptToMemoryPool(CTxDB& txdb, bool fCheckInputs=true, bool* pfMissingInputs=NULL);
-    bool GetCoinAge(CTxDB& txdb, uint64_t& nCoinAge) const;  // ppcoin: get transaction coin age
+    bool GetCoinAge(CTxDB& txdb, uint64_t& nCoinAge) const;  // bitcoinplus: get transaction coin age
 
 protected:
     const CTxOut& GetOutputFor(const CTxIn& input, const MapPrevTx& inputs) const;
@@ -844,7 +861,7 @@ public:
     // network and disk
     std::vector<CTransaction> vtx;
 
-    // ppcoin: block signature - signed by one of the coin base txout[N]'s owner
+    // bitcoinplus: block signature - signed by one of the coin base txout[N]'s owner
     std::vector<unsigned char> vchBlockSig;
 
     // memory only
@@ -903,7 +920,7 @@ public:
 
     uint256 GetHash() const
     {
-        return scrypt_blockhash(CVOIDBEGIN(nVersion));
+        return Hash9(BEGIN(nVersion), END(nNonce));
     }
 
     int64_t GetBlockTime() const
@@ -923,7 +940,7 @@ public:
         return nEntropyBit;
     }
 
-    // ppcoin: two types of block: proof-of-work or proof-of-stake
+    // bitcoinplus: two types of block: proof-of-work or proof-of-stake
     bool IsProofOfStake() const
     {
         return (vtx.size() > 1 && vtx[1].IsCoinStake());
@@ -939,7 +956,7 @@ public:
         return IsProofOfStake()? std::make_pair(vtx[1].vin[0].prevout, vtx[1].nTime) : std::make_pair(COutPoint(), (unsigned int)0);
     }
 
-    // ppcoin: get max transaction timestamp
+    // bitcoinplus: get max transaction timestamp
     int64_t GetMaxTransactionTime() const
     {
         int64_t maxTransactionTime = 0;
@@ -1082,7 +1099,7 @@ public:
     bool AddToBlockIndex(unsigned int nFile, unsigned int nBlockPos, const uint256& hashProofOfStake);
     bool CheckBlock(bool fCheckPOW=true, bool fCheckMerkleRoot=true, bool fCheckSig=true) const;
     bool AcceptBlock();
-    bool GetCoinAge(uint64_t& nCoinAge) const; // ppcoin: calculate total coin age spent in block
+    bool GetCoinAge(uint64_t& nCoinAge) const; // bitcoinplus: calculate total coin age spent in block
     bool SignBlock(CWallet& keystore, int64_t nFees);
     bool CheckBlockSignature() const;
 
@@ -1110,13 +1127,13 @@ public:
     CBlockIndex* pnext;
     unsigned int nFile;
     unsigned int nBlockPos;
-    uint256 nChainTrust; // ppcoin: trust score of block chain
+    uint256 nChainTrust; // bitcoinplus: trust score of block chain
     int nHeight;
 
     int64_t nMint;
     int64_t nMoneySupply;
 
-    unsigned int nFlags;  // ppcoin: block index flags
+    unsigned int nFlags;  // bitcoinplus: block index flags
     enum  
     {
         BLOCK_PROOF_OF_STAKE = (1 << 0), // is proof-of-stake block

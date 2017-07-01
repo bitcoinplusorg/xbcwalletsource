@@ -3,19 +3,19 @@
     <name>AboutDialog</name>
     <message>
         <location filename="../forms/aboutdialog.ui" line="+14"/>
-        <source>About BlackCoin</source>
-        <translation>Über BlackCoin</translation>
+        <source>About bitcoinplus</source>
+        <translation>Über bitcoinplus</translation>
     </message>
     <message>
         <location line="+39"/>
-        <source>&lt;b&gt;BlackCoin&lt;/b&gt; version</source>
-        <translation>&lt;b&gt;BlackCoin&lt;/b&gt; Version</translation>
+        <source>&lt;b&gt;bitcoinplus&lt;/b&gt; version</source>
+        <translation>&lt;b&gt;bitcoinplus&lt;/b&gt; Version</translation>
     </message>
     <message>
         <location line="+41"/>
         <source>Copyright © 2009-2014 The Bitcoin developers
 Copyright © 2012-2014 The NovaCoin developers
-Copyright © 2014 The BlackCoin developers</source>
+Copyright © 2014 The bitcoinplus developers</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -63,7 +63,7 @@ Dieses Produkt enthält Software, die vom OpenSSL-Projekt zur Verwendung im Open
     </message>
     <message>
         <location line="-46"/>
-        <source>These are your BlackCoin addresses for receiving payments. You may want to give a different one to each sender so you can keep track of who is paying you.</source>
+        <source>These are your bitcoinplus addresses for receiving payments. You may want to give a different one to each sender so you can keep track of who is paying you.</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -78,7 +78,7 @@ Dieses Produkt enthält Software, die vom OpenSSL-Projekt zur Verwendung im Open
     </message>
     <message>
         <location line="+11"/>
-        <source>Sign a message to prove you own a BlackCoin address</source>
+        <source>Sign a message to prove you own a bitcoinplus address</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -93,7 +93,7 @@ Dieses Produkt enthält Software, die vom OpenSSL-Projekt zur Verwendung im Open
     </message>
     <message>
         <location line="-14"/>
-        <source>Verify a message to ensure it was signed with a specified BlackCoin address</source>
+        <source>Verify a message to ensure it was signed with a specified bitcoinplus address</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -261,7 +261,7 @@ Dieses Produkt enthält Software, die vom OpenSSL-Projekt zur Verwendung im Open
     </message>
     <message>
         <location line="-58"/>
-        <source>BlackCoin will close now to finish the encryption process. Remember that encrypting your wallet cannot fully protect your coins from being stolen by malware infecting your computer.</source>
+        <source>bitcoinplus will close now to finish the encryption process. Remember that encrypting your wallet cannot fully protect your coins from being stolen by malware infecting your computer.</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -375,7 +375,7 @@ Dieses Produkt enthält Software, die vom OpenSSL-Projekt zur Verwendung im Open
     </message>
     <message>
         <location line="+6"/>
-        <source>Show information about BlackCoin</source>
+        <source>Show information about bitcoinplus</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -425,12 +425,12 @@ Dieses Produkt enthält Software, die vom OpenSSL-Projekt zur Verwendung im Open
     </message>
     <message>
         <location line="-64"/>
-        <source>Send coins to a BlackCoin address</source>
+        <source>Send coins to a bitcoinplus address</source>
         <translation type="unfinished"/>
     </message>
     <message>
         <location line="+47"/>
-        <source>Modify configuration options for BlackCoin</source>
+        <source>Modify configuration options for bitcoinplus</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -470,7 +470,7 @@ Dieses Produkt enthält Software, die vom OpenSSL-Projekt zur Verwendung im Open
     </message>
     <message>
         <location line="-202"/>
-        <source>BlackCoin</source>
+        <source>bitcoinplus</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -480,7 +480,7 @@ Dieses Produkt enthält Software, die vom OpenSSL-Projekt zur Verwendung im Open
     </message>
     <message>
         <location line="+180"/>
-        <source>&amp;About BlackCoin</source>
+        <source>&amp;About bitcoinplus</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -537,12 +537,12 @@ Dieses Produkt enthält Software, die vom OpenSSL-Projekt zur Verwendung im Open
     <message>
         <location line="+0"/>
         <location line="+60"/>
-        <source>BlackCoin client</source>
+        <source>bitcoinplus client</source>
         <translation type="unfinished"/>
     </message>
     <message numerus="yes">
         <location line="+75"/>
-        <source>%n active connection(s) to BlackCoin network</source>
+        <source>%n active connection(s) to bitcoinplus network</source>
         <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
     </message>
     <message>
@@ -582,12 +582,12 @@ Dieses Produkt enthält Software, die vom OpenSSL-Projekt zur Verwendung im Open
     </message>
     <message>
         <location line="-312"/>
-        <source>About BlackCoin card</source>
+        <source>About bitcoinplus card</source>
         <translation type="unfinished"/>
     </message>
     <message>
         <location line="+1"/>
-        <source>Show information about BlackCoin card</source>
+        <source>Show information about bitcoinplus card</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -666,7 +666,7 @@ Adresse: %4</translation>
     <message>
         <location line="-15"/>
         <location line="+15"/>
-        <source>URI can not be parsed! This can be caused by an invalid BlackCoin address or malformed URI parameters.</source>
+        <source>URI can not be parsed! This can be caused by an invalid bitcoinplus address or malformed URI parameters.</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -726,7 +726,7 @@ Adresse: %4</translation>
     </message>
     <message>
         <location filename="../bitcoin.cpp" line="+109"/>
-        <source>A fatal error occurred. BlackCoin can no longer continue safely and will quit.</source>
+        <source>A fatal error occurred. bitcoinplus can no longer continue safely and will quit.</source>
         <translation type="unfinished"/>
     </message>
 </context>
@@ -1046,8 +1046,8 @@ This label turns red, if the priority is smaller than &quot;medium&quot;.
     </message>
     <message>
         <location line="-5"/>
-        <source>The entered address &quot;%1&quot; is not a valid BlackCoin address.</source>
-        <translation>Die eingegebene Adresse &quot;%1&quot; ist keine gültige BlackCoin Adresse.</translation>
+        <source>The entered address &quot;%1&quot; is not a valid bitcoinplus address.</source>
+        <translation>Die eingegebene Adresse &quot;%1&quot; ist keine gültige bitcoinplus Adresse.</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -1065,7 +1065,7 @@ This label turns red, if the priority is smaller than &quot;medium&quot;.
     <message>
         <location filename="../guiutil.cpp" line="+420"/>
         <location line="+12"/>
-        <source>BlackCoin-Qt</source>
+        <source>bitcoinplus-Qt</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -1138,13 +1138,13 @@ This label turns red, if the priority is smaller than &quot;medium&quot;.
     </message>
     <message>
         <location line="+31"/>
-        <source>Automatically start BlackCoin after logging in to the system.</source>
-        <translation>Automatisch BlackCoin starten beim Einloggen in das System.</translation>
+        <source>Automatically start bitcoinplus after logging in to the system.</source>
+        <translation>Automatisch bitcoinplus starten beim Einloggen in das System.</translation>
     </message>
     <message>
         <location line="+3"/>
-        <source>&amp;Start BlackCoin on system login</source>
-        <translation>&amp;Starte BlackCoin bei Systemstart</translation>
+        <source>&amp;Start bitcoinplus on system login</source>
+        <translation>&amp;Starte bitcoinplus bei Systemstart</translation>
     </message>
     <message>
         <location line="+7"/>
@@ -1163,8 +1163,8 @@ This label turns red, if the priority is smaller than &quot;medium&quot;.
     </message>
     <message>
         <location line="+6"/>
-        <source>Automatically open the BlackCoin client port on the router. This only works when your router supports UPnP and it is enabled.</source>
-        <translation>Automatisch den BlackCoin client port auf dem Router öffnen. Das funktioniert nur wenn der Router UPnP unterstützt und UPnP aktiviert ist.</translation>
+        <source>Automatically open the bitcoinplus client port on the router. This only works when your router supports UPnP and it is enabled.</source>
+        <translation>Automatisch den bitcoinplus client port auf dem Router öffnen. Das funktioniert nur wenn der Router UPnP unterstützt und UPnP aktiviert ist.</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -1173,7 +1173,7 @@ This label turns red, if the priority is smaller than &quot;medium&quot;.
     </message>
     <message>
         <location line="+7"/>
-        <source>Connect to the BlackCoin network through a SOCKS proxy (e.g. when connecting through Tor).</source>
+        <source>Connect to the bitcoinplus network through a SOCKS proxy (e.g. when connecting through Tor).</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -1248,7 +1248,7 @@ This label turns red, if the priority is smaller than &quot;medium&quot;.
     </message>
     <message>
         <location line="+13"/>
-        <source>The user interface language can be set here. This setting will take effect after restarting BlackCoin.</source>
+        <source>The user interface language can be set here. This setting will take effect after restarting bitcoinplus.</source>
         <translation>Die Sprache der GUI kann hier verändert werden. Die Einstellung wird nach einem Neustart übernommen.</translation>
     </message>
     <message>
@@ -1263,8 +1263,8 @@ This label turns red, if the priority is smaller than &quot;medium&quot;.
     </message>
     <message>
         <location line="+9"/>
-        <source>Whether to show BlackCoin addresses in the transaction list or not.</source>
-        <translation>BlackCoin Adressen in der Überweisung anzeigen oder nicht.</translation>
+        <source>Whether to show bitcoinplus addresses in the transaction list or not.</source>
+        <translation>bitcoinplus Adressen in der Überweisung anzeigen oder nicht.</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -1310,7 +1310,7 @@ This label turns red, if the priority is smaller than &quot;medium&quot;.
     <message>
         <location line="-9"/>
         <location line="+9"/>
-        <source>This setting will take effect after restarting BlackCoin.</source>
+        <source>This setting will take effect after restarting bitcoinplus.</source>
         <translation>Diese Einstellung wird nach einem Neustart übernommen.</translation>
     </message>
     <message>
@@ -1329,8 +1329,8 @@ This label turns red, if the priority is smaller than &quot;medium&quot;.
     <message>
         <location line="+33"/>
         <location line="+231"/>
-        <source>The displayed information may be out of date. Your wallet automatically synchronizes with the BlackCoin network after a connection is established, but this process has not completed yet.</source>
-        <translation>Die angezeigte Information kann falsch sein. Die Brieftasche synchronisiert automatisch mit dem BlackCoin Netzwerk nachdem eine Verbindung zustande gekommen ist, aber dieser Prozess ist nicht abgeschlossen.</translation>
+        <source>The displayed information may be out of date. Your wallet automatically synchronizes with the bitcoinplus network after a connection is established, but this process has not completed yet.</source>
+        <translation>Die angezeigte Information kann falsch sein. Die Brieftasche synchronisiert automatisch mit dem bitcoinplus Netzwerk nachdem eine Verbindung zustande gekommen ist, aber dieser Prozess ist nicht abgeschlossen.</translation>
     </message>
     <message>
         <location line="-160"/>
@@ -1545,7 +1545,7 @@ This label turns red, if the priority is smaller than &quot;medium&quot;.
     </message>
     <message>
         <location line="+7"/>
-        <source>Show the BlackCoin-Qt help message to get a list with possible BlackCoin command-line options.</source>
+        <source>Show the bitcoinplus-Qt help message to get a list with possible bitcoinplus command-line options.</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -1565,13 +1565,13 @@ This label turns red, if the priority is smaller than &quot;medium&quot;.
     </message>
     <message>
         <location line="-104"/>
-        <source>BlackCoin - Debug window</source>
-        <translation>BlackCoin - Debug Fenster</translation>
+        <source>bitcoinplus - Debug window</source>
+        <translation>bitcoinplus - Debug Fenster</translation>
     </message>
     <message>
         <location line="+25"/>
-        <source>BlackCoin Core</source>
-        <translation>BlackCoin Kern</translation>
+        <source>bitcoinplus Core</source>
+        <translation>bitcoinplus Kern</translation>
     </message>
     <message>
         <location line="+279"/>
@@ -1580,7 +1580,7 @@ This label turns red, if the priority is smaller than &quot;medium&quot;.
     </message>
     <message>
         <location line="+7"/>
-        <source>Open the BlackCoin debug log file from the current data directory. This can take a few seconds for large log files.</source>
+        <source>Open the bitcoinplus debug log file from the current data directory. This can take a few seconds for large log files.</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -1590,7 +1590,7 @@ This label turns red, if the priority is smaller than &quot;medium&quot;.
     </message>
     <message>
         <location filename="../rpcconsole.cpp" line="-33"/>
-        <source>Welcome to the BlackCoin RPC console.</source>
+        <source>Welcome to the bitcoinplus RPC console.</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -1664,7 +1664,7 @@ This label turns red, if the priority is smaller than &quot;medium&quot;.
         <location line="+86"/>
         <location line="+86"/>
         <location line="+32"/>
-        <source>0.00 BC</source>
+        <source>0.00 XBC</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -1734,7 +1734,7 @@ This label turns red, if the priority is smaller than &quot;medium&quot;.
     </message>
     <message>
         <location line="+16"/>
-        <source>123.456 BC</source>
+        <source>123.456 XBC</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -1749,7 +1749,7 @@ This label turns red, if the priority is smaller than &quot;medium&quot;.
     </message>
     <message>
         <location filename="../sendcoinsdialog.cpp" line="-173"/>
-        <source>Enter a BlackCoin address (e.g. B8gZqgY4r2RoEdqYk3QsAqFckyf9pRHN6i)</source>
+        <source>Enter a bitcoinplus address (e.g. XBC1xGeKnTkaAotEVgs2rnUfVsFv8LVSM)</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -1849,7 +1849,7 @@ This label turns red, if the priority is smaller than &quot;medium&quot;.
     </message>
     <message>
         <location line="+251"/>
-        <source>WARNING: Invalid BlackCoin address</source>
+        <source>WARNING: Invalid bitcoinplus address</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -1893,8 +1893,8 @@ This label turns red, if the priority is smaller than &quot;medium&quot;.
     </message>
     <message>
         <location line="+18"/>
-        <source>The address to send the payment to  (e.g. B8gZqgY4r2RoEdqYk3QsAqFckyf9pRHN6i)</source>
-        <translation>Empfängeradresse (z.b. B8gZqgY4r2RoEdqYk3QsAqFckyf9pRHN6i)</translation>
+        <source>The address to send the payment to  (e.g. XBC1xGeKnTkaAotEVgs2rnUfVsFv8LVSM)</source>
+        <translation>Empfängeradresse (z.b. XBC1xGeKnTkaAotEVgs2rnUfVsFv8LVSM)</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -1923,7 +1923,7 @@ This label turns red, if the priority is smaller than &quot;medium&quot;.
     </message>
     <message>
         <location filename="../sendcoinsentry.cpp" line="+1"/>
-        <source>Enter a BlackCoin address (e.g. B8gZqgY4r2RoEdqYk3QsAqFckyf9pRHN6i)</source>
+        <source>Enter a bitcoinplus address (e.g. XBC1xGeKnTkaAotEVgs2rnUfVsFv8LVSM)</source>
         <translation type="unfinished"/>
     </message>
 </context>
@@ -1947,7 +1947,7 @@ This label turns red, if the priority is smaller than &quot;medium&quot;.
     </message>
     <message>
         <location line="+18"/>
-        <source>The address to sign the message with (e.g. B8gZqgY4r2RoEdqYk3QsAqFckyf9pRHN6i)</source>
+        <source>The address to sign the message with (e.g. XBC1xGeKnTkaAotEVgs2rnUfVsFv8LVSM)</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -1984,8 +1984,8 @@ This label turns red, if the priority is smaller than &quot;medium&quot;.
     </message>
     <message>
         <location line="+21"/>
-        <source>Sign the message to prove you own this BlackCoin address</source>
-        <translation>Signiere die Nachricht um zu beweisen das du Besitzer dieser BlackCoin Adresse bist.</translation>
+        <source>Sign the message to prove you own this bitcoinplus address</source>
+        <translation>Signiere die Nachricht um zu beweisen das du Besitzer dieser bitcoinplus Adresse bist.</translation>
     </message>
     <message>
         <location line="+17"/>
@@ -2011,12 +2011,12 @@ This label turns red, if the priority is smaller than &quot;medium&quot;.
     </message>
     <message>
         <location line="+21"/>
-        <source>The address the message was signed with (e.g. B8gZqgY4r2RoEdqYk3QsAqFckyf9pRHN6i)</source>
+        <source>The address the message was signed with (e.g. XBC1xGeKnTkaAotEVgs2rnUfVsFv8LVSM)</source>
         <translation type="unfinished"/>
     </message>
     <message>
         <location line="+40"/>
-        <source>Verify the message to ensure it was signed with the specified BlackCoin address</source>
+        <source>Verify the message to ensure it was signed with the specified bitcoinplus address</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -2027,7 +2027,7 @@ This label turns red, if the priority is smaller than &quot;medium&quot;.
     <message>
         <location filename="../signverifymessagedialog.cpp" line="+27"/>
         <location line="+3"/>
-        <source>Enter a BlackCoin address (e.g. B8gZqgY4r2RoEdqYk3QsAqFckyf9pRHN6i)</source>
+        <source>Enter a bitcoinplus address (e.g. XBC1xGeKnTkaAotEVgs2rnUfVsFv8LVSM)</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -2037,8 +2037,8 @@ This label turns red, if the priority is smaller than &quot;medium&quot;.
     </message>
     <message>
         <location line="+3"/>
-        <source>Enter BlackCoin signature</source>
-        <translation>BlackCoin Signatur eingeben</translation>
+        <source>Enter bitcoinplus signature</source>
+        <translation>bitcoinplus Signatur eingeben</translation>
     </message>
     <message>
         <location line="+82"/>
@@ -2242,7 +2242,7 @@ This label turns red, if the priority is smaller than &quot;medium&quot;.
     </message>
     <message>
         <location line="+3"/>
-        <source>Generated coins must mature 510 blocks before they can be spent. When you generated this block, it was broadcast to the network to be added to the block chain. If it fails to get into the chain, its state will change to &quot;not accepted&quot; and it won&apos;t be spendable. This may occasionally happen if another node generates a block within a few seconds of yours.</source>
+        <source>Generated coins must mature 110 blocks before they can be spent. When you generated this block, it was broadcast to the network to be added to the block chain. If it fails to get into the chain, its state will change to &quot;not accepted&quot; and it won&apos;t be spendable. This may occasionally happen if another node generates a block within a few seconds of yours.</source>
         <translation>Generierte Coins müssen 510 Bestätigungen erhalten bevor sie verfügbar sind. Dieser Block wurde ans Netzwerk gesendet und der Blockkette angehängt als der Block generiert wurde. Wenn er der Blockkette nicht erfolgreich angehängt werden konnte, wird er den Status in &quot;nicht Akzeptiert&quot; ändern und wird nicht verfügbar sein. Das kann zufällig geschehen wenn eine andere Leitung den Block innerhalb von ein paar Sekunden generiert.</translation>
     </message>
     <message>
@@ -2608,7 +2608,7 @@ This label turns red, if the priority is smaller than &quot;medium&quot;.
     <name>bitcoin-core</name>
     <message>
         <location filename="../bitcoinstrings.cpp" line="+33"/>
-        <source>BlackCoin version</source>
+        <source>bitcoinplus version</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -2618,8 +2618,8 @@ This label turns red, if the priority is smaller than &quot;medium&quot;.
     </message>
     <message>
         <location line="+1"/>
-        <source>Send command to -server or blackcoind</source>
-        <translation>Kommando versenden an -server oder blackcoind </translation>
+        <source>Send command to -server or bitcoinplusd</source>
+        <translation>Kommando versenden an -server oder bitcoinplusd </translation>
     </message>
     <message>
         <location line="+1"/>
@@ -2638,13 +2638,13 @@ This label turns red, if the priority is smaller than &quot;medium&quot;.
     </message>
     <message>
         <location line="+2"/>
-        <source>Specify configuration file (default: blackcoin.conf)</source>
-        <translation>Konfigurationsdatei angeben (Standard: blackcoin.conf)</translation>
+        <source>Specify configuration file (default: bitcoinplus.conf)</source>
+        <translation>Konfigurationsdatei angeben (Standard: bitcoinplus.conf)</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>Specify pid file (default: blackcoind.pid)</source>
-        <translation>PID Datei angeben (Standard: blackcoin.pid)</translation>
+        <source>Specify pid file (default: bitcoinplusd.pid)</source>
+        <translation>PID Datei angeben (Standard: bitcoinplus.pid)</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -2793,8 +2793,8 @@ This label turns red, if the priority is smaller than &quot;medium&quot;.
     </message>
     <message>
         <location line="+61"/>
-        <source>Warning: Please check that your computer&apos;s date and time are correct! If your clock is wrong BlackCoin will not work properly.</source>
-        <translation>Wanung : Bitte prüfen Sie ob Datum und Uhrzeit richtig eingestellt sind. Wenn das Datum falsch ist BlackCoin nicht richtig funktionieren.</translation>
+        <source>Warning: Please check that your computer&apos;s date and time are correct! If your clock is wrong bitcoinplus will not work properly.</source>
+        <translation>Wanung : Bitte prüfen Sie ob Datum und Uhrzeit richtig eingestellt sind. Wenn das Datum falsch ist bitcoinplus nicht richtig funktionieren.</translation>
     </message>
     <message>
         <location line="-31"/>
@@ -2982,13 +2982,13 @@ This label turns red, if the priority is smaller than &quot;medium&quot;.
         <source>%s, you must set a rpcpassword in the configuration file:
  %s
 It is recommended you use the following random password:
-rpcuser=blackcoinrpc
+rpcuser=bitcoinplusrpc
 rpcpassword=%s
 (you do not need to remember this password)
 The username and password MUST NOT be the same.
 If the file does not exist, create it with owner-readable-only file permissions.
 It is also recommended to set alertnotify so you are notified of problems;
-for example: alertnotify=echo %%s | mail -s &quot;BlackCoin Alert&quot; admin@foo.com
+for example: alertnotify=echo %%s | mail -s &quot;bitcoinplus Alert&quot; admin@foo.com
 </source>
         <translation type="unfinished"/>
     </message>
@@ -3114,13 +3114,13 @@ for example: alertnotify=echo %%s | mail -s &quot;BlackCoin Alert&quot; admin@fo
     </message>
     <message>
         <location line="+1"/>
-        <source>Cannot obtain a lock on data directory %s.  BlackCoin is probably already running.</source>
-        <translation>Kann das Verzeichniss nicht einbinden %s. BlackCoin Brieftasche läuft wahrscheinlich bereits.</translation>
+        <source>Cannot obtain a lock on data directory %s.  bitcoinplus is probably already running.</source>
+        <translation>Kann das Verzeichniss nicht einbinden %s. bitcoinplus Brieftasche läuft wahrscheinlich bereits.</translation>
     </message>
     <message>
         <location line="-98"/>
-        <source>BlackCoin</source>
-        <translation>BlackCoin</translation>
+        <source>bitcoinplus</source>
+        <translation>bitcoinplus</translation>
     </message>
     <message>
         <location line="+140"/>
@@ -3154,13 +3154,13 @@ for example: alertnotify=echo %%s | mail -s &quot;BlackCoin Alert&quot; admin@fo
     </message>
     <message>
         <location line="+4"/>
-        <source>Error loading wallet.dat: Wallet requires newer version of BlackCoin</source>
-        <translation>Fehler beim Laden wallet.dat. Brieftasche benötigt neuere Version der BlackCoin Brieftasche.</translation>
+        <source>Error loading wallet.dat: Wallet requires newer version of bitcoinplus</source>
+        <translation>Fehler beim Laden wallet.dat. Brieftasche benötigt neuere Version der bitcoinplus Brieftasche.</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>Wallet needed to be rewritten: restart BlackCoin to complete</source>
-        <translation>Brieftasche muss neu geschrieben werden. Starte die BlackCoin Brieftasche neu zum komplettieren.</translation>
+        <source>Wallet needed to be rewritten: restart bitcoinplus to complete</source>
+        <translation>Brieftasche muss neu geschrieben werden. Starte die bitcoinplus Brieftasche neu zum komplettieren.</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -3229,7 +3229,7 @@ for example: alertnotify=echo %%s | mail -s &quot;BlackCoin Alert&quot; admin@fo
     </message>
     <message>
         <location line="+122"/>
-        <source>Unable to bind to %s on this computer. BlackCoin is probably already running.</source>
+        <source>Unable to bind to %s on this computer. bitcoinplus is probably already running.</source>
         <translation>Fehler beim anbinden %s auf diesem Computer. BlaclCoin Client läuft wahrscheinlich bereits.</translation>
     </message>
     <message>

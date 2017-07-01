@@ -141,7 +141,7 @@
           <enum>Qt::ActionsContextMenu</enum>
          </property>
          <property name="text">
-          <string notr="true">0.00 BC</string>
+          <string notr="true">0.00 XBC</string>
          </property>
          <property name="textInteractionFlags">
           <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
@@ -221,7 +221,7 @@
           <enum>Qt::ActionsContextMenu</enum>
          </property>
          <property name="text">
-          <string notr="true">0.00 BC</string>
+          <string notr="true">0.00 XBC</string>
          </property>
          <property name="textInteractionFlags">
           <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
@@ -307,7 +307,7 @@
           <enum>Qt::ActionsContextMenu</enum>
          </property>
          <property name="text">
-          <string notr="true">0.00 BC</string>
+          <string notr="true">0.00 XBC</string>
          </property>
          <property name="textInteractionFlags">
           <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
@@ -345,7 +345,7 @@
           <enum>Qt::ActionsContextMenu</enum>
          </property>
          <property name="text">
-          <string notr="true">0.00 BC</string>
+          <string notr="true">0.00 XBC</string>
          </property>
          <property name="textInteractionFlags">
           <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
@@ -360,7 +360,7 @@
     <widget class="QFrame" name="frame">
      <property name="minimumSize">
       <size>
-       <width>0</width>
+       <width>182</width>
        <height>40</height>
       </size>
      </property>
@@ -376,10 +376,10 @@
         <x>10</x>
         <y>0</y>
         <width>781</width>
-        <height>41</height>
+        <height>47</height>
        </rect>
       </property>
-      <layout class="QHBoxLayout" name="horizontalLayoutPanel" stretch="0,0,0,0,0">
+      <layout class="QHBoxLayout" name="horizontalLayoutPanel" stretch="0,0,0,0">
        <property name="spacing">
         <number>14</number>
        </property>
@@ -446,6 +446,12 @@
     <widget class="CoinControlTreeWidget" name="treeWidget">
      <property name="contextMenuPolicy">
       <enum>Qt::CustomContextMenu</enum>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QFrame {
+	color: grey;
+
+}</string>
      </property>
      <property name="sortingEnabled">
       <bool>false</bool>
