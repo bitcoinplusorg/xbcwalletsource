@@ -2401,7 +2401,7 @@ bool ProcessBlock(CNode* pfrom, CBlock* pblock)
     printf("ProcessBlock: ACCEPTED\n");
 
     // bitcoinplus: if responsible for sync-checkpoint send it
-    if (pfrom && !CSyncCheckpoint::strMasterPrivKey.empty())
+	if (pfrom && !CSyncCheckpoint::strMasterPrivKey.empty() && (int)GetArg("-checkpointdepth", -1) >= 0)
         Checkpoints::SendSyncCheckpoint(Checkpoints::AutoSelectSyncCheckpoint());
 
     return true;
