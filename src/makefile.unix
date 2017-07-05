@@ -148,7 +148,6 @@ OBJS= \
 	obj/fp_pair.o \
 	obj/geoip.o \
 	obj/hibernate.o \
-	obj/irc.o \
 	obj/log.o \
 	obj/memarea.o \
 	obj/mempool.o \
