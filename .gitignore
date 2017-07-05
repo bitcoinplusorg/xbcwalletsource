@@ -8,6 +8,7 @@ debug/*
 *.Debug
 *.Release
 bitcoinplus2-qt_plugin_import.cpp
+bitcoinplus-qt_plugin_import.cpp
 .*.swp
 *.*~*
 *.bak
