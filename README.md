@@ -5,7 +5,7 @@ Native Tor and onboard wallet P2P messaging
 
 https://bitcointalk.org/index.php?topic=1066201.0
 
-www.bitcoinplus.org
+https://bitcoinplus.org
 
 https://twitter.com/bitcoinplusorg
 
