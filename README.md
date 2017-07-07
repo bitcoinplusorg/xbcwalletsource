@@ -1,8 +1,12 @@
-bitcoinplus (XBC)
+Coin Name: Bitcoinplus / Exchange Ticker Symbol: [XBC]
 
-bitcointalk.org/index.php?topic=714606.0
 
-www.bitcoinplus.org
+Proof of stake/Proof of work x13 Hybrid
+Native Tor and onboard wallet P2P messaging
+Bitcointalk Thread https://bitcointalk.org/index.php?topic=1066201.0
+Website www.bitcoinplus.org
+Twitter https://twitter.com/bitcoinplusorg
+
 
 ===================================
 
