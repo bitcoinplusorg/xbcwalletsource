@@ -46,7 +46,31 @@ public:
 
     friend inline bool operator==(const base_blob& a, const base_blob& b) { return a.Compare(b) == 0; }
     friend inline bool operator!=(const base_blob& a, const base_blob& b) { return a.Compare(b) != 0; }
-    friend inline bool operator<(const base_blob& a, const base_blob& b) { return a.Compare(b) < 0; }
+    friend inline bool operator<(const base_blob& a, const base_blob& b)
+    {
+        for (int i = base_blob::WIDTH-1; i >= 0; i--)
+        {
+            if (a.data[i] < b.data[i])
+                return true;
+            else if (a.data[i] > b.data[i])
+                return false;
+        }
+        return false;
+    }
+    friend inline bool operator>(const base_blob& a, const base_blob& b)
+    {
+        for (int i = base_blob::WIDTH-1; i >= 0; i--)
+        {
+            if (a.data[i] > b.data[i])
+                return true;
+            else if (a.data[i] < b.data[i])
+                return false;
+        }
+        return false;
+    }
+
+    friend inline base_blob operator<<(const base_blob& a, const base_blob& b) { return a << b; }
+    friend inline base_blob operator>>(const base_blob& a, const base_blob& b) { return a >> b; }
 
     std::string GetHex() const;
     void SetHex(const char* psz);
@@ -107,6 +131,8 @@ public:
     {
         s.read((char*)data, sizeof(data));
     }
+
+    friend class uint512;
 };
 
 /** 160-bit opaque blob.
@@ -140,6 +166,37 @@ public:
     {
         return ReadLE64(data);
     }
+
+    friend inline bool operator>(const uint256& a, const uint256& b)
+    {
+        for (int i = (256>>3)-1; i >= 0; i--)
+        {
+            if (a.data[i] > b.data[i])
+                return true;
+            else if (a.data[i] < b.data[i])
+                return false;
+        }
+        return false;
+    }
+};
+
+/**
+ * 512-bit opaque blob.
+ */
+class uint512 : public base_blob<512> {
+public:
+    uint512() {}
+    uint512(const base_blob<512>& b) : base_blob<512>(b) {}
+    explicit uint512(const std::vector<unsigned char>& vch) : base_blob<512>(vch) {}
+
+    uint256 trim256() const
+    {
+        uint256 ret;
+        for (unsigned int i = 0; i < uint256::WIDTH; i++){
+            ret.data[i] = data[i];
+        }
+        return ret;
+    }
 };
 
 /* uint256 from const char *.
@@ -162,5 +219,6 @@ inline uint256 uint256S(const std::string& str)
     rv.SetHex(str);
     return rv;
 }
+uint256 Uint512ToUint256(const uint512 &a);
 
 #endif // BITCOIN_UINT256_H

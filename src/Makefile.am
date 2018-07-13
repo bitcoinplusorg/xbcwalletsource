@@ -249,15 +249,28 @@ crypto_libbitcoin_crypto_a_SOURCES = \
 libbitcoin_consensus_a_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES)
 libbitcoin_consensus_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
 libbitcoin_consensus_a_SOURCES = \
+  aes_helper.c \
   amount.h \
+  blake.c \
+  bmw.c \
   arith_uint256.cpp \
   arith_uint256.h \
   consensus/merkle.cpp \
   consensus/merkle.h \
   consensus/params.h \
   consensus/validation.h \
+  cubehash.c \
+  echo.c \
+  fugue.c \
+  groestl.c \
+  hamsi_helper.c \
+  hamsi.c \
+  hashblock.h \
   hash.cpp \
   hash.h \
+  jh.c \
+  keccak.c \
+  luffa.c \
   prevector.h \
   primitives/block.cpp \
   primitives/block.h \
@@ -273,6 +286,23 @@ libbitcoin_consensus_a_SOURCES = \
   script/script_error.cpp \
   script/script_error.h \
   serialize.h \
+  shavite.c \
+  simd.c \
+  skein.c \
+  sph_blake.h \
+  sph_bmw.h \
+  sph_cubehash.h \
+  sph_echo.h \
+  sph_fugue.h \
+  sph_groestl.h \
+  sph_hamsi.h \
+  sph_jh.h \
+  sph_keccak.h \
+  sph_luffa.h \
+  sph_shavite.h \
+  sph_simd.h \
+  sph_skein.h \
+  sph_types.h \
   tinyformat.h \
   uint256.cpp \
   uint256.h \
