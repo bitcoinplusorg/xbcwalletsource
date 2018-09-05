@@ -7,71 +7,105 @@
 
 #include "arith_uint256.h"
 #include "chain.h"
+#include "chainparams.h"
 #include "primitives/block.h"
 #include "uint256.h"
+#include "key.h"
+#include "main.h"
 
-unsigned int GetNextWorkRequired(const CBlockIndex* pindexLast, const CBlockHeader *pblock, const Consensus::Params& params)
+arith_uint256 bnProofOfStakeLimit(~arith_uint256() >> 20);
+arith_uint256 bnProofOfWorkFirstBlock(~arith_uint256() >> 30);
+
+unsigned int static GetNextWorkRequired_legacy(const CBlockIndex* pindexLast)
 {
-    unsigned int nProofOfWorkLimit = UintToArith256(params.powLimit).GetCompact();
+    CBigNum bnTargetLimit = CBigNum(ArithToUint256(bnProofOfStakeLimit));
+    unsigned int nRetarget = 30;
+    int64_t nPowTargetTimespan_legacy = Params().GetConsensus().nPowTargetSpacing * nRetarget;
+    int64_t nInterval = nPowTargetTimespan_legacy / Params().GetConsensus().nPowTargetSpacing;
 
     // Genesis block
     if (pindexLast == NULL)
-        return nProofOfWorkLimit;
+        return bnProofOfWorkFirstBlock.GetCompact();
 
-    // Only change once per difficulty adjustment interval
-    if ((pindexLast->nHeight+1) % params.DifficultyAdjustmentInterval() != 0)
+    // Only change once per interval
+    if ((pindexLast->nHeight+1) % nInterval != 0)
     {
-        if (params.fPowAllowMinDifficultyBlocks)
-        {
-            // Special difficulty rule for testnet:
-            // If the new block's timestamp is more than 2* 10 minutes
-            // then allow mining of a min-difficulty block.
-            if (pblock->GetBlockTime() > pindexLast->GetBlockTime() + params.nPowTargetSpacing*2)
-                return nProofOfWorkLimit;
-            else
-            {
-                // Return the last non-special-min-difficulty-rules-block
-                const CBlockIndex* pindex = pindexLast;
-                while (pindex->pprev && pindex->nHeight % params.DifficultyAdjustmentInterval() != 0 && pindex->nBits == nProofOfWorkLimit)
-                    pindex = pindex->pprev;
-                return pindex->nBits;
-            }
-        }
+        // Special difficulty rule for testnet:
         return pindexLast->nBits;
     }
 
+    // This fixes an issue where a 51% attack can change difficulty at will.
+    // Go back the full period unless it's the first retarget after genesis. Code courtesy of Art Forz
+    int blockstogoback = nInterval-1;
+    if ((pindexLast->nHeight+1) != nInterval)
+        blockstogoback = nInterval;
+
     // Go back by what we want to be 14 days worth of blocks
-    int nHeightFirst = pindexLast->nHeight - (params.DifficultyAdjustmentInterval()-1);
-    assert(nHeightFirst >= 0);
-    const CBlockIndex* pindexFirst = pindexLast->GetAncestor(nHeightFirst);
+    const CBlockIndex* pindexFirst = pindexLast;
+    for (int i = 0; pindexFirst && i < blockstogoback; i++)
+        pindexFirst = pindexFirst->pprev;
     assert(pindexFirst);
 
-    return CalculateNextWorkRequired(pindexLast, pindexFirst->GetBlockTime(), params);
-}
-
-unsigned int CalculateNextWorkRequired(const CBlockIndex* pindexLast, int64_t nFirstBlockTime, const Consensus::Params& params)
-{
-    if (params.fPowNoRetargeting)
-        return pindexLast->nBits;
-
     // Limit adjustment step
-    int64_t nActualTimespan = pindexLast->GetBlockTime() - nFirstBlockTime;
-    if (nActualTimespan < params.nPowTargetTimespan/4)
-        nActualTimespan = params.nPowTargetTimespan/4;
-    if (nActualTimespan > params.nPowTargetTimespan*4)
-        nActualTimespan = params.nPowTargetTimespan*4;
+    int64_t nActualTimespan = pindexLast->GetBlockTime() - pindexFirst->GetBlockTime();
+    if (nActualTimespan < Params().GetConsensus().nPowTargetTimespan/4)
+        nActualTimespan = Params().GetConsensus().nPowTargetTimespan/4;
+    if (nActualTimespan > Params().GetConsensus().nPowTargetTimespan*4)
+        nActualTimespan = Params().GetConsensus().nPowTargetTimespan*4;
 
     // Retarget
-    const arith_uint256 bnPowLimit = UintToArith256(params.powLimit);
-    arith_uint256 bnNew;
+    CBigNum bnNew;
     bnNew.SetCompact(pindexLast->nBits);
     bnNew *= nActualTimespan;
-    bnNew /= params.nPowTargetTimespan;
+    bnNew /= Params().GetConsensus().nPowTargetTimespan;
 
-    if (bnNew > bnPowLimit)
-        bnNew = bnPowLimit;
+    if (bnNew > bnTargetLimit)
+        bnNew = bnTargetLimit;
 
     return bnNew.GetCompact();
+}
+
+ unsigned int GetNextWorkRequired_DGW(const CBlockIndex* pindexLast, bool fProofOfStake)
+ {
+     CBigNum bnTargetLimit = CBigNum(ArithToUint256(bnProofOfStakeLimit));
+
+     if (pindexLast == NULL)
+         return bnTargetLimit.GetCompact(); // genesis block
+
+     const CBlockIndex* pindexPrev = GetLastBlockIndex(pindexLast, fProofOfStake);
+     if (pindexPrev->pprev == NULL)
+         return bnTargetLimit.GetCompact(); // first block
+     const CBlockIndex* pindexPrevPrev = GetLastBlockIndex(pindexPrev->pprev, fProofOfStake);
+     if (pindexPrevPrev->pprev == NULL)
+         return bnTargetLimit.GetCompact(); // second block
+
+     int64_t nActualSpacing = pindexPrev->GetBlockTime() - pindexPrevPrev->GetBlockTime();
+
+     if (nActualSpacing < 0)
+         nActualSpacing = Params().GetConsensus().nPowTargetSpacing;
+
+     // target change every block
+     // retarget with exponential moving toward target spacing
+     // Includes fix for wrong retargeting difficulty by Mammix2
+
+     CBigNum bnNew;
+     bnNew.SetCompact(pindexPrev->nBits);
+     CBigNum nInterval = (Params().GetConsensus().nPowTargetTimespan) / (Params().GetConsensus().nPowTargetSpacing);
+     bnNew *= ((nInterval - 1) * Params().GetConsensus().nPowTargetSpacing + nActualSpacing + nActualSpacing);
+     bnNew /= ((nInterval + 1) * Params().GetConsensus().nPowTargetSpacing);
+
+     if (bnNew <= 0 || bnNew > bnTargetLimit)
+         bnNew = bnTargetLimit;
+
+     return bnNew.GetCompact();
+ }
+
+unsigned int GetNextWorkRequired(const CBlockIndex* pindexLast, bool fProofOfStake)
+{
+    if(pindexLast->nHeight + 1 > 200)
+        return GetNextWorkRequired_DGW(pindexLast, fProofOfStake);
+    else
+        return GetNextWorkRequired_legacy(pindexLast);
 }
 
 bool CheckProofOfWork(uint256 hash, unsigned int nBits, const Consensus::Params& params)
