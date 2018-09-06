@@ -9,10 +9,10 @@ static const int P2_Start = 114602; // Phase 2 PoW start
 static const int P2_End = 400000; // Phase 2 PoW end. 0 Coin reward PoW mining enabled. Incase of PoS diff drop
 
 
-static const int RP1_End_TestNet = 150;
-static const int P1_Start_TestNet = 160;
-static const int P2_Start_TestNet = 200; // Phase 2 PoW start
-static const int P2_End_TestNet = 300; // Phase 2 PoW end. 0 Coin reward PoW mining enabled. Incase of PoS diff drop
+static const int RP1_End_TestNet = 60000;
+static const int P1_Start_TestNet = 100602;
+static const int P2_Start_TestNet = 114602; // Phase 2 PoW start
+static const int P2_End_TestNet = 400000; // Phase 2 PoW end. 0 Coin reward PoW mining enabled. Incase of PoS diff drop
 
 
 #endif // POW_CONTROL_H
