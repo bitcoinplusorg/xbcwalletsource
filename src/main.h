@@ -40,8 +40,6 @@ static const int64_t MAX_MONEY = 1000000 * COIN;
 static const int64_t POS_STAKE_REWARD = 1 * CENT;
 static const int64_t MAX_MINT_PROOF_OF_STAKE = 0.20 * COIN;	// 20% annual interest
 static const int V2_CHAIN_PARAMS_TIME = 1455825600; // V2 chain switch, Thu, 18 Feb 2016 20:00:00 GMT
-#define FOUNDATION "0x"
-#define FOUNDATION_TEST "0x"
 
 inline bool MoneyRange(int64_t nValue) { return (nValue >= 0 && nValue <= MAX_MONEY); }
 // Threshold for nLockTime: below this value it is interpreted as block number, otherwise as UNIX timestamp.
@@ -71,7 +69,6 @@ inline int64_t FutureDrift(int64_t nTime) {
         }
 }
 
-extern int64_t devCoin;
 extern CScript COINBASE_FLAGS;
 extern CCriticalSection cs_main;
 extern std::map<uint256, CBlockIndex*> mapBlockIndex;
