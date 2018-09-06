@@ -2625,15 +2625,9 @@ bool LoadBlockIndex(bool fAllowNew)
                    }
                }
         }
-        block.print();
-        printf("block.GetHash() == %s\n", block.GetHash().ToString().c_str());
-        printf("block.hashMerkleRoot == %s\n", block.hashMerkleRoot.ToString().c_str());
-        printf("block.nTime = %u \n", block.nTime);
-        printf("block.nNonce = %u \n", block.nNonce);
 
         //// debug print
         assert(block.hashMerkleRoot == uint256("81d205aec871e7998b1313f195603159a2e6388ced896536dce76bf1410fc039"));
-        block.print();
         assert(block.GetHash() == (!fTestNet ? hashGenesisBlock : hashGenesisBlockTestNet));
         assert(block.CheckBlock());
         // Start new block file
