@@ -4883,6 +4883,51 @@ uint32_t GetFetchFlags(CNode* pfrom, CBlockIndex* pprev, const Consensus::Params
     return nFetchFlags;
 }
 
+string setSubVerString(int version, string subVer) {
+    switch (version) {
+        case 80002:
+            return "/bitcoinplus:2.5.0/";
+        case 80003:
+            return "/bitcoinplus:2.6.0/";
+        case 80004:
+            return "/bitcoinplus:2.6.1/";
+        case 80005:
+            return "/bitcoinplus:2.6.2/";
+        case 80006:
+            return "/bitcoinplus:2.6.3/";
+        case 80007:
+            return "/bitcoinplus:2.6.4/";
+        case 80008:
+            return "/bitcoinplus:2.6.5/";
+        case 80010:
+            return "/bitcoinplus:2.7.0/";
+        case 80011:
+            return "/bitcoinplus:2.7.1/";
+        case 80012:
+            return "/bitcoinplus:2.7.2/";
+        case 80013:
+            return "/bitcoinplus:2.7.3/";
+        case 80014:
+            return "/bitcoinplus:2.7.4/";
+        case 80015:
+            return "/bitcoinplus:2.7.5/";
+        case 80016:
+            return "/bitcoinplus:2.8.0/";
+        case 80017:
+            return "/bitcoinplus:2.8.1/";
+        case 80018:
+            return "/bitcoinplus:2.8.2/";
+        case 80019:
+            return "/bitcoinplus:2.8.3/";
+        case 80020:
+            return "/bitcoinplus:2.8.4/";
+        case 80021:
+            return "/bitcoinplus:2.8.5/";
+        default:
+            return SanitizeString(subVer);
+    }
+}
+
 bool static ProcessMessage(CNode* pfrom, string strCommand, CDataStream& vRecv, int64_t nTimeReceived, const CChainParams& chainparams)
 {
     LogPrint("net", "received: %s (%u bytes) peer=%d\n", SanitizeString(strCommand), vRecv.size(), pfrom->id);
@@ -4961,11 +5006,17 @@ bool static ProcessMessage(CNode* pfrom, string strCommand, CDataStream& vRecv, 
         if (!vRecv.empty())
             vRecv >> addrFrom >> nNonce;
         if (!vRecv.empty()) {
-            vRecv >> LIMITED_STRING(pfrom->strSubVer, MAX_SUBVERSION_LENGTH);
-            pfrom->cleanSubVer = SanitizeString(pfrom->strSubVer);
+            try
+            {
+                vRecv >> LIMITED_STRING(pfrom->strSubVer, MAX_SUBVERSION_LENGTH);
+            }
+            catch (...) {}
         }
+        pfrom->cleanSubVer = setSubVerString(pfrom->nVersion, pfrom->strSubVer);
         if (!vRecv.empty()) {
             vRecv >> pfrom->nStartingHeight;
+            if (pfrom->nVersion < 80010)
+                pfrom->nStartingHeight = -1;
         }
         {
             LOCK(pfrom->cs_filter);
