@@ -66,6 +66,7 @@ public:
         consensus.powLimit = uint256S("00000fffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
         consensus.nPowTargetTimespan = 16 * 60; // 16 minutes
         consensus.nPowTargetSpacing = 60;
+        consensus.nLastPOWBlock = 400000;
         consensus.nStakeMinAge = 12 * 60 * 60;
         consensus.nModifierInterval = 10 * 60;
         consensus.nStakeSplitAge = 24 * 60 * 60;
@@ -156,6 +157,7 @@ public:
         consensus.powLimit = uint256S("00000fffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
         consensus.nPowTargetTimespan = 16 * 60; // 16 minutes
         consensus.nPowTargetSpacing = 60;
+        consensus.nLastPOWBlock = 400000;
         consensus.nStakeMinAge = 30;
         consensus.nModifierInterval = 60;
         consensus.nStakeSplitAge = 24 * 60 * 60;

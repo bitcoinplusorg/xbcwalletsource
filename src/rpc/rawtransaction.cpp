@@ -209,7 +209,7 @@ UniValue getrawtransaction(const UniValue& params, bool fHelp)
     if (!GetTransaction(hash, tx, Params().GetConsensus(), hashBlock, true))
         throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "No information available about transaction");
 
-    string strHex = EncodeHexTx(tx, RPCSerializationFlags());
+    string strHex = EncodeHexTx(tx);
 
     if (!fVerbose)
         return strHex;
@@ -489,7 +489,7 @@ UniValue decoderawtransaction(const UniValue& params, bool fHelp)
             "         \"reqSigs\" : n,            (numeric) The required sigs\n"
             "         \"type\" : \"pubkeyhash\",  (string) The type, eg 'pubkeyhash'\n"
             "         \"addresses\" : [           (json array of string)\n"
-            "           \"B7G6K9XdZJruGYgWtFwkgtqnZwcznTAB4R\"   (string) bitcoin address\n"
+            "           \"B7G6K9XdZJruGYgWtFwkgtqnZwcznTAB4R\"   (string) bitcoinplus address\n"
             "           ,...\n"
             "         ]\n"
             "       }\n"
