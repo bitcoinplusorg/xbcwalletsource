@@ -460,7 +460,7 @@ struct CMutableTransaction
     CTxWitness wit;
     uint32_t nLockTime;
 
-    CMutableTransaction();
+    CMutableTransaction(int nTime = 0);
     CMutableTransaction(const CTransaction& tx);
 
     ADD_SERIALIZE_METHODS;

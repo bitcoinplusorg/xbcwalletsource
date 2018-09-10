@@ -164,7 +164,7 @@ private:
 public:
     BlockAssembler(const CChainParams& chainparams);
     /** Construct a new block template with coinbase to scriptPubKeyIn */
-    CBlockTemplate* CreateNewBlock(const CScript& scriptPubKeyIn, bool fProofOfStake);
+    CBlockTemplate* CreateNewBlock(const CScript& scriptPubKeyIn, bool fProofOfStake = false, uint64_t* pFees = 0);
 
 private:
     // utility functions
@@ -175,7 +175,7 @@ private:
 
     // Methods for how to add transactions to a block.
     /** Add transactions based on tx "priority" */
-    void addPriorityTxs();
+    void addPriorityTxs(bool fProofOfStake, int blockTime);
     /** Add transactions based on feerate including unconfirmed ancestors */
     void addPackageTxs();
 
@@ -208,5 +208,14 @@ private:
 /** Modify the extranonce in a block */
 void IncrementExtraNonce(CBlock* pblock, const CBlockIndex* pindexPrev, unsigned int& nExtraNonce);
 int64_t UpdateTime(CBlockHeader* pblock, const Consensus::Params& consensusParams, const CBlockIndex* pindexPrev);
+
+/** Sign proof-of-stake block */
+bool SignBlock(CBlock *pblock, CWallet& wallet, int64_t nFees);
+
+/** Check mined proof-of-stake block */
+bool CheckStake(CBlock* pblock, CWallet& wallet, const CChainParams& chainparams);
+
+/** Generate proof-of-stake block */
+void BitcoinStaker(const CChainParams& chainparams);
 
 #endif // BITCOIN_MINER_H

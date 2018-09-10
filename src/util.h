@@ -140,6 +140,8 @@ inline bool IsSwitchChar(char c)
 #endif
 }
 
+void SetThreadPriority(int nPriority);
+
 /**
  * Return string argument or default value
  *

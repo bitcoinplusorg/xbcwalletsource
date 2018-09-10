@@ -508,6 +508,7 @@ extern CCoinsViewCache *pcoinsTip;
 
 /** Global variable that points to the active block tree (protected by cs_main) */
 extern CBlockTreeDB *pblocktree;
+extern uint256 hashBestChain;
 
 /**
  * Return the spend height, which is one more than the inputs.GetBestBlock().
@@ -550,5 +551,11 @@ bool CheckStakeKernelHash(unsigned int nBits, CBlock& blockFrom, unsigned int nT
 
 // Compute the hash modifier for proof-of-stake
 bool ComputeNextStakeModifier(const CBlockIndex* pindexPrev, uint64_t& nStakeModifier, bool& fGeneratedStakeModifier);
+
+// Get time weight using supplied timestamps
+int64_t GetWeight(int64_t nIntervalBeginning, int64_t nIntervalEnd);
+
+int64_t PastDrift(int64_t nTime);
+int64_t FutureDrift(int64_t nTime);
 
 #endif // BITCOIN_MAIN_H
