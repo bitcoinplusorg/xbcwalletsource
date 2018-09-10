@@ -15,6 +15,9 @@ static const int SERIALIZE_TRANSACTION_NO_WITNESS = 0x40000000;
 
 static const int WITNESS_SCALE_FACTOR = 4;
 
+class CWalletTx;
+class CMerkleTx;
+
 /** An outpoint - a combination of a transaction hash and an index n into its vout */
 class COutPoint
 {
@@ -160,6 +163,11 @@ public:
         return (nValue == -1);
     }
 
+    bool IsEmpty() const
+    {
+        return (nValue == 0 && scriptPubKey.empty());
+    }
+
     uint256 GetHash() const;
 
     CAmount GetDustThreshold(const CFeeRate &minRelayTxFee) const
@@ -291,6 +299,7 @@ struct CMutableTransaction;
 template<typename Stream, typename Operation, typename TxType>
 inline void SerializeTransaction(TxType& tx, Stream& s, Operation ser_action, int nType, int nVersion) {
     READWRITE(*const_cast<int32_t*>(&tx.nVersion));
+    READWRITE(*const_cast<unsigned int*>(&tx.nTime));
     unsigned char flags = 0;
     if (ser_action.ForRead()) {
         const_cast<std::vector<CTxIn>*>(&tx.vin)->clear();
@@ -349,10 +358,6 @@ inline void SerializeTransaction(TxType& tx, Stream& s, Operation ser_action, in
  */
 class CTransaction
 {
-private:
-    /** Memory only. */
-    const uint256 hash;
-
 public:
     // Default transaction version.
     static const int32_t CURRENT_VERSION=1;
@@ -369,10 +374,12 @@ public:
     // and bypass the constness. This is safe, as they update the entire
     // structure, including the hash.
     const int32_t nVersion;
-    const std::vector<CTxIn> vin;
-    const std::vector<CTxOut> vout;
+    unsigned int nTime;
+    std::vector<CTxIn> vin;
+    std::vector<CTxOut> vout;
     CTxWitness wit; // Not const: can change without invalidating the txid cache
     const uint32_t nLockTime;
+    const uint256 hash;
 
     /** Construct a CTransaction that qualifies as IsNull() */
     CTransaction();
@@ -419,6 +426,12 @@ public:
         return (vin.size() == 1 && vin[0].prevout.IsNull());
     }
 
+    bool IsCoinStake() const
+    {
+        // The coin stake transaction is marked with the first output empty
+        return (vin.size() > 0 && (!vin[0].prevout.IsNull()) && vout.size() >= 2 && vout[0].IsEmpty());
+    }
+
     friend bool operator==(const CTransaction& a, const CTransaction& b)
     {
         return a.hash == b.hash;
@@ -432,12 +445,16 @@ public:
     std::string ToString() const;
 
     void UpdateHash() const;
+
+    friend CWalletTx;
+    friend CMerkleTx;
 };
 
 /** A mutable version of CTransaction. */
 struct CMutableTransaction
 {
     int32_t nVersion;
+    unsigned int nTime;
     std::vector<CTxIn> vin;
     std::vector<CTxOut> vout;
     CTxWitness wit;
@@ -453,10 +470,22 @@ struct CMutableTransaction
         SerializeTransaction(*this, s, ser_action, nType, nVersion);
     }
 
+    bool IsCoinBase() const
+    {
+        return (vin.size() == 1 && vin[0].prevout.IsNull());
+    }
+
+    bool IsCoinStake() const
+    {
+        // ppcoin: the coin stake transaction is marked with the first output empty
+        return (vin.size() > 0 && (!vin[0].prevout.IsNull()) && vout.size() >= 2 && vout[0].IsEmpty());
+    }
+
     /** Compute the hash of this CMutableTransaction. This is computed on the
      * fly, as opposed to GetHash() in CTransaction, which uses a cached result.
      */
     uint256 GetHash() const;
+    std::string ToString() const;
 };
 
 /** Compute the weight of a transaction, as defined by BIP 141 */
