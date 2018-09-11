@@ -657,6 +657,11 @@ void BitcoinStaker(const CChainParams& chainparams)
                 } while (true);
             }
 
+            while (!fStaking)
+            {
+                MilliSleep(1000);
+            }
+
             while (pwalletMain->IsLocked())
             {
                 nLastCoinStakeSearchInterval = 0;
@@ -797,4 +802,12 @@ bool CheckStake(CBlock* pblock, CWallet& wallet, const CChainParams& chainparams
     }
 
     return true;
+}
+
+void SetStaking(bool mode) {
+    fStaking = mode;
+}
+
+bool GetStaking() {
+    return fStaking;
 }

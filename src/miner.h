@@ -23,6 +23,7 @@ class CWallet;
 namespace Consensus { struct Params; };
 
 static const bool DEFAULT_PRINTPRIORITY = false;
+static bool fStaking;
 extern uint64_t nLastCoinStakeSearchInterval;
 
 struct CBlockTemplate
@@ -218,5 +219,9 @@ bool CheckStake(CBlock* pblock, CWallet& wallet, const CChainParams& chainparams
 
 /** Generate proof-of-stake block */
 void BitcoinStaker(const CChainParams& chainparams);
+
+/** Getter and setter for staking status */
+void SetStaking(bool mode);
+bool GetStaking();
 
 #endif // BITCOIN_MINER_H

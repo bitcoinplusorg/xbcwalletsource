@@ -615,7 +615,7 @@ UniValue getstakinginfo(const UniValue& params, bool fHelp)
 
     UniValue obj(UniValue::VOBJ);
 
-    obj.push_back(Pair("enabled", GetBoolArg("-staking", true)));
+    obj.push_back(Pair("enabled", GetStaking()));
     obj.push_back(Pair("staking", staking));
     obj.push_back(Pair("errors", GetWarnings("statusbar")));
 
