@@ -30,7 +30,7 @@
 #if (0 == SIZEOF_PID_T) && defined(_WIN32)
 /* Windows does not define pid_t sometimes, but _getpid() returns an int.
  * Everybody else needs to have a pid_t. */
-typedef int pid_t;
+//typedef int pid_t;
 #define PID_T_FORMAT "%d"
 #elif (SIZEOF_PID_T == SIZEOF_INT) || (SIZEOF_PID_T == SIZEOF_SHORT)
 #define PID_T_FORMAT "%d"

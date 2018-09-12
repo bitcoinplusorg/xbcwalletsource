@@ -2,9 +2,16 @@
 
 
 TEMPLATE = app
-TARGET = bitcoinplus-qt
+DEFINES += fName1 fName2
+fName1 = "bitcoinplus"
 macx:TARGET = "bitcoinplus-Qt"
 VERSION = 2.6.0.0
+QMAKE_TARGET_BUNDLE_PREFIX = co.boostcoin
+contains(QT_ARCH, i386) {
+    fName2 = "-qt-x86-v"
+} else {
+    fName2 = "-qt-x64-v"
+}
 INCLUDEPATH += src src/json \
     src/qt \
     src/qt/plugins/mrichtexteditor \
@@ -14,7 +21,7 @@ INCLUDEPATH += src src/json \
 QT += core gui network
 DEFINES += QT_GUI BOOST_THREAD_USE_LIB BOOST_SPIRIT_THREADSAFE
 CONFIG += no_include_pwd
-CONFIG += thread
+CONFIG += thread warn_off
 
 lessThan(QT_MAJOR_VERSION, 5) {
     CONFIG += static
@@ -27,24 +34,63 @@ greaterThan(QT_MAJOR_VERSION, 4) {
 }
 
 win32 {
-    BOOST_LIB_SUFFIX=-mgw49-mt-s-1_57
-    BOOST_INCLUDE_PATH=C:/deps/boost_1_57_0
-    BOOST_LIB_PATH=C:/deps/boost_1_57_0/stage/lib
-    BDB_INCLUDE_PATH=C:/deps/db-4.8.30.NC/build_unix
-    BDB_LIB_PATH=C:/deps/db-4.8.30.NC/build_unix
-    OPENSSL_INCLUDE_PATH=C:/deps/openssl-1.0.2l/include
-    OPENSSL_LIB_PATH=C:/deps/openssl-1.0.2l
-    MINIUPNPC_INCLUDE_PATH=C:/deps/
-    MINIUPNPC_LIB_PATH=C:/deps/miniupnpc
-    QRENCODE_INCLUDE_PATH=C:/deps/qrencode-3.4.4
-    QRENCODE_LIB_PATH=C:/deps/qrencode-3.4.4/.libs
-    PNG_LIB_PATH=C:/deps/libpng-1.6.16/.libs
-	LIBEVENT_INCLUDE_PATH=c:/deps/event2
-	LIBEVENT_LIB_PATH=c:/deps/event2/lib
-	
-    LIBS += -lshlwapi
-    LIBS += -lssl -lcrypto -ldb_cxx$$BDB_LIB_SUFFIX -lcrypt32
-    LIBS += -lws2_32 -lole32 -loleaut32 -luuid -lgdi32
+TARGET = $$fName1$$fName2$$VERSION
+    ## Windows common build here
+
+    contains(QT_ARCH, i386) {
+        message("32-Bit build")
+        message("Target build name:" $$TARGET)
+
+
+        BOOST_LIB_SUFFIX=-mgw63-mt-d-1_63
+        BOOST_INCLUDE_PATH=C:/tools/boost/x86/include/boost-1_63
+        BOOST_LIB_PATH=C:/tools/boost/x86/lib
+
+        BDB_INCLUDE_PATH=C:/deps/db-4.8.30.NC/build_unix
+        BDB_LIB_PATH=C:/deps/db-4.8.30.NC/build_unix
+
+        OPENSSL_INCLUDE_PATH=C:/tools/openssl/x86/include
+        OPENSSL_LIB_PATH=C:/tools/openssl/x86/lib
+
+        MINIUPNPC_INCLUDE_PATH=C:/deps/
+        MINIUPNPC_LIB_PATH=C:/deps/miniupnpc
+
+#        QRENCODE_INCLUDE_PATH=C:/deps/qrencode-3.4.4
+#        QRENCODE_LIB_PATH=C:/deps/qrencode-3.4.4/.libs
+
+        LEVELDB_INCLUDE_PATH+="C:/tools/leveldb/leveldb/include" "C:/tools/leveldb/leveldb/helpers"
+        LEVELDB_LIB_PATH=C:/tools/leveldb/x86
+        LIBS += "C:/tools/leveldb/x86/libleveldb.a" "C:/tools/leveldb/x86/libmemenv.a"
+
+
+    } else {
+TARGET = $$fName1$$fName2$$VERSION
+        message("64-Bit build")
+        message("Target build name:" $$TARGET)
+        BOOST_LIB_SUFFIX=-mgw63-mt-d-1_63
+        BOOST_INCLUDE_PATH=C:/tools/boost/x64/include/boost-1_63
+        BOOST_LIB_PATH=C:/tools/boost/x64/lib
+
+        BDB_INCLUDE_PATH=C:/tools/berkeley-db/db4/x64/include
+        BDB_LIB_PATH=C:/tools/berkeley-db/db4/x64/lib
+
+        OPENSSL_INCLUDE_PATH=C:/tools/openssl/x64/include
+        OPENSSL_LIB_PATH=C:/tools/openssl/x64/lib
+
+        MINIUPNPC_INCLUDE_PATH=C:/tools/miniupnpc
+        MINIUPNPC_LIB_PATH=C:/tools/miniupnpc/miniupnpc
+
+        QRENCODE_INCLUDE_PATH=C:/tools/qrencode/x64/include
+        QRENCODE_LIB_PATH=C:/tools/qrencode/x64/lib
+
+        LIBEVENT_INCLUDE_PATH=C:/tools/libevent/x64/include
+        LIBEVENT_LIB_PATH=C:/tools/libevent/x64/lib
+
+        LEVELDB_INCLUDE_PATH+="C:/tools/leveldb/leveldb/include" "C:/tools/leveldb/leveldb/helpers"
+        LEVELDB_LIB_PATH=C:/tools/leveldb/x64
+        LIBS += "C:/tools/leveldb/x64/libleveldb.a" "C:/tools/leveldb/x64/libmemenv.a"
+
+    }
 }
 
 # for boost 1.37, add -mt to the boost libraries
@@ -82,10 +128,11 @@ QMAKE_LFLAGS *= -fstack-protector-all --param ssp-buffer-size=1
 # This can be enabled for Windows, when we switch to MinGW >= 4.4.x.
 }
 # for extra security on Windows: enable ASLR and DEP via GCC linker flags
-win32:QMAKE_LFLAGS *= -Wl,--dynamicbase -Wl,--nxcompat,--large-address-aware -static
+win32:QMAKE_LFLAGS *= -Wl,--dynamicbase -Wl,--nxcompat, -static
 win32:QMAKE_LFLAGS += -static-libgcc -static-libstdc++
 lessThan(QT_MAJOR_VERSION, 5): win32: QMAKE_LFLAGS *= -static
 
+USE_QRCODE=1
 # use: qmake "USE_QRCODE=1"
 # libqrencode (http://fukuchi.org/works/qrencode/index.en.html) must be installed for support
 contains(USE_QRCODE, 1) {
@@ -101,6 +148,7 @@ contains(USE_QRCODE, 1) {
 #  or: qmake "USE_UPNP=0" (disabled by default)
 #  or: qmake "USE_UPNP=-" (not supported)
 # miniupnpc (http://miniupnp.free.fr/files/) must be installed for support
+USE_UPNP=1
 contains(USE_UPNP, -) {
     message(Building without UPNP support)
 } else {
@@ -108,7 +156,7 @@ contains(USE_UPNP, -) {
     count(USE_UPNP, 0) {
         USE_UPNP=1
     }
-    DEFINES += USE_UPNP=$$USE_UPNP MINIUPNP_STATICLIB
+    DEFINES += USE_UPNP=$$USE_UPNP STATICLIB MINIUPNP_STATICLIB
     INCLUDEPATH += $$MINIUPNPC_INCLUDE_PATH
     LIBS += $$join(MINIUPNPC_LIB_PATH,,-L,) -lminiupnpc
     win32:LIBS += -liphlpapi
@@ -139,8 +187,6 @@ contains(BITCOIN_NEED_QT_PLUGINS, 1) {
     QTPLUGIN += qcncodecs qjpcodecs qtwcodecs qkrcodecs qtaccessiblewidgets
 }
 
-INCLUDEPATH += src/leveldb/include src/leveldb/helpers
-LIBS += $$PWD/src/leveldb/libleveldb.a $$PWD/src/leveldb/libmemenv.a
 
 ##hashing sources
 SOURCES += \
@@ -544,7 +590,6 @@ OTHER_FILES += \
 # platform specific defaults, if not overridden on command line
 isEmpty(BOOST_LIB_SUFFIX) {
     macx:BOOST_LIB_SUFFIX = -mt
-    win32:BOOST_LIB_SUFFIX = -mgw49-mt-s-1_57
 }
 
 isEmpty(BOOST_THREAD_LIB_SUFFIX) {
@@ -579,6 +624,15 @@ isEmpty(QRENCODE_INCLUDE_PATH) {
     macx:QRENCODE_INCLUDE_PATH = /usr/local/include
 }
 
+isEmpty(OPENSSL_LIB_PATH) {
+    macx:OPENSSL_LIB_PATH = /usr/local/opt/openssl101/lib
+}
+
+isEmpty(OPENSSL_INCLUDE_PATH) {
+    macx:OPENSSL_INCLUDE_PATH = /usr/local/opt/openssl101/include
+}
+
+
 windows:DEFINES += WIN32
 windows:RC_FILE = src/qt/res/bitcoin-qt.rc
 
@@ -596,21 +650,28 @@ windows:!contains(MINGW_THREAD_BUGFIX, 0) {
 !windows:!macx {
     DEFINES += LINUX
     LIBS += -lrt
+    INCLUDEPATH += src/leveldb/include src/leveldb/helpers
+    LIBS += $$PWD/src/leveldb/libleveldb.a $$PWD/src/leveldb/libmemenv.a
 }
 
-macx:HEADERS += src/qt/macdockiconhandler.h src/qt/macnotificationhandler.h
-macx:OBJECTIVE_SOURCES += src/qt/macdockiconhandler.mm src/qt/macnotificationhandler.mm
-macx:LIBS += -framework Foundation -framework ApplicationServices -framework AppKit -framework CoreServices
-macx:DEFINES += MAC_OSX MSG_NOSIGNAL=0
-macx:ICON = src/qt/res/icons/bitcoin.icns
-macx:QMAKE_CFLAGS_THREAD += -pthread
-macx:QMAKE_LFLAGS_THREAD += -pthread
-macx:QMAKE_CXXFLAGS_THREAD += -pthread
-macx:INCLUDEPATH += /Users/mammix2/Desktop/deps/openssl-1.0.2g/include
-macx:LIBS += /Users/mammix2/Desktop/deps/openssl-1.0.2g
+macx: {
+    HEADERS += src/qt/macdockiconhandler.h src/qt/macnotificationhandler.h
+    OBJECTIVE_SOURCES += src/qt/macdockiconhandler.mm src/qt/macnotificationhandler.mm
+    LIBS += -framework Foundation -framework ApplicationServices -framework AppKit
+    DEFINES += MAC_OSX MSG_NOSIGNAL=0 IS_ARCH_64
+    ICON = src/qt/res/icons/bitcoin.icns
+    QMAKE_CFLAGS_THREAD += -pthread
+    QMAKE_LFLAGS_THREAD += -pthread
+    QMAKE_CXXFLAGS_THREAD += -pthread
+    QMAKE_CXXFLAGS += -arch x86_64 -stdlib=libc++
+    QMAKE_CFLAGS += -arch x86_64
+    QMAKE_LFLAGS += -arch x86_64 -stdlib=libc++
+    INCLUDEPATH += src/leveldb/include src/leveldb/helpers
+    LIBS += $$PWD/src/leveldb/libleveldb.a $$PWD/src/leveldb/libmemenv.a
+}
 
 # Set libraries and includes at end, to use platform-defined defaults if not overridden
-INCLUDEPATH += $$BOOST_INCLUDE_PATH $$BDB_INCLUDE_PATH $$OPENSSL_INCLUDE_PATH $$QRENCODE_INCLUDE_PATH $$LIBEVENT_INCLUDE_PATH
+INCLUDEPATH += $$BOOST_INCLUDE_PATH $$BDB_INCLUDE_PATH $$OPENSSL_INCLUDE_PATH $$QRENCODE_INCLUDE_PATH $$LIBEVENT_INCLUDE_PATH $$LEVELDB_INCLUDE_PATH
 LIBS += $$join(BOOST_LIB_PATH,,-L,) $$join(BDB_LIB_PATH,,-L,) $$join(OPENSSL_LIB_PATH,,-L,) $$join(QRENCODE_LIB_PATH,,-L,) $$join(LIBEVENT_LIB_PATH,,-L,)
 LIBS += -lssl -lcrypto -ldb_cxx$$BDB_LIB_SUFFIX
 LIBS += -levent -lz
@@ -621,8 +682,8 @@ LIBS += -lboost_system$$BOOST_LIB_SUFFIX \
     -lboost_filesystem$$BOOST_LIB_SUFFIX \
     -lboost_program_options$$BOOST_LIB_SUFFIX \
     -lboost_thread$$BOOST_THREAD_LIB_SUFFIX \
-    -lboost_date_time$$BOOST_THREAD_LIB_SUFFIX \
     -lboost_chrono$$BOOST_LIB_SUFFIX
+
 
 contains(RELEASE, 1) {
     !windows:!macx {

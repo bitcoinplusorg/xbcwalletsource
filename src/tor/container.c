@@ -62,11 +62,11 @@ smartlist_clear(smartlist_t *sl)
 static INLINE void
 smartlist_ensure_capacity(smartlist_t *sl, int size)
 {
-#if SIZEOF_SIZE_T > SIZEOF_INT
+//#if SIZEOF_SIZE_T > SIZEOF_INT
 #define MAX_CAPACITY (INT_MAX)
-#else
-#define MAX_CAPACITY (int)((SIZE_MAX / (sizeof(void*))))
-#endif
+//#else
+//#define MAX_CAPACITY (int)((SIZE_MAX / (sizeof(void*))))
+//#endif
   if (size > sl->capacity) {
     int higher = sl->capacity;
     if (PREDICT_UNLIKELY(size > MAX_CAPACITY/2)) {

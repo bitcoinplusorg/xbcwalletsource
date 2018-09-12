@@ -187,7 +187,7 @@ typedef unsigned __int64 uint64_t;
 #define UINT64_MAX 0xffffffffffffffffull
 #endif
 #ifndef INT64_MAX
-#define INT64_MAX 0xffffffffffffffffll
+#define INT64_MAX 0x7fffffffffffffffi64
 #endif
 #endif
 
@@ -215,27 +215,27 @@ typedef int32_t ssize_t;
 #endif
 #endif
 
-#if (SIZEOF_VOID_P > 4 && SIZEOF_VOID_P <= 8)
-#ifndef HAVE_INTPTR_T
-typedef int64_t intptr_t;
+//#if (SIZEOF_VOID_P > 4 && SIZEOF_VOID_P <= 8)
+//#ifndef HAVE_INTPTR_T
+//typedef int64_t intptr_t;
 #define SIZEOF_INTPTR_T 8
-#endif
-#ifndef HAVE_UINTPTR_T
-typedef uint64_t uintptr_t;
+//#endif
+//#ifndef HAVE_UINTPTR_T
+//typedef uint64_t uintptr_t;
 #define SIZEOF_UINTPTR_T 8
-#endif
-#elif (SIZEOF_VOID_P > 2 && SIZEOF_VOID_P <= 4)
-#ifndef HAVE_INTPTR_T
-typedef int32_t intptr_t;
-#define SIZEOF_INTPTR_T 4
-#endif
-#ifndef HAVE_UINTPTR_T
-typedef uint32_t uintptr_t;
-#define SIZEOF_UINTPTR_T 4
-#endif
-#else
-#error "void * is either >8 bytes or <= 2.  In either case, I am confused."
-#endif
+//#endif
+//#elif (SIZEOF_VOID_P > 2 && SIZEOF_VOID_P <= 4)
+//#ifndef HAVE_INTPTR_T
+//typedef int32_t intptr_t;
+//#define SIZEOF_INTPTR_T 4
+//#endif
+//#ifndef HAVE_UINTPTR_T
+//typedef uint32_t uintptr_t;
+//#define SIZEOF_UINTPTR_T 4
+//#endif
+//#else
+//#error "void * is either >8 bytes or <= 2.  In either case, I am confused."
+//#endif
 
 #ifndef HAVE_INT8_T
 #error "Missing type int8_t"
