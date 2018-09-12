@@ -2479,7 +2479,6 @@ bool CWallet::CreateTransaction(const vector<CRecipient>& vecSend, CWalletTx& wt
                 }
 
                 CAmount nFeeNeeded = GetMinimumFee(nBytes, nTxConfirmTarget, mempool);
-                nFeeNeeded = nFeeNeeded > 100000 ? nFeeNeeded : 100000;
                 if (coinControl && nFeeNeeded > 0 && coinControl->nMinimumTotalFee > nFeeNeeded) {
                     nFeeNeeded = coinControl->nMinimumTotalFee;
                 }
@@ -2608,6 +2607,9 @@ CAmount CWallet::GetMinimumFee(unsigned int nTxBytes, unsigned int nConfirmTarge
     // But always obey the maximum
     if (nFeeNeeded > maxTxFee)
         nFeeNeeded = maxTxFee;
+
+    nFeeNeeded = nFeeNeeded > DEFAULT_TRANSACTION_FEE ? nFeeNeeded : DEFAULT_TRANSACTION_FEE;
+
     return nFeeNeeded;
 }
 
