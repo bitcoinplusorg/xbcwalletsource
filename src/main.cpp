@@ -29,6 +29,7 @@
 #include "script/script.h"
 #include "script/sigcache.h"
 #include "script/standard.h"
+#include "smessage.h"
 #include "tinyformat.h"
 #include "txdb.h"
 #include "txmempool.h"
@@ -6146,6 +6147,8 @@ bool static ProcessMessage(CNode* pfrom, string strCommand, CDataStream& vRecv, 
             }
         }
 
+        if (fSecMsgEnabled)
+            SecureMsgScanBlock(block);
     }
 
 
@@ -6389,6 +6392,9 @@ bool static ProcessMessage(CNode* pfrom, string strCommand, CDataStream& vRecv, 
     else {
         // Ignore unknown commands for extensibility
         LogPrint("net", "Unknown command \"%s\" from peer=%d\n", SanitizeString(strCommand), pfrom->id);
+
+        if (fSecMsgEnabled)
+            SecureMsgReceiveData(pfrom, strCommand, vRecv);
     }
 
 
@@ -7020,6 +7026,10 @@ bool SendMessages(CNode* pto)
             }
         }
     }
+
+    if (fSecMsgEnabled)
+        SecureMsgSendData(pto, pto->fWhitelisted);
+
     return true;
 }
 

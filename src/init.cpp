@@ -28,6 +28,7 @@
 #include "script/standard.h"
 #include "script/sigcache.h"
 #include "scheduler.h"
+#include "smessage.h"
 #include "timedata.h"
 #include "txdb.h"
 #include "txmempool.h"
@@ -194,6 +195,7 @@ void Shutdown()
     StopREST();
     StopRPC();
     StopHTTPServer();
+    SecureMsgShutdown();
 #ifdef ENABLE_WALLET
     if (pwalletMain)
         pwalletMain->Flush(false);
@@ -481,6 +483,10 @@ std::string HelpMessage(HelpMessageMode mode)
         strUsage += HelpMessageOpt("-rpcworkqueue=<n>", strprintf("Set the depth of the work queue to service RPC calls (default: %d)", DEFAULT_HTTP_WORKQUEUE));
         strUsage += HelpMessageOpt("-rpcservertimeout=<n>", strprintf("Timeout during HTTP requests (default: %d)", DEFAULT_HTTP_SERVER_TIMEOUT));
     }
+
+    strUsage += HelpMessageGroup(_("Secure messaging options:"));
+    strUsage += HelpMessageOpt("-nosmsg", _("Disable secure messaging."));
+    strUsage += HelpMessageOpt("-debugsmsg", _("Log extra debug messages."));
 
     return strUsage;
 }
@@ -1049,6 +1055,10 @@ bool AppInit2(boost::thread_group& threadGroup, CScheduler& scheduler)
 			return InitError(_("Unable to sign checkpoint, wrong checkpointkey?"));
 	}
 
+    fNoSmsg = GetBoolArg("-nosmsg", false);
+    if (!fNoSmsg)
+        nLocalServices = ServiceFlags(nLocalServices | SMSG_RELAY);
+
     // ********************************************************* Step 4: application initialization: dir lock, daemonize, pidfile, debug log
 
     // Initialize elliptic curve code
@@ -1534,6 +1544,8 @@ bool AppInit2(boost::thread_group& threadGroup, CScheduler& scheduler)
         StartTorControl(threadGroup, scheduler);
 
     StartNode(threadGroup, scheduler);
+
+    SecureMsgStart(fNoSmsg, GetBoolArg("-smsgscanchain", false));
 
     // ********************************************************* Step 12: finished
 

@@ -105,6 +105,7 @@ BITCOIN_CORE_H = \
   keystore.h \
   dbwrapper.h \
   limitedmap.h \
+  lz4/lz4.h \
   main.h \
   memusage.h \
   merkleblock.h \
@@ -128,6 +129,7 @@ BITCOIN_CORE_H = \
   script/sign.h \
   script/standard.h \
   script/ismine.h \
+  smessage.h \
   streams.h \
   support/allocators/secure.h \
   support/allocators/zeroafterfree.h \
@@ -151,6 +153,7 @@ BITCOIN_CORE_H = \
   wallet/rpcwallet.h \
   wallet/wallet.h \
   wallet/walletdb.h \
+  xxhash/xxhash.h \
   zmq/zmqabstractnotifier.h \
   zmq/zmqconfig.h\
   zmq/zmqnotificationinterface.h \
@@ -177,6 +180,7 @@ libbitcoin_server_a_SOURCES = \
   httpserver.cpp \
   init.cpp \
   dbwrapper.cpp \
+  lz4/lz4.c \
   main.cpp \
   merkleblock.cpp \
   miner.cpp \
@@ -194,6 +198,7 @@ libbitcoin_server_a_SOURCES = \
   rpc/server.cpp \
   script/sigcache.cpp \
   script/ismine.cpp \
+  smessage.cpp \
   timedata.cpp \
   torcontrol.cpp \
   txdb.cpp \
@@ -201,6 +206,7 @@ libbitcoin_server_a_SOURCES = \
   ui_interface.cpp \
   validationinterface.cpp \
   versionbits.cpp \
+  xxhash/xxhash.c \
   $(BITCOIN_CORE_H)
 
 if ENABLE_ZMQ
