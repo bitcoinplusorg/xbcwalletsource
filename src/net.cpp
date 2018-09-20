@@ -1411,7 +1411,7 @@ void ThreadMapPort()
             }
         }
 
-        std::string strDesc = "Bitcoin " + FormatFullVersion();
+        std::string strDesc = "BitcoinPlus " + FormatFullVersion();
 
         try {
             while (true) {
