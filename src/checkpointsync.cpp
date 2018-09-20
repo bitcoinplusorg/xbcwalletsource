@@ -178,7 +178,11 @@ uint256 AutoSelectSyncCheckpoint()
 // Check against synchronized checkpoint
 bool CheckSyncCheckpoint(const uint256& hashBlock, const CBlockIndex* pindexPrev)
 {
-    int nHeight = pindexPrev->nHeight + 1;
+    int nHeight;
+    if (pindexPrev == NULL)
+        nHeight = 0;
+    else
+        nHeight = pindexPrev->nHeight + 1;
 
     LOCK(cs_hashSyncCheckpoint);
     // Reset checkpoint to Genesis block if not found or initialised
