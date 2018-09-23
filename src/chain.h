@@ -11,6 +11,7 @@
 #include "pow.h"
 #include "tinyformat.h"
 #include "uint256.h"
+#include "utilmoneystr.h"
 
 #include <vector>
 
@@ -215,6 +216,12 @@ public:
 
     arith_uint256 hashProof;
 
+    // Coins amount created by this block
+    int64_t nMint;
+
+    // Total coins created in this block chain up to and including this block
+    int64_t nMoneySupply;
+
     //! (memory only) Sequential id assigned to distinguish order in which blocks are received.
     uint32_t nSequenceId;
 
@@ -237,6 +244,8 @@ public:
         hashProof = arith_uint256();
         prevoutStake.SetNull();
         nStakeTime = 0;
+        nMint = 0;
+        nMoneySupply = 0;
         nSequenceId = 0;
 
         nVersion       = 0;
@@ -326,8 +335,8 @@ public:
 
     std::string ToString() const
     {
-        return strprintf("CBlockIndex(nprev=%p, nFile=%u, nHeight=%d, nFlags=(%s)(%d)(%s), nStakeModifier=%016x, hashProof=%s, prevoutStake=(%s), nStakeTime=%d merkle=%s, hashBlock=%s)",
-            pprev, nFile, nHeight,
+        return strprintf("CBlockIndex(nprev=%p, nFile=%u, nHeight=%d, nMint=%s, nMoneySupply=%s, nFlags=(%s)(%d)(%s), nStakeModifier=%016x, hashProof=%s, prevoutStake=(%s), nStakeTime=%d merkle=%s, hashBlock=%s)",
+            pprev, nFile, nHeight, FormatMoney(nMint), FormatMoney(nMoneySupply),
             GeneratedStakeModifier() ? "MOD" : "-", GetStakeEntropyBit(), IsProofOfStake()? "PoS" : "PoW",
             nStakeModifier,
             hashProof.ToString(),
@@ -444,7 +453,8 @@ public:
             READWRITE(VARINT(nDataPos));
         if (nStatus & BLOCK_HAVE_UNDO)
             READWRITE(VARINT(nUndoPos));
-
+        READWRITE(nMint);
+        READWRITE(nMoneySupply);
         READWRITE(nFlags);
         READWRITE(nStakeModifier);
         if (IsProofOfStake())
