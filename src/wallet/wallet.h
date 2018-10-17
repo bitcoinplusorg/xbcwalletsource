@@ -58,7 +58,7 @@ static const bool DEFAULT_WALLET_REJECT_LONG_CHAINS = false;
 //! -txconfirmtarget default
 static const unsigned int DEFAULT_TX_CONFIRM_TARGET = 2;
 //! Largest (in bytes) free transaction we're willing to create
-static const unsigned int MAX_FREE_TRANSACTION_CREATE_SIZE = 10000;
+static const unsigned int MAX_FREE_TRANSACTION_CREATE_SIZE = 0;
 static const bool DEFAULT_WALLETBROADCAST = true;
 
 //! if set, all keys will be derived by using BIP32
