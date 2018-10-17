@@ -1898,7 +1898,7 @@ void static InvalidBlockFound(CBlockIndex *pindex, const CValidationState &state
     }
 }
 
-void UpdateCoins(const CTransaction& tx, CCoinsViewCache& inputs, CTxUndo &txundo, int nHeight)
+bool UpdateCoins(const CTransaction& tx, CCoinsViewCache& inputs, CTxUndo &txundo, int nHeight, unsigned int nTimeStamp)
 {
     // mark inputs spent
     if (!tx.IsCoinBase()) {
@@ -1908,26 +1908,33 @@ void UpdateCoins(const CTransaction& tx, CCoinsViewCache& inputs, CTxUndo &txund
             unsigned nPos = txin.prevout.n;
 
             if (nPos >= coins->vout.size() || coins->vout[nPos].IsNull())
-                assert(false);
+                return false;
+            if (coins->nTime > nTimeStamp)
+                return error("%s: timestamp violation", __func__);
             // mark an outpoint spent, and construct undo information
             txundo.vprevout.push_back(CTxInUndo(coins->vout[nPos]));
             coins->Spend(nPos);
             if (coins->vout.size() == 0) {
                 CTxInUndo& undo = txundo.vprevout.back();
                 undo.nHeight = coins->nHeight;
+                undo.nTime = coins->nTime;
+                undo.nBlockTime = coins->nBlockTime;
                 undo.fCoinBase = coins->fCoinBase;
+                undo.fCoinStake = coins->fCoinStake;
                 undo.nVersion = coins->nVersion;
             }
         }
     }
     // add outputs
-    inputs.ModifyNewCoins(tx.GetHash(), tx.IsCoinBase())->FromTx(tx, nHeight);
+    inputs.ModifyNewCoins(tx.GetHash(), tx.IsCoinBase())->FromTx(tx, nHeight, nTimeStamp);
+
+    return true;
 }
 
-void UpdateCoins(const CTransaction& tx, CCoinsViewCache& inputs, int nHeight)
+bool UpdateCoins(const CTransaction& tx, CCoinsViewCache& inputs, int nHeight, unsigned int nTimeStamp)
 {
     CTxUndo txundo;
-    UpdateCoins(tx, inputs, txundo, nHeight);
+    return UpdateCoins(tx, inputs, txundo, nHeight, nTimeStamp);
 }
 
 bool CScriptCheck::operator()() {
@@ -2158,28 +2165,27 @@ bool AbortNode(CValidationState& state, const std::string& strMessage, const std
  */
 static bool ApplyTxInUndo(const CTxInUndo& undo, CCoinsViewCache& view, const COutPoint& out)
 {
-    bool fClean = true;
-
     CCoinsModifier coins = view.ModifyCoins(out.hash);
-    if (undo.nHeight != 0) {
-        // undo data contains height: this is the last output of the prevout tx being spent
-        if (!coins->IsPruned())
-            fClean = fClean && error("%s: undo data overwriting existing transaction", __func__);
-        coins->Clear();
+    if (coins->IsPruned()) {
+        if (undo.nHeight == 0)
+            return error("DisconnectBlock() : undo data doesn't contain tx metadata? database corrupted");
         coins->fCoinBase = undo.fCoinBase;
+        coins->fCoinStake = undo.fCoinStake;
         coins->nHeight = undo.nHeight;
+        coins->nTime = undo.nTime;
+        coins->nBlockTime = undo.nBlockTime;
         coins->nVersion = undo.nVersion;
     } else {
-        if (coins->IsPruned())
-            fClean = fClean && error("%s: undo data adding output to missing transaction", __func__);
+        if (undo.nHeight != 0)
+            return error("DisconnectBlock() : undo data contains unneeded tx metadata? database corrupted");
     }
     if (coins->IsAvailable(out.n))
-        fClean = fClean && error("%s: undo data overwriting existing output", __func__);
+        return error("%s: undo data overwriting existing output", __func__);
     if (coins->vout.size() < out.n+1)
         coins->vout.resize(out.n+1);
     coins->vout[out.n] = undo.txout;
 
-    return fClean;
+    return true;
 }
 
 bool DisconnectBlock(const CBlock& block, CValidationState& state, const CBlockIndex* pindex, CCoinsViewCache& view, bool* pfClean)
@@ -2206,13 +2212,17 @@ bool DisconnectBlock(const CBlock& block, CValidationState& state, const CBlockI
         const CTransaction &tx = block.vtx[i];
         uint256 hash = tx.GetHash();
 
+        // Do not check coinbase coins for proof-of-stake block
+        if (block.IsProofOfStake() && tx.IsCoinBase())
+            continue;
+
         // Check that all outputs are available and match the outputs in the block itself
         // exactly.
         {
         CCoinsModifier outs = view.ModifyCoins(hash);
         outs->ClearUnspendable();
 
-        CCoins outsBlock(tx, pindex->nHeight);
+        CCoins outsBlock(tx, pindex->nHeight, pindex->nTime);
         // The CCoins serialization does not serialize negative numbers.
         // No network rules currently depend on the version here, so an inconsistency is harmless
         // but it must be corrected before txout nversion ever influences a network rule.
@@ -2234,7 +2244,7 @@ bool DisconnectBlock(const CBlock& block, CValidationState& state, const CBlockI
                 const COutPoint &out = tx.vin[j].prevout;
                 const CTxInUndo &undo = txundo.vprevout[j];
                 if (!ApplyTxInUndo(undo, view, out))
-                    fClean = false;
+                    return false;
             }
         }
     }
@@ -2540,7 +2550,8 @@ bool ConnectBlock(const CBlock& block, CValidationState& state, CBlockIndex* pin
         if (i > 0) {
             blockundo.vtxundo.push_back(CTxUndo());
         }
-        UpdateCoins(tx, view, i == 0 ? undoDummy : blockundo.vtxundo.back(), pindex->nHeight);
+        if (!UpdateCoins(tx, view, i == 0 ? undoDummy : blockundo.vtxundo.back(), pindex->nHeight, pindex->nTime))
+            return error("%s: UpdateInputs failed", __func__);
 
         vPos.push_back(std::make_pair(tx.GetHash(), pos));
         pos.nTxOffset += ::GetSerializeSize(tx, SER_DISK, CLIENT_VERSION);
