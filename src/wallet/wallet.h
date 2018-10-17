@@ -44,7 +44,7 @@ static const unsigned int DEFAULT_KEYPOOL_SIZE = 100;
 //! -paytxfee default
 static const CAmount DEFAULT_TRANSACTION_FEE = 100000;
 //! -fallbackfee default
-static const CAmount DEFAULT_FALLBACK_FEE = 100000;
+static const CAmount DEFAULT_FALLBACK_FEE = 200000;
 //! -mintxfee default
 static const CAmount DEFAULT_TRANSACTION_MINFEE = 100000;
 //! minimum change amount
