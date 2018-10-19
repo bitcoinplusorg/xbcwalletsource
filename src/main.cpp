@@ -2244,7 +2244,7 @@ bool DisconnectBlock(const CBlock& block, CValidationState& state, const CBlockI
                 const COutPoint &out = tx.vin[j].prevout;
                 const CTxInUndo &undo = txundo.vprevout[j];
                 if (!ApplyTxInUndo(undo, view, out))
-                    return false;
+                    fClean = false;
             }
         }
     }
