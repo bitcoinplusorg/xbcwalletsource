@@ -684,6 +684,7 @@ public:
     void UnlockAllCoins();
     void ListLockedCoins(std::vector<COutPoint>& vOutpts);
     bool CreateCoinStake(const CKeyStore& keystore, unsigned int nBits, int64_t nSearchInterval, int64_t nFees, CMutableTransaction& txNew, CKey& key);
+    bool GetStakeWeightQuick(const int64_t& nTime, const int64_t& nValue, uint64_t& nWeight);
     void GetStakeWeight(uint64_t& nMinWeight, uint64_t& nMaxWeight, uint64_t& nWeight);
     int64_t GetStake() const;
     int64_t GetNewMint() const;
