@@ -2824,9 +2824,6 @@ void static UpdateTip(CBlockIndex *pindexNew, const CChainParams& chainParams) {
     if (!warningMessages.empty())
         LogPrintf(" warning='%s'", boost::algorithm::join(warningMessages, ", "));
     LogPrintf("\n");
-
-    if (chainActive.Tip()->pprev)
-        CheckSyncCheckpoint(chainActive.Tip()->GetBlockHash(), chainActive.Tip()->pprev);
 }
 
 /** Disconnect chainActive's tip. You probably want to call mempool.removeForReorg and manually re-limit mempool size after this, with cs_main held. */
@@ -3825,7 +3822,7 @@ static bool AcceptBlock(const CBlock& block, CValidationState& state, const CCha
     }
 
     // Check that the block satisfies synchronized checkpoint
-    if (!CheckSyncCheckpoint(block.GetHash(), pindex->pprev))
+    if (!IsInitialBlockDownload() && !CheckSyncCheckpoint(block.GetHash(), pindex->pprev))
         return state.Invalid(error("%s : rejected by synchronized checkpoint", __func__),
                              REJECT_OBSOLETE, "bad-version");
 
@@ -3851,7 +3848,8 @@ static bool AcceptBlock(const CBlock& block, CValidationState& state, const CCha
     if (fCheckForPruning)
         FlushStateToDisk(state, FLUSH_STATE_NONE); // we just allocated more disk space for block files
 
-    AcceptPendingSyncCheckpoint();
+    if (!IsInitialBlockDownload())
+        AcceptPendingSyncCheckpoint();
 
     return true;
 }
