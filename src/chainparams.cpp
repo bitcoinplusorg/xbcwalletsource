@@ -113,6 +113,7 @@ public:
 
         // Note that of those with the service bits flag, most only support a subset of possible options
         vSeeds.push_back(CDNSSeedData("xbcbitcoinplus.co.uk", "seed1.xbcbitcoinplus.co.uk", false));
+        vSeeds.push_back(CDNSSeedData("xbcbitcoinplus.co.uk", "seed2.xbcbitcoinplus.co.uk", false));
 
         base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,25);
         base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1,85);
