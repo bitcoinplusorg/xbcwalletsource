@@ -46,6 +46,9 @@ unsigned int static GetNextWorkRequired_legacy(const CBlockIndex* pindexLast)
         pindexFirst = pindexFirst->pprev;
     assert(pindexFirst);
 
+    if (Params().GetConsensus().fPowNoRetargeting)
+        return pindexLast->nBits;
+
     // Limit adjustment step
     int64_t nActualTimespan = pindexLast->GetBlockTime() - pindexFirst->GetBlockTime();
     if (nActualTimespan < Params().GetConsensus().nPowTargetTimespan/4)
@@ -78,6 +81,9 @@ unsigned int static GetNextWorkRequired_legacy(const CBlockIndex* pindexLast)
      const CBlockIndex* pindexPrevPrev = GetLastBlockIndex(pindexPrev->pprev, fProofOfStake);
      if (pindexPrevPrev->pprev == NULL)
          return bnTargetLimit.GetCompact(); // second block
+
+     if (Params().GetConsensus().fPowNoRetargeting)
+        return pindexLast->nBits;
 
      int64_t nActualSpacing = pindexPrev->GetBlockTime() - pindexPrevPrev->GetBlockTime();
 
