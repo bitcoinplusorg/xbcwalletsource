@@ -5166,17 +5166,11 @@ bool static ProcessMessage(CNode* pfrom, string strCommand, CDataStream& vRecv, 
         if (!vRecv.empty())
             vRecv >> addrFrom >> nNonce;
         if (!vRecv.empty()) {
-            try
-            {
-                vRecv >> LIMITED_STRING(pfrom->strSubVer, MAX_SUBVERSION_LENGTH);
-            }
-            catch (...) {}
+            vRecv >> LIMITED_STRING(pfrom->strSubVer, MAX_SUBVERSION_LENGTH);
+            pfrom->cleanSubVer = SanitizeString(pfrom->strSubVer);
         }
-        pfrom->cleanSubVer = setSubVerString(pfrom->nVersion, pfrom->strSubVer);
         if (!vRecv.empty()) {
             vRecv >> pfrom->nStartingHeight;
-            if (pfrom->nVersion < 80010)
-                pfrom->nStartingHeight = -1;
         }
         {
             LOCK(pfrom->cs_filter);

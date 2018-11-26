@@ -180,7 +180,6 @@ extern CCriticalSection cs_nLastNodeId;
 
 /** Subversion as sent to the P2P network in `version` messages */
 extern std::string strSubVersion;
-extern std::string strSubVersionLocal;
 
 struct LocalServiceInfo {
     int nScore;

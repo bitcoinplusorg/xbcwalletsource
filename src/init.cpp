@@ -1149,7 +1149,6 @@ bool AppInit2(boost::thread_group& threadGroup, CScheduler& scheduler)
         return InitError(strprintf(_("Total length of network version string (%i) exceeds maximum length (%i). Reduce the number or size of uacomments."),
             strSubVersion.size(), MAX_SUBVERSION_LENGTH));
     }
-    strSubVersionLocal = FormatSubVersionLocal(CLIENT_NAME, CLIENT_VERSION, uacomments);
 
     if (mapArgs.count("-onlynet")) {
         std::set<enum Network> nets;
