@@ -2039,8 +2039,6 @@ bool CheckInputs(const CTransaction& tx, CValidationState &state, const CCoinsVi
                    valid = 0;
 
                 if (valid){ // prev out is already checked in CheckTxInputs
-                    CBlockIndex* pblockindex = mapBlockIndex[hashBlock];
-
                     // Check transaction timestamp
                     if (txPrev.nTime > tx.nTime)
                         return state.DoS(100, false, REJECT_INVALID, "tx-timestamp-earlier-as-output");

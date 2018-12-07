@@ -3744,8 +3744,6 @@ void CWallet::GetStakeWeight(uint64_t& nMinWeight, uint64_t& nMaxWeight, uint64_
     if (setCoins.empty())
         return;
 
-    int64_t nCurrentTime = GetTime();
-
     LOCK2(cs_main, cs_wallet);
     BOOST_FOREACH(PAIRTYPE(const CWalletTx*, unsigned int) pcoin, setCoins)
     {
