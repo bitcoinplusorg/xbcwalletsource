@@ -5,7 +5,7 @@ BitcoinPlus Core
 What is BitcoinPlus?
 --------------------
 
-![Build Status](https://travis-ci.com/bitcoinplusorg/xbcwalletsource.svg?branch=master)](https://travis-ci.com/bitcoinplusorg/xbcwalletsource)
+[![Build Status](https://travis-ci.com/bitcoinplusorg/xbcwalletsource.svg?branch=master)](https://travis-ci.com/bitcoinplusorg/xbcwalletsource)
 
 
 BitcoinPlus is a fork of the Bitcoin core project. It contains its own set of parameters,
