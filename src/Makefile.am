@@ -129,7 +129,6 @@ BITCOIN_CORE_H = \
   script/sign.h \
   script/standard.h \
   script/ismine.h \
-  smessage.h \
   streams.h \
   support/allocators/secure.h \
   support/allocators/zeroafterfree.h \
@@ -158,6 +157,11 @@ BITCOIN_CORE_H = \
   zmq/zmqconfig.h\
   zmq/zmqnotificationinterface.h \
   zmq/zmqpublishnotifier.h
+
+if ENABLE_SMESSAGE
+BITCOIN_CORE_H = \
+  smessage.h
+endif
 
 
 obj/build.h: FORCE
@@ -198,7 +202,6 @@ libbitcoin_server_a_SOURCES = \
   rpc/server.cpp \
   script/sigcache.cpp \
   script/ismine.cpp \
-  smessage.cpp \
   timedata.cpp \
   torcontrol.cpp \
   txdb.cpp \
@@ -208,6 +211,13 @@ libbitcoin_server_a_SOURCES = \
   versionbits.cpp \
   xxhash/xxhash.c \
   $(BITCOIN_CORE_H)
+
+if ENABLE_SMESSAGE
+libbitcoin_server_a_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES) $(MINIUPNPC_CPPFLAGS) $(EVENT_CFLAGS) $(EVENT_PTHREADS_CFLAGS)
+libbitcoin_server_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
+libbitcoin_server_a_SOURCES = \
+  smessage.cpp
+endif
 
 if ENABLE_ZMQ
 libbitcoin_zmq_a_CPPFLAGS = $(BITCOIN_INCLUDES) $(ZMQ_CFLAGS)

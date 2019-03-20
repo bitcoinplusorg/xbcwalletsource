@@ -6158,9 +6158,10 @@ bool static ProcessMessage(CNode* pfrom, string strCommand, CDataStream& vRecv, 
                 Misbehaving(pfrom->GetId(), nDoS);
             }
         }
-
+#ifdef ENABLE_SMESSAGE
         if (fSecMsgEnabled)
             SecureMsgScanBlock(block);
+#endif
     }
 
 
@@ -6404,9 +6405,10 @@ bool static ProcessMessage(CNode* pfrom, string strCommand, CDataStream& vRecv, 
     else {
         // Ignore unknown commands for extensibility
         LogPrint("net", "Unknown command \"%s\" from peer=%d\n", SanitizeString(strCommand), pfrom->id);
-
+#ifdef ENABLE_SMESSAGE
         if (fSecMsgEnabled)
             SecureMsgReceiveData(pfrom, strCommand, vRecv);
+#endif
     }
 
 
@@ -7038,10 +7040,10 @@ bool SendMessages(CNode* pto)
             }
         }
     }
-
+#ifdef ENABLE_SMESSAGE
     if (fSecMsgEnabled)
         SecureMsgSendData(pto, pto->fWhitelisted);
-
+#endif
     return true;
 }
 
