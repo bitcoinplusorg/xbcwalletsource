@@ -97,6 +97,13 @@ AC_ARG_ENABLE([wallet],
   [disable wallet (enabled by default)])],
   [enable_wallet=$enableval],
   [enable_wallet=yes])
+  
+# Enable secure-messaging
+AC_ARG_ENABLE([smessage],
+  [AS_HELP_STRING([--disable-smessage],
+  [disable smessage (enabled by default)])],
+  [enable_smessage=$enableval],
+  [enable_smessage=yes]) 
 
 AC_ARG_WITH([miniupnpc],
   [AS_HELP_STRING([--with-miniupnpc],

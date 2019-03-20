@@ -292,7 +292,7 @@ bool CWallet::Unlock(const SecureString& strWalletPassphrase)
             if (CCryptoKeyStore::Unlock(vMasterKey))
                 return true;
         }
-#ifdef ENABLE_WALLET
+#ifdef ENABLE_SMESSAGE
         SecureMsgWalletUnlocked();
 #endif		
     }
@@ -2713,12 +2713,12 @@ bool CWallet::SetAddressBook(const CTxDestination& address, const string& strNam
         if (!strPurpose.empty()) /* update purpose only if requested */
             mapAddressBook[address].purpose = strPurpose;
     }
-
+#ifdef ENABLE_SMESSAGE
     if (fOwned) {
         const CBitcoinAddress& caddress = address;
         SecureMsgWalletKeyChanged(caddress.ToString(), strName, (fUpdated ? CT_UPDATED : CT_NEW));
     }
-
+#endif
     NotifyAddressBookChanged(this, address, strName, fOwned != ISMINE_NO,
                              strPurpose, (fUpdated ? CT_UPDATED : CT_NEW) );
     if (!fFileBacked)

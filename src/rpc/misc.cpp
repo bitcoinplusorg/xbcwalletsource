@@ -516,7 +516,7 @@ UniValue sendcheckpoint(const UniValue& params, bool fHelp)
 
     return result;
 }
-#ifdef ENABLE_WALLET
+#ifdef ENABLE_SMESSAGE
 UniValue smsgenable(const UniValue& params, bool fHelp)
 {
     if (fHelp || params.size() != 0)
@@ -1313,7 +1313,7 @@ static const CRPCCommand commands[] =
     { "util",               "signmessagewithprivkey", &signmessagewithprivkey, true  },
     { "util",               "getcheckpoint",          &getcheckpoint,          true  },
     { "util",               "sendcheckpoint",         &sendcheckpoint,         true  },
-#ifdef ENABLE_WALLET
+#ifdef ENABLE_SMESSAGE
     { "smessage",           "smsgenable",             &smsgenable,             false },
     { "smessage",           "smsgdisable",            &smsgdisable,            false },
     { "smessage",           "smsglocalkeys",          &smsglocalkeys,          false },
