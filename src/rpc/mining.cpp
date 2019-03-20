@@ -930,7 +930,7 @@ UniValue estimatesmartpriority(const UniValue& params, bool fHelp)
     result.push_back(Pair("blocks", answerFound));
     return result;
 }
-
+#ifdef ENABLE_WALLET
 UniValue staking(const UniValue& params, bool fHelp)
 {
     if (fHelp || params.size() != 1)
@@ -950,7 +950,7 @@ UniValue staking(const UniValue& params, bool fHelp)
 
     return ret;
 }
-
+#endif
 static const CRPCCommand commands[] =
 { //  category              name                      actor (function)         okSafeMode
   //  --------------------- ------------------------  -----------------------  ----------
@@ -959,8 +959,9 @@ static const CRPCCommand commands[] =
     { "mining",             "prioritisetransaction",  &prioritisetransaction,  true  },
     { "mining",             "getblocktemplate",       &getblocktemplate,       true  },
     { "mining",             "submitblock",            &submitblock,            true  },
-
+#ifdef ENABLE_WALLET
     { "generating",         "staking",                &staking,                true  },
+#endif	
     { "generating",         "generate",               &generate,               true  },
     { "generating",         "generatetoaddress",      &generatetoaddress,      true  },
 

@@ -597,7 +597,7 @@ double GetPoSKernelPS()
 
     return nStakesTime ? dStakeKernelsTriedAvg / nStakesTime : 0;
 }
-
+#ifdef ENABLE_WALLET
 UniValue getstakinginfo(const UniValue& params, bool fHelp)
 {
     if (fHelp || params.size() != 0)
@@ -656,13 +656,15 @@ UniValue getstakesubsidy(const UniValue& params, bool fHelp)
 
     return (uint64_t)GetProofOfStakeReward(nCoinAge, 0);
 }
-
+#endif
 static const CRPCCommand commands[] =
 { //  category              name                      actor (function)         okSafeMode
   //  --------------------- ------------------------  -----------------------  ----------
     { "network",            "getconnectioncount",     &getconnectioncount,     true  },
+#ifdef ENABLE_WALLET	
     { "network",            "getstakesubsidy",        &getstakesubsidy,        true  },
     { "network",            "getstakinginfo",         &getstakinginfo,         true  },
+#endif	
     { "network",            "ping",                   &ping,                   true  },
     { "network",            "getpeerinfo",            &getpeerinfo,            true  },
     { "network",            "addnode",                &addnode,                true  },

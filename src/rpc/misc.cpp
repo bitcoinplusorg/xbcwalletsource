@@ -516,7 +516,7 @@ UniValue sendcheckpoint(const UniValue& params, bool fHelp)
 
     return result;
 }
-
+#ifdef ENABLE_WALLET
 UniValue smsgenable(const UniValue& params, bool fHelp)
 {
     if (fHelp || params.size() != 0)
@@ -1302,7 +1302,7 @@ UniValue smsgbuckets(const UniValue& params, bool fHelp)
 
     return result;
 }
-
+#endif
 static const CRPCCommand commands[] =
 { //  category              name                      actor (function)         okSafeMode
   //  --------------------- ------------------------  -----------------------  ----------
@@ -1313,6 +1313,7 @@ static const CRPCCommand commands[] =
     { "util",               "signmessagewithprivkey", &signmessagewithprivkey, true  },
     { "util",               "getcheckpoint",          &getcheckpoint,          true  },
     { "util",               "sendcheckpoint",         &sendcheckpoint,         true  },
+#ifdef ENABLE_WALLET
     { "smessage",           "smsgenable",             &smsgenable,             false },
     { "smessage",           "smsgdisable",            &smsgdisable,            false },
     { "smessage",           "smsglocalkeys",          &smsglocalkeys,          false },
@@ -1326,7 +1327,7 @@ static const CRPCCommand commands[] =
     { "smessage",           "smsginbox",              &smsginbox,              false },
     { "smessage",           "smsgoutbox",             &smsgoutbox,             false },
     { "smessage",           "smsgbuckets",            &smsgbuckets,            false },
-
+#endif
     /* Not shown in help */
     { "hidden",             "setmocktime",            &setmocktime,            true  },
 };
