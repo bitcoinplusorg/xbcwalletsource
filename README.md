@@ -2,8 +2,12 @@
 BitcoinPlus Core
 ================
 
+[![Build Status](https://travis-ci.com/bitcoinplusorg/xbcwalletsource.svg?branch=master)](https://travis-ci.com/bitcoinplusorg/xbcwalletsource)
+
 What is BitcoinPlus?
 --------------------
+
+
 
 BitcoinPlus is a fork of the Bitcoin core project. It contains its own set of parameters,
 such as block times and extra features such 20% Proof-of-Stake, protection against 51% attacks

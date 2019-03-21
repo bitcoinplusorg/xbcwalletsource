@@ -195,7 +195,9 @@ void Shutdown()
     StopREST();
     StopRPC();
     StopHTTPServer();
+#ifdef ENABLE_SMESSAGE
     SecureMsgShutdown();
+#endif
 #ifdef ENABLE_WALLET
     if (pwalletMain)
         pwalletMain->Flush(false);
@@ -1544,9 +1546,9 @@ bool AppInit2(boost::thread_group& threadGroup, CScheduler& scheduler)
         StartTorControl(threadGroup, scheduler);
 
     StartNode(threadGroup, scheduler);
-
+#ifdef ENABLE_SMESSAGE
     SecureMsgStart(fNoSmsg, GetBoolArg("-smsgscanchain", false));
-
+#endif
     // ********************************************************* Step 12: finished
 
     SetRPCWarmupFinished();

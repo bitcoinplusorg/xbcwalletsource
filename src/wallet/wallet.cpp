@@ -292,8 +292,9 @@ bool CWallet::Unlock(const SecureString& strWalletPassphrase)
             if (CCryptoKeyStore::Unlock(vMasterKey))
                 return true;
         }
-
+#ifdef ENABLE_SMESSAGE
         SecureMsgWalletUnlocked();
+#endif		
     }
     return false;
 }
@@ -2712,12 +2713,12 @@ bool CWallet::SetAddressBook(const CTxDestination& address, const string& strNam
         if (!strPurpose.empty()) /* update purpose only if requested */
             mapAddressBook[address].purpose = strPurpose;
     }
-
+#ifdef ENABLE_SMESSAGE
     if (fOwned) {
         const CBitcoinAddress& caddress = address;
         SecureMsgWalletKeyChanged(caddress.ToString(), strName, (fUpdated ? CT_UPDATED : CT_NEW));
     }
-
+#endif
     NotifyAddressBookChanged(this, address, strName, fOwned != ISMINE_NO,
                              strPurpose, (fUpdated ? CT_UPDATED : CT_NEW) );
     if (!fFileBacked)
@@ -3690,6 +3691,7 @@ int CMerkleTx::GetBlocksToMaturity() const
     return max(0, (COINBASE_MATURITY+COINBASE_MATURITY_OFFSET) - GetDepthInMainChain());
 }
 
+#ifdef ENABLE_WALLET
 // Total coins staked (non-spendable until maturity)
 int64_t CWallet::GetStake() const
 {
@@ -4059,4 +4061,4 @@ bool CWallet::CreateCoinStake(const CKeyStore& keystore, unsigned int nBits, int
     // Successfully generated coinstake
     return true;
 }
-
+#endif

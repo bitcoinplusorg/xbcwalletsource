@@ -622,6 +622,7 @@ void IncrementExtraNonce(CBlock* pblock, const CBlockIndex* pindexPrev, unsigned
 /**
 // Internal Staker
 */
+#ifdef ENABLE_WALLET
 
 extern unsigned int nMinerSleep;
 
@@ -776,7 +777,7 @@ bool CheckStake(CBlock* pblock, CWallet& wallet, const CChainParams& chainparams
     if (!CheckProofOfStake(pblock->vtx[1], pblock->nBits, proofHash, hashTarget, NULL))
         return error("%s: proof-of-stake checking failed", __func__);
 
-    //// debug print
+    // debug print
     LogPrintf("%s: new proof-of-stake block found hash: %s\n", __func__, hashBlock.GetHex());
 
     // Found a solution
@@ -811,3 +812,4 @@ void SetStaking(bool mode) {
 bool GetStaking() {
     return fStaking;
 }
+#endif

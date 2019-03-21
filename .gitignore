@@ -54,7 +54,7 @@ src/qt/test/moc*.cpp
 *.pyc
 *.o
 *.o-*
-*.patch
+#*.patch
 .bitcoinplus
 *.a
 *.pb.cc
@@ -74,9 +74,17 @@ src/qt/test/moc*.cpp
 # Compilation and Qt preprocessor part
 *.qm
 Makefile
+!depends/Makefile
+!src/qt/test/Makefile
 bitcoinplus-qt
 BitcoinPlus-Qt.app
+*.user*
 
+#QT Creator
+*.config
+*.creator
+*.files
+*.includes
 # Unit-tests
 Makefile.test
 bitcoin-qt_test
