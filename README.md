@@ -2,7 +2,7 @@
 BitcoinPlus Core
 ================
 
-[![Build Status](https://travis-ci.com/bitcoinplusorg/xbcwalletsource.svg?branch=master)](https://travis-ci.com/bitcoinplusorg/xbcwalletsource)
+[![Build Status](https://travis-ci.com/bitcoinplusorg/xbcwalletsource.svg?branch=master-2.7)](https://travis-ci.com/bitcoinplusorg/xbcwalletsource)
 
 What is BitcoinPlus?
 --------------------
