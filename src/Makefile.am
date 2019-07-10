@@ -159,7 +159,7 @@ BITCOIN_CORE_H = \
   zmq/zmqpublishnotifier.h
 
 if ENABLE_SMESSAGE
-BITCOIN_CORE_H = \
+BITCOIN_CORE_H += \
   smessage.h
 endif
 
@@ -213,9 +213,7 @@ libbitcoin_server_a_SOURCES = \
   $(BITCOIN_CORE_H)
 
 if ENABLE_SMESSAGE
-libbitcoin_server_a_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES) $(MINIUPNPC_CPPFLAGS) $(EVENT_CFLAGS) $(EVENT_PTHREADS_CFLAGS)
-libbitcoin_server_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
-libbitcoin_server_a_SOURCES = \
+libbitcoin_server_a_SOURCES += \
   smessage.cpp
 endif
 
