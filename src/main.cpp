@@ -1713,6 +1713,12 @@ CAmount GetBlockSubsidy(int nHeight, const Consensus::Params& consensusParams)
 // staker's coin stake reward based on coin age spent (coin-days)
 int64_t GetProofOfStakeReward(int64_t nCoinAge, int64_t nFees)
 {
+    {
+        LOCK(cs_main);
+        if (chainActive.Tip()->nMoneySupply > 1000000 * COIN)
+            return nFees;
+    }
+
     int64_t nRewardCoinYear;
     nRewardCoinYear = MAX_MINT_PROOF_OF_STAKE;
 

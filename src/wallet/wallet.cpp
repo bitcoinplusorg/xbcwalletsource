@@ -4022,7 +4022,7 @@ bool CWallet::CreateCoinStake(const CKeyStore& keystore, unsigned int nBits, int
             return error("%s: failed to calculate coin age", __func__);
 
         int64_t nReward = GetProofOfStakeReward(nCoinAge, nFees);
-        if (nReward <= 0)
+        if (nReward < 0 || (nReward = 0 && chainActive.Tip()->nMoneySupply < 1000000 * COIN))
             return false;
 
         nCredit += nReward;
