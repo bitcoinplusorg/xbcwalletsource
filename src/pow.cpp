@@ -7,25 +7,21 @@
 
 #include "arith_uint256.h"
 #include "chain.h"
-#include "chainparams.h"
+#include "main.h"
 #include "primitives/block.h"
 #include "uint256.h"
-#include "key.h"
-#include "main.h"
 
-arith_uint256 bnProofOfStakeLimit(~arith_uint256() >> 20);
-arith_uint256 bnProofOfWorkFirstBlock(~arith_uint256() >> 30);
-
-unsigned int static GetNextWorkRequired_legacy(const CBlockIndex* pindexLast)
+unsigned int static GetNextWorkRequired_legacy(const CBlockIndex* pindexLast, const Consensus::Params& params)
 {
-    CBigNum bnTargetLimit = CBigNum(ArithToUint256(bnProofOfStakeLimit));
     unsigned int nRetarget = 30;
-    int64_t nPowTargetTimespan_legacy = Params().GetConsensus().nPowTargetSpacing * nRetarget;
-    int64_t nInterval = nPowTargetTimespan_legacy / Params().GetConsensus().nPowTargetSpacing;
+    int64_t nPowTargetTimespan_legacy = params.nPowTargetSpacing * nRetarget;
+    int64_t nInterval = nPowTargetTimespan_legacy / params.nPowTargetSpacing;
+
+    const arith_uint256 bnPowLimit = UintToArith256(params.powLimit);
 
     // Genesis block
-    if (pindexLast == NULL)
-        return bnProofOfWorkFirstBlock.GetCompact();
+    if (pindexLast == nullptr)
+        return bnPowLimit.GetCompact();
 
     // Only change once per interval
     if ((pindexLast->nHeight+1) % nInterval != 0)
@@ -46,72 +42,68 @@ unsigned int static GetNextWorkRequired_legacy(const CBlockIndex* pindexLast)
         pindexFirst = pindexFirst->pprev;
     assert(pindexFirst);
 
-    if (Params().GetConsensus().fPowNoRetargeting)
+    if (params.fPowNoRetargeting)
         return pindexLast->nBits;
 
     // Limit adjustment step
     int64_t nActualTimespan = pindexLast->GetBlockTime() - pindexFirst->GetBlockTime();
-    if (nActualTimespan < Params().GetConsensus().nPowTargetTimespan/4)
-        nActualTimespan = Params().GetConsensus().nPowTargetTimespan/4;
-    if (nActualTimespan > Params().GetConsensus().nPowTargetTimespan*4)
-        nActualTimespan = Params().GetConsensus().nPowTargetTimespan*4;
+    if (nActualTimespan < params.nPowTargetTimespan/4)
+        nActualTimespan = params.nPowTargetTimespan/4;
+    if (nActualTimespan > params.nPowTargetTimespan*4)
+        nActualTimespan = params.nPowTargetTimespan*4;
 
     // Retarget
-    CBigNum bnNew;
+    arith_uint256 bnNew;
     bnNew.SetCompact(pindexLast->nBits);
     bnNew *= nActualTimespan;
-    bnNew /= Params().GetConsensus().nPowTargetTimespan;
+    bnNew /= params.nPowTargetTimespan;
 
-    if (bnNew > bnTargetLimit)
-        bnNew = bnTargetLimit;
+    if (bnNew > bnPowLimit)
+        bnNew = bnPowLimit;
 
     return bnNew.GetCompact();
 }
 
- unsigned int GetNextWorkRequired_DGW(const CBlockIndex* pindexLast, bool fProofOfStake)
+ unsigned int GetNextWorkRequired_DGW(const CBlockIndex* pindexLast, bool fProofOfStake, const Consensus::Params& params)
  {
-     CBigNum bnTargetLimit = CBigNum(ArithToUint256(bnProofOfStakeLimit));
+     const arith_uint256 bnPowLimit = UintToArith256(params.powLimit);
 
-     if (pindexLast == NULL)
-         return bnTargetLimit.GetCompact(); // genesis block
+     if(pindexLast->nHeight < 200)
+         return bnPowLimit.GetCompact();
 
      const CBlockIndex* pindexPrev = GetLastBlockIndex(pindexLast, fProofOfStake);
-     if (pindexPrev->pprev == NULL)
-         return bnTargetLimit.GetCompact(); // first block
-     const CBlockIndex* pindexPrevPrev = GetLastBlockIndex(pindexPrev->pprev, fProofOfStake);
-     if (pindexPrevPrev->pprev == NULL)
-         return bnTargetLimit.GetCompact(); // second block
+     if (pindexPrev->pprev == nullptr)
+         return bnPowLimit.GetCompact(); // first block
 
-     if (Params().GetConsensus().fPowNoRetargeting)
+     const CBlockIndex* pindexPrevPrev = GetLastBlockIndex(pindexPrev->pprev, fProofOfStake);
+     if (pindexPrevPrev->pprev == nullptr)
+         return bnPowLimit.GetCompact(); // second block
+
+     if (params.fPowNoRetargeting)
         return pindexLast->nBits;
 
      int64_t nActualSpacing = pindexPrev->GetBlockTime() - pindexPrevPrev->GetBlockTime();
 
      if (nActualSpacing < 0)
-         nActualSpacing = Params().GetConsensus().nPowTargetSpacing;
+         nActualSpacing = params.nPowTargetSpacing;
 
-     // target change every block
-     // retarget with exponential moving toward target spacing
-     // Includes fix for wrong retargeting difficulty by Mammix2
-
-     CBigNum bnNew;
+     arith_uint256 bnNew;
      bnNew.SetCompact(pindexPrev->nBits);
-     CBigNum nInterval = (Params().GetConsensus().nPowTargetTimespan) / (Params().GetConsensus().nPowTargetSpacing);
-     bnNew *= ((nInterval - 1) * Params().GetConsensus().nPowTargetSpacing + nActualSpacing + nActualSpacing);
-     bnNew /= ((nInterval + 1) * Params().GetConsensus().nPowTargetSpacing);
+     bnNew *= ((params.DifficultyAdjustmentInterval() - 1) * params.nPowTargetSpacing + nActualSpacing + nActualSpacing);
+     bnNew /= ((params.DifficultyAdjustmentInterval() + 1) * params.nPowTargetSpacing);
 
-     if (bnNew <= 0 || bnNew > bnTargetLimit)
-         bnNew = bnTargetLimit;
+     if (bnNew <= 0 || bnNew > bnPowLimit)
+         bnNew = bnPowLimit;
 
      return bnNew.GetCompact();
- }
+}
 
-unsigned int GetNextWorkRequired(const CBlockIndex* pindexLast, bool fProofOfStake)
+unsigned int GetNextWorkRequired(const CBlockIndex* pindexLast, bool fProofOfStake, const Consensus::Params& params)
 {
-    if(pindexLast->nHeight + 1 > 200)
-        return GetNextWorkRequired_DGW(pindexLast, fProofOfStake);
-    else
-        return GetNextWorkRequired_legacy(pindexLast);
+    if(pindexLast->nHeight < 200)
+        return GetNextWorkRequired_legacy(pindexLast, params);
+
+    return GetNextWorkRequired_DGW(pindexLast, fProofOfStake, params);
 }
 
 bool CheckProofOfWork(uint256 hash, unsigned int nBits, const Consensus::Params& params)

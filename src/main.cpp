@@ -2383,7 +2383,7 @@ bool ConnectBlock(const CBlock& block, CValidationState& state, CBlockIndex* pin
     }
 
     // Check proof of stake
-    if (block.nBits != GetNextWorkRequired(pindex->pprev, block.IsProofOfStake())){
+    if (block.nBits != GetNextWorkRequired(pindex->pprev, block.IsProofOfStake(), chainparams.GetConsensus())){
         return state.DoS(1,error("ConnectBlock() : incorrect %s at height %d (%d)", !block.IsProofOfStake() ? "proof-of-work" : "proof-of-stake",pindex->pprev->nHeight, block.nBits), REJECT_INVALID, "bad-diffbits");
     }
 
