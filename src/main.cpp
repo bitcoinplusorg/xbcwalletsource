@@ -7118,7 +7118,7 @@ static int64_t GetStakeModifierSelectionInterval()
 
 bool TransactionGetCoinAge(CTransaction& transaction, uint64_t& nCoinAge)
 {
-    CBigNum bnCentSecond = 0;  // coin age in the unit of cent-seconds
+    arith_uint256 bnCentSecond = arith_uint256(0);  // coin age in the unit of cent-seconds
     nCoinAge = 0;
 
     if (transaction.IsCoinBase())
@@ -7145,14 +7145,14 @@ bool TransactionGetCoinAge(CTransaction& transaction, uint64_t& nCoinAge)
             continue; // only count coins meeting min age requirement
 
         int64_t nValueIn = txPrev.vout[txin.prevout.n].nValue;
-        bnCentSecond += CBigNum(nValueIn) * (transaction.nTime-txPrev.nTime) / CENT;
+        bnCentSecond += arith_uint256(nValueIn) * (transaction.nTime-txPrev.nTime) / CENT;
 
         LogPrint("coinage", "%s: coin age nValueIn=%d nTimeDiff=%d bnCentSecond=%s\n", __func__, nValueIn, transaction.nTime - txPrev.nTime, bnCentSecond.ToString());
     }
 
-    CBigNum bnCoinDay = ((bnCentSecond * CENT) / COIN) / (24 * 60 * 60);
+    arith_uint256 bnCoinDay = ((bnCentSecond * CENT) / COIN) / (24 * 60 * 60);
     LogPrint("coinage", "%s: coin age bnCoinDay=%s\n", __func__, bnCoinDay.ToString());
-    nCoinAge = bnCoinDay.getuint64();
+    nCoinAge = bnCoinDay.GetLow64();
 
     return true;
 }
@@ -7362,20 +7362,23 @@ bool CheckStakeKernelHash(unsigned int nBits, CBlock& blockFrom, unsigned int nT
     if (nTimeBlockFrom + Params().GetConsensus().nStakeMinAge > nTimeTx) // Min age requirement
         return error("%s : min age violation", __func__);
 
-    CBigNum bnTargetPerCoinDay;
-    bnTargetPerCoinDay.SetCompact(nBits);
+    // Base target
+    targetProofOfStake.SetCompact(nBits);
+
+    // Weighted target
     int64_t nValueIn = txPrev.vout[prevout.n].nValue;
+    arith_uint512 bnWeight = arith_uint512(nValueIn) * GetWeight((int64_t)txPrev.nTime, (int64_t)nTimeTx) / COIN / (24 * 60 * 60);
 
-    uint256 hashBlock = blockFrom.GetHash();
-
-    CBigNum bnCoinDayWeight = CBigNum(nValueIn) * GetWeight((int64_t)txPrev.nTime, (int64_t)nTimeTx) / COIN / (24 * 60 * 60);
-    targetProofOfStake = UintToArith256((bnCoinDayWeight * bnTargetPerCoinDay).getuint256());
+    // We need to convert to uint512 to prevent overflow when multiplying by 1st block coins
+    base_uint<512> targetProofOfStake512(targetProofOfStake.GetHex());
+    targetProofOfStake512 *= bnWeight;
 
     // Calculate hash
     CDataStream ss(SER_GETHASH, 0);
     uint64_t nStakeModifier = 0;
     int nStakeModifierHeight = 0;
     int64_t nStakeModifierTime = 0;
+    uint256 hashBlock = blockFrom.GetHash();
 
     if (!GetKernelStakeModifier(hashBlock, nStakeModifier, nStakeModifierHeight, nStakeModifierTime)) {
         LogPrintf("%s: Returned false at height %d\n", __func__, mapBlockIndex[hashBlock]->nHeight);
@@ -7392,13 +7395,16 @@ bool CheckStakeKernelHash(unsigned int nBits, CBlock& blockFrom, unsigned int nT
         DateTimeStrFormat("%Y-%m-%d %H:%M:%S", nStakeModifierTime),
         mapBlockIndex[hashBlock]->nHeight,
         DateTimeStrFormat("%Y-%m-%d %H:%M:%S", nTimeBlockFrom));
-    LogPrint("stakemodifier", "%s: check modifier=0x%016x nTimeBlockFrom=%u nTxPrevOffset=%u nTimeTxPrev=%u nPrevout=%u nTimeTx=%u hashProof=%s bnTargetPerCoinDay=%s nBits=%08x nValueIn=%d bnWeight=%s bnWeight * bnTarget=%s\n",
+    LogPrint("stakemodifier", "%s: check modifier=0x%016x nTimeBlockFrom=%u nTxPrevOffset=%u nTimeTxPrev=%u nPrevout=%u nTimeTx=%u hashProof=%s nBits=%08x nValueIn=%d bnCoinDayWeight=%s target=%s\n",
         __func__, nStakeModifier,
         nTimeBlockFrom, nTxPrevOffset, txPrev.nTime, prevout.n, nTimeTx,
-        hashProofOfStake.ToString(), bnTargetPerCoinDay.ToString(), nBits, nValueIn, bnCoinDayWeight.ToString(), (bnCoinDayWeight * bnTargetPerCoinDay).ToString());
+        hashProofOfStake.ToString(), nBits, nValueIn, bnWeight.ToString(), targetProofOfStake512.ToString());
+
+    // We need to convert type so it can be compared to target
+    base_uint<512> hashProofOfStake512(hashProofOfStake.GetHex());
 
     // Now check if proof-of-stake hash meets target protocol
-    if (CBigNum(ArithToUint256(hashProofOfStake)) > bnCoinDayWeight * bnTargetPerCoinDay)
+    if (hashProofOfStake512 > targetProofOfStake512)
         return false;
 
     return true;
