@@ -508,25 +508,6 @@ bool PeerHasHeader(CNodeState *state, CBlockIndex *pindex)
     return false;
 }
 
-/** Find the last common ancestor two blocks have.
- *  Both pa and pb must be non-NULL. */
-CBlockIndex* LastCommonAncestor(CBlockIndex* pa, CBlockIndex* pb) {
-    if (pa->nHeight > pb->nHeight) {
-        pa = pa->GetAncestor(pb->nHeight);
-    } else if (pb->nHeight > pa->nHeight) {
-        pb = pb->GetAncestor(pa->nHeight);
-    }
-
-    while (pa != pb && pa && pb) {
-        pa = pa->pprev;
-        pb = pb->pprev;
-    }
-
-    // Eventually all chain branches meet at the genesis block.
-    assert(pa == pb);
-    return pa;
-}
-
 /** Update pindexLastCommonBlock and add not-in-flight missing successors to vBlocks, until it has
  *  at most count entries. */
 void FindNextBlocksToDownload(NodeId nodeid, unsigned int count, std::vector<CBlockIndex*>& vBlocks, NodeId& nodeStaller, const Consensus::Params& consensusParams) {
@@ -616,6 +597,26 @@ void FindNextBlocksToDownload(NodeId nodeid, unsigned int count, std::vector<CBl
 }
 
 } // anon namespace
+
+/** Find the last common ancestor two blocks have.
+ *  Both pa and pb must be non-NULL. */
+CBlockIndex* LastCommonAncestor(CBlockIndex* pa, CBlockIndex* pb) {
+    if (pa->nHeight > pb->nHeight) {
+        pa = pa->GetAncestor(pb->nHeight);
+    } else if (pb->nHeight > pa->nHeight) {
+        pb = pb->GetAncestor(pa->nHeight);
+    }
+
+    while (pa != pb && pa && pb) {
+        pa = pa->pprev;
+        pb = pb->pprev;
+    }
+
+    // Eventually all chain branches meet at the genesis block.
+    assert(pa == pb);
+    return pa;
+}
+
 
 bool GetNodeStateStats(NodeId nodeid, CNodeStateStats &stats) {
     LOCK(cs_main);
@@ -2360,6 +2361,12 @@ bool ConnectBlock(const CBlock& block, CValidationState& state, CBlockIndex* pin
 {
     AssertLockHeld(cs_main);
 
+    // Check that the block satisfies synchronized checkpoint
+    if (!IsInitialBlockDownload() && !CheckSyncCheckpoint(block.GetHash(), pindex->nHeight)) {
+        return state.DoS(0, error("%s: Block rejected by synchronized checkpoint", __func__),
+                         REJECT_CHECKPOINT, "bad-block-checkpoint-sync");
+    }
+
     if (block.IsProofOfStake()) {
         pindex->SetProofOfStake();
         pindex->prevoutStake = block.vtx[1].vin[0].prevout;
@@ -3643,6 +3650,12 @@ bool ContextualCheckBlockHeader(const CBlockHeader& block, CValidationState& sta
     if (block.GetBlockTime() <= pindexPrev->GetMedianTimePast() || FutureDrift(block.GetBlockTime()) < pindexPrev->GetBlockTime())
         return state.Invalid(false, REJECT_INVALID, "time-too-old", "block's timestamp is too early");
 
+    // Check that the block satisfies synchronized checkpoint
+    if (!IsInitialBlockDownload() && !CheckSyncCheckpoint(block.GetHash(), pindexPrev->nHeight + 1)) {
+        return state.DoS(0, error("%s: Block rejected by synchronized checkpoint", __func__),
+                         REJECT_CHECKPOINT, "bad-block-checkpoint-sync");
+    }
+
     // Check timestamp
     if (block.GetBlockTime() > nAdjustedTime + 2 * 60 * 60)
         return state.Invalid(false, REJECT_INVALID, "time-too-new", "block timestamp too far in the future");
@@ -3829,14 +3842,6 @@ static bool AcceptBlock(const CBlock& block, CValidationState& state, const CCha
             setDirtyBlockIndex.insert(pindex);
         }
         return error("%s: %s", __func__, FormatStateMessage(state));
-    }
-
-    // Check that the block satisfies synchronized checkpoint
-    if (!IsInitialBlockDownload() && !CheckSyncCheckpoint(pindex))
-    {
-        pindex->nStatus |= BLOCK_FAILED_VALID;
-        setDirtyBlockIndex.insert(pindex);
-        return error("%s: rejected by synchronized checkpoint", __func__);
     }
 
     int nHeight = pindex->nHeight;
@@ -4810,13 +4815,6 @@ std::string GetWarnings(const std::string& strFor)
 
     if (GetBoolArg("-testsafemode", DEFAULT_TESTSAFEMODE))
         strStatusBar = strRPC = strGUI = "testsafemode enabled";
-	
-    // Checkpoint warning
-    if (strCheckpointWarning != "")
-    {
-        strStatusBar = strCheckpointWarning;
-        strGUI += (strGUI.empty() ? "" : uiAlertSeperator) + strCheckpointWarning;
-    }
 
     // Misc warnings like out of disk space and clock is wrong
     if (strMiscWarning != "")
