@@ -3651,7 +3651,7 @@ bool ContextualCheckBlockHeader(const CBlockHeader& block, CValidationState& sta
         return state.Invalid(false, REJECT_INVALID, "time-too-old", "block's timestamp is too early");
 
     // Check that the block satisfies synchronized checkpoint
-    if (!IsInitialBlockDownload() && !CheckSyncCheckpoint(block.GetHash(), pindexPrev->nHeight + 1)) {
+    if (!IsInitialBlockDownload() && !CheckSyncCheckpoint(block.GetHash(), pindexPrev->nHeight + 1, pindexPrev)) {
         return state.DoS(0, error("%s: Block rejected by synchronized checkpoint", __func__),
                          REJECT_CHECKPOINT, "bad-block-checkpoint-sync");
     }
