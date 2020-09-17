@@ -3882,6 +3882,9 @@ bool CWallet::CreateCoinStake(const CKeyStore& keystore, unsigned int nBits, int
     CScript scriptPubKeyKernel;
     BOOST_FOREACH(PAIRTYPE(const CWalletTx*, unsigned int) pcoin, setCoins)
     {
+        if (!mapBlockIndex.count(pcoin.first->hashBlock))
+            continue;
+
         CBlockIndex* pblockindex = mapBlockIndex[pcoin.first->hashBlock];
 
         CBlock block;
