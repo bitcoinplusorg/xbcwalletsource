@@ -2607,8 +2607,11 @@ int GetsStakeSubTotal(vStakePeriodRange_T& aRange)
         pcoin = &(*it).second;
 
         // skip orphan block or immature
-        if  ((!pcoin->GetDepthInMainChain()) || (pcoin->GetBlocksToMaturity()>0))
-            continue;
+        {
+            LOCK(cs_main);
+            if  ((!pcoin->GetDepthInMainChain()) || (pcoin->GetBlocksToMaturity()>0))
+                continue;
+        }
 
         // skip abandoned transactions
         if(pcoin->isAbandoned())
