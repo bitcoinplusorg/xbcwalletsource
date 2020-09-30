@@ -482,8 +482,8 @@ void SecureMessageGUI::checkMessages(std::set<Message, MessageCmp>& messages, bo
                 continue;
             }
 
-            // New message alert if new message not from current conversation
-            if (msg.sFromAddress != addrFrom && smsgStored.status & SMSG_MASK_UNREAD) {
+            // New message alert if new message not from current conversation but to our sending address
+            if (msg.sFromAddress != addrFrom && smsgStored.sAddrTo == sendingAddress && smsgStored.status & SMSG_MASK_UNREAD) {
                 // Alert user of new message
                 localUnread = true;
                 if (!this->unreadMessages) {
