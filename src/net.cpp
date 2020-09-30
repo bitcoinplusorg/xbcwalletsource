@@ -96,7 +96,6 @@ bool fNoSmsg = false;
 int nMaxConnections = DEFAULT_MAX_PEER_CONNECTIONS;
 bool fAddressesInitialized = false;
 std::string strSubVersion;
-std::string strSubVersionLocal;
 
 std::vector<CNode*> vNodes;
 CCriticalSection cs_vNodes;
