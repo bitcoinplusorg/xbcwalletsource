@@ -13,6 +13,7 @@
 #include "overviewpage.h"
 #include "platformstyle.h"
 #include "receivecoinsdialog.h"
+#include "securemessage.h"
 #include "sendcoinsdialog.h"
 #include "signverifymessagedialog.h"
 #include "transactiontablemodel.h"
@@ -61,6 +62,11 @@ WalletView::WalletView(const PlatformStyle *platformStyle, QWidget *parent):
     addWidget(receiveCoinsPage);
     addWidget(sendCoinsPage);
 
+#ifdef ENABLE_SMESSAGE
+    secureMessagePage = new SecureMessageGUI(platformStyle);
+    addWidget(secureMessagePage);
+#endif // ENABLE_SMESSAGE
+
     // Clicking on a transaction on the overview pre-selects the transaction on the transaction history page
     connect(overviewPage, SIGNAL(transactionClicked(QModelIndex)), transactionView, SLOT(focusTransaction(QModelIndex)));
 
@@ -74,6 +80,11 @@ WalletView::WalletView(const PlatformStyle *platformStyle, QWidget *parent):
     connect(sendCoinsPage, SIGNAL(message(QString,QString,unsigned int)), this, SIGNAL(message(QString,QString,unsigned int)));
     // Pass through messages from transactionView
     connect(transactionView, SIGNAL(message(QString,QString,unsigned int)), this, SIGNAL(message(QString,QString,unsigned int)));
+
+#ifdef ENABLE_SMESSAGE
+    // Pass through messages from secureMessagePage
+    connect(secureMessagePage, SIGNAL(message(QString,QString,unsigned int)), this, SIGNAL(message(QString,QString,unsigned int)));
+#endif // ENABLE_SMESSAGE
 }
 
 WalletView::~WalletView()
@@ -120,6 +131,9 @@ void WalletView::setWalletModel(WalletModel *walletModel)
     overviewPage->setWalletModel(walletModel);
     receiveCoinsPage->setModel(walletModel);
     sendCoinsPage->setModel(walletModel);
+#ifdef ENABLE_SMESSAGE
+    secureMessagePage->setWalletModel(walletModel);
+#endif // ENABLE_SMESSAGE
     usedReceivingAddressesPage->setModel(walletModel->getAddressTableModel());
     usedSendingAddressesPage->setModel(walletModel->getAddressTableModel());
 
@@ -173,6 +187,13 @@ void WalletView::gotoOverviewPage()
 void WalletView::gotoHistoryPage()
 {
     setCurrentWidget(transactionsPage);
+}
+
+void WalletView::gotoSecureMessage()
+{
+#ifdef ENABLE_SMESSAGE
+    setCurrentWidget(secureMessagePage);
+#endif // ENABLE_SMESSAGE
 }
 
 void WalletView::gotoReceiveCoinsPage()

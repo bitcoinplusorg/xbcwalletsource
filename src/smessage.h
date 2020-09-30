@@ -1,4 +1,5 @@
-// Copyright (c) 2014 The bitcoinplus developers
+// Copyright (c) 2014-2020 The bitcoinplus developers
+// Copyright (c) 2020 Peter Bushnell
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 #ifndef SEC_MESSAGE_H
@@ -315,6 +316,7 @@ std::string getTimeString(int64_t timestamp, char *buffer, size_t nBuffer);
 std::string fsReadable(uint64_t nBytes);
 int SecureMsgBuildBucketSet();
 int SecureMsgAddWalletAddresses();
+bool SecureMsgAddWalletAddress(std::string address);
 int SecureMsgReadIni();
 int SecureMsgWriteIni();
 bool SecureMsgStart(bool fDontStart, bool fScanChain);

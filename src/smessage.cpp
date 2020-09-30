@@ -1,4 +1,5 @@
-// Copyright (c) 2014 The bitcoinplus developers
+// Copyright (c) 2014-2020 The bitcoinplus developers
+// Copyright (c) 2020 Peter Bushnell
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -1047,6 +1048,30 @@ int SecureMsgAddWalletAddresses()
     }
 
     return 0;
+}
+
+bool SecureMsgAddWalletAddress(std::string address)
+{
+    CBitcoinAddress coinAddress(address);
+    if (!coinAddress.IsValid()) {
+        return false;
+    }
+
+    CTxDestination dest = coinAddress.Get();
+    if (!IsMine(*pwalletMain, dest)) {
+        return false;
+    }
+
+    for (std::vector<SecMsgAddress>::iterator it = smsgAddresses.begin(); it != smsgAddresses.end(); ++it) {
+        if (address != it->sAddress) {
+            continue;
+        }
+        return true; // Already in wallet, mark as success
+    }
+
+    smsgAddresses.push_back(SecMsgAddress(address, 1 /* recvEnabled */, 1 /* recvAnon */));
+
+    return true;
 }
 
 int SecureMsgReadIni()
@@ -2870,7 +2895,7 @@ int SecureMsgStore(uint8_t *pHeader, uint8_t *pPayload, uint32_t nPayload, bool 
     std::set<SecMsgToken>::iterator it;
     it = tokenSet.find(token);
     if (it != tokenSet.end()) {
-        LogPrintf("Already have message.\n");
+        // LogPrintf("Already have message.\n");
         return 1;
     }
 
@@ -3547,7 +3572,7 @@ int SecureMsgDecrypt(bool fTestOnly, std::string& address, uint8_t *pHeader, uin
     }
     if (!pwalletMain->GetKey(ckidDest, keyDest))
     {
-        LogPrintf("Could not get private key for addressDest.\n");
+        // LogPrintf("Could not get private key for addressDest.\n");
         return 3;
     }
 
@@ -3737,7 +3762,7 @@ int SecureMsgDecrypt(bool fTestOnly, std::string& address, uint8_t *pHeader, uin
                 LogPrintf("Sender public key added to db.\n");
                 break;
             case 4:
-                LogPrintf("Sender public key already in db.\n");
+                // LogPrintf("Sender public key already in db.\n");
                 break;
             default:
                 LogPrintf("Error adding sender public key to db.\n");

@@ -142,6 +142,7 @@ BitcoinGUI::BitcoinGUI(const PlatformStyle *platformStyle, const NetworkStyle *n
     unlockWalletAction(0),
     lockWalletAction(0),
     toggleStakingAction(0),
+    secureMessageAction(0),
     platformStyle(platformStyle)
 {
     GUIUtil::restoreWindowGeometry("nWindow", QSize(840, 600), this);
@@ -345,6 +346,17 @@ void BitcoinGUI::createActions()
     tabGroup->addAction(historyAction);
 
 #ifdef ENABLE_WALLET
+#ifdef ENABLE_SMESSAGE
+    secureMessageAction = new QAction(platformStyle->SingleColorIcon(":/icons/send"), tr("&Message"), this);
+    secureMessageAction->setStatusTip(tr("Send Messages"));
+    secureMessageAction->setToolTip(secureMessageAction->statusTip());
+    secureMessageAction->setCheckable(true);
+    secureMessageAction->setShortcut(QKeySequence(Qt::ALT + Qt::Key_5));
+    tabGroup->addAction(secureMessageAction);
+#endif // ENABLE_SMESSAGE
+#endif // ENABLE_WALLET
+
+#ifdef ENABLE_WALLET
     // These showNormalIfMinimized are needed because Send Coins and Receive Coins
     // can be triggered from the tray menu, and need to show the GUI to be useful.
     connect(overviewAction, SIGNAL(triggered()), this, SLOT(showNormalIfMinimized()));
@@ -360,6 +372,11 @@ void BitcoinGUI::createActions()
     connect(historyAction, SIGNAL(triggered()), this, SLOT(showNormalIfMinimized()));
     connect(historyAction, SIGNAL(triggered()), this, SLOT(gotoHistoryPage()));
     connect(toggleStakingAction, SIGNAL(triggered()), this, SLOT(toggleStaking()));
+
+#ifdef ENABLE_SMESSAGE
+    connect(secureMessageAction, SIGNAL(triggered()), this, SLOT(showNormalIfMinimized()));
+    connect(secureMessageAction, SIGNAL(triggered()), this, SLOT(gotoSecureMessage()));
+#endif // ENABLE_SMESSAGE
 #endif // ENABLE_WALLET
 
     quitAction = new QAction(platformStyle->TextColorIcon(":/icons/quit"), tr("E&xit"), this);
@@ -498,6 +515,11 @@ void BitcoinGUI::createToolBars()
         toolbar->addAction(sendCoinsAction);
         toolbar->addAction(receiveCoinsAction);
         toolbar->addAction(historyAction);
+#ifdef ENABLE_WALLET
+#ifdef ENABLE_SMESSAGE
+        toolbar->addAction(secureMessageAction);
+#endif // ENABLE_SMESSAGE
+#endif // ENABLE_WALLET
         overviewAction->setChecked(true);
     }
 }
@@ -603,6 +625,11 @@ void BitcoinGUI::setWalletActionsEnabled(bool enabled)
     usedSendingAddressesAction->setEnabled(enabled);
     usedReceivingAddressesAction->setEnabled(enabled);
     openAction->setEnabled(enabled);
+#ifdef ENABLE_WALLET
+#ifdef ENABLE_SMESSAGE
+    secureMessageAction->setEnabled(enabled);
+#endif // ENABLE_SMESSAGE
+#endif // ENABLE_WALLET
 }
 
 void BitcoinGUI::createTrayIcon(const NetworkStyle *networkStyle)
@@ -745,6 +772,12 @@ void BitcoinGUI::gotoSignMessageTab(QString addr)
 void BitcoinGUI::gotoVerifyMessageTab(QString addr)
 {
     if (walletFrame) walletFrame->gotoVerifyMessageTab(addr);
+}
+
+void BitcoinGUI::gotoSecureMessage()
+{
+    secureMessageAction->setChecked(true);
+    if (walletFrame) walletFrame->gotoSecureMessage();
 }
 #endif // ENABLE_WALLET
 
