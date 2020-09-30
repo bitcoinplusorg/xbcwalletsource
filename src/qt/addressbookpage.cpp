@@ -45,11 +45,7 @@ AddressBookPage::AddressBookPage(const PlatformStyle *platformStyle, Mode mode, 
     switch(mode)
     {
     case ForSelection:
-        switch(tab)
-        {
-        case SendingTab: setWindowTitle(tr("Choose the address to send coins to")); break;
-        case ReceivingTab: setWindowTitle(tr("Choose the address to receive coins with")); break;
-        }
+        setWindowTitle(tr("Choose address"));
         connect(ui->tableView, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(accept()));
         ui->tableView->setEditTriggers(QAbstractItemView::NoEditTriggers);
         ui->tableView->setFocus();
