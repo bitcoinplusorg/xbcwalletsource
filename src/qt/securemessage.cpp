@@ -648,6 +648,7 @@ void SecureMessageGUI::addEntry(QString address, QString alias)
         item->setText(alias);
         item->setData(Qt::ToolTipRole, address);
         item->setSizeHint(QSize(item->sizeHint().width(), 35));
+        item->setFlags(item->flags() | Qt::ItemIsEditable);
 
         // Contact manually added, removed from removed contacts if present
         if (blockedAddresses.contains(address)) {
