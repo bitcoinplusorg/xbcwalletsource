@@ -160,6 +160,8 @@ private:
 
     void updateWeight();
 
+    void updateHeadersSyncProgressLabel();
+
 Q_SIGNALS:
     /** Signal raised when a URI was entered or dragged to the GUI */
     void receivedURI(const QString &uri);
