@@ -98,6 +98,7 @@ void SecureMessageGUI::setWalletModel(WalletModel *model)
 void SecureMessageGUI::on_get_address_clicked()
 {
     QDialog* popup = new QDialog();
+    popup->setWindowTitle("Contact Information");
     auto verticalLayout = new QVBoxLayout(popup);
     QString str = QString("Address:\n%1\n\nPublic Key:\n%2").arg(QString::fromStdString(sendingAddress)).arg(QString::fromStdString(sendingPubKey));
     QLabel* address = new QLabel(str);
