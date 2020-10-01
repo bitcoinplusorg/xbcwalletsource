@@ -55,6 +55,7 @@ private:
     void checkForNewMessages();
     void checkMessages(std::set<Message, MessageCmp> &messages, bool unread = false);
     void deleteConversation(std::string addrFrom);
+    void displayContactInfo();
     void setSendingAddress();
     void populateUserList();
 

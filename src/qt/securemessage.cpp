@@ -107,6 +107,46 @@ void SecureMessageGUI::on_get_address_clicked()
     popup->exec();
 }
 
+void SecureMessageGUI::displayContactInfo()
+{
+    QList<QListWidgetItem *> items = ui->user_list->selectedItems();
+
+    if (items.count() != 1) {
+        return;
+    }
+
+    QDialog* popup = new QDialog();
+    popup->setWindowTitle("Contact Information");
+    auto verticalLayout = new QVBoxLayout(popup);
+    std::string contact(items[0]->data(Qt::ToolTipRole).toString().toStdString());
+    std::string publicKey;
+
+    if (SecureMsgGetLocalPublicKey(contact, publicKey) != 0) {
+        CBitcoinAddress coinAddress(contact);
+        CKeyID keyID;
+        if (!coinAddress.GetKeyID(keyID)) {
+            return;
+        }
+
+        CPubKey cpkFromDB;
+        if (SecureMsgGetStoredKey(keyID, cpkFromDB) != 0) {
+            return;
+        }
+
+        if (!cpkFromDB.IsValid() || !cpkFromDB.IsCompressed()) {
+            return;
+        }
+
+        publicKey = EncodeBase58(cpkFromDB.begin(), cpkFromDB.end());
+    }
+
+    QString str = QString("Address:\n%1\n\nPublic Key:\n%2").arg(QString::fromStdString(contact)).arg(QString::fromStdString(publicKey));
+    QLabel* address = new QLabel(str);
+    address->setTextInteractionFlags(Qt::TextSelectableByMouse);
+    verticalLayout->addWidget(address);
+    popup->exec();
+}
+
 // Add Contact: opens Contact Dialog to add Contacts for SecureMessage
 void SecureMessageGUI::on_add_contact_clicked()
 {
@@ -402,6 +442,7 @@ void SecureMessageGUI::userListContextMenu(const QPoint& pos)
 
     QMenu user_list_menu;
     user_list_menu.addAction("Clear Conversation",  this, &SecureMessageGUI::on_clear_conversation_clicked);
+    user_list_menu.addAction("Contact Information",  this, &SecureMessageGUI::displayContactInfo);
     user_list_menu.addAction("Remove Contact",  this, &SecureMessageGUI::on_remove_contact_clicked);
     user_list_menu.addAction("Rename", this, &SecureMessageGUI::editUserListItem);
     user_list_menu.exec(global_pos);
