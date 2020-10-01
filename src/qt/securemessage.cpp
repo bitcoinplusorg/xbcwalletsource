@@ -231,7 +231,7 @@ void SecureMessageGUI::on_remove_contact_clicked()
         return;
     }
 
-    QCheckBox *cb = new QCheckBox("Permanantly delete messages");
+    QCheckBox *cb = new QCheckBox("Permanently delete messages");
     QMessageBox msgBox(QMessageBox::Question, "Confirm Action", "Are you sure you want to remove this contact?", QMessageBox::Yes | QMessageBox::No, this);
     msgBox.setDefaultButton(QMessageBox::No);
     msgBox.setIcon(QMessageBox::Question);
