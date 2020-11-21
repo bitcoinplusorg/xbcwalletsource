@@ -756,6 +756,11 @@ bool SignBlock(CBlock *pblock, CWallet& wallet, int64_t nFees)
 
                 return key.Sign(pblock->GetHash(), pblock->vchBlockSig);
             }
+            else
+            {
+                LogPrint("coinstake", "Error: nTime less than expected. nTime %d should be more than or equal to %d\n",
+                         txCoinStake.nTime, max(pindexBestHeader->GetPastTimeLimit()+1, PastDrift(pindexBestHeader->GetBlockTime())));
+            }
         }
         nLastCoinStakeSearchInterval = nSearchTime - nLastCoinStakeSearchTime;
         nLastCoinStakeSearchTime = nSearchTime;
