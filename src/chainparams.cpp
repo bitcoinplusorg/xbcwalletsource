@@ -71,6 +71,7 @@ public:
         consensus.nModifierInterval = 10 * 60;
         consensus.nStakeSplitAge = 24 * 60 * 60;
         consensus.timeLimitChange = 1455825600;
+        consensus.limitFutureDrift = 1450000;
         consensus.nStakeCombineThreshold = 100 * COIN;
         consensus.checkpointPubKey = "0436e4770019fd9e103ec777356be72fcbf50a6d29a09727633e382be8197596388c25f347642d37011ce2b790031c18b3656548274e2a1e67197011a0f4ca8708";
         consensus.fPowAllowMinDifficultyBlocks = false;
@@ -165,6 +166,7 @@ public:
         consensus.nModifierInterval = 60;
         consensus.nStakeSplitAge = 24 * 60 * 60;
         consensus.timeLimitChange = 1455825600;
+        consensus.limitFutureDrift = 0;
         consensus.nStakeCombineThreshold = 100 * COIN;
         consensus.checkpointPubKey = "04609db1502aeb6d5f193a640fffcfe88b720d47c961a78cc15210fc56a8e5ea5a06c02190d39076f96199ec788cc26ed2db76152dc9bd93bf18870236199b6bce";
         consensus.fPowAllowMinDifficultyBlocks = true;
@@ -253,6 +255,7 @@ public:
         consensus.nModifierInterval = 10 * 60;
         consensus.nStakeSplitAge = 24 * 60 * 60;
         consensus.timeLimitChange = 0;
+        consensus.limitFutureDrift = 0;
         consensus.nStakeCombineThreshold = 100 * COIN;
         consensus.checkpointPubKey = "04609db1502aeb6d5f193a640fffcfe88b720d47c961a78cc15210fc56a8e5ea5a06c02190d39076f96199ec788cc26ed2db76152dc9bd93bf18870236199b6bce";
         consensus.fPowAllowMinDifficultyBlocks = true;

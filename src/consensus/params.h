@@ -66,6 +66,7 @@ struct Params {
     unsigned int timeLimitChange;
     unsigned int nStakeSplitAge;
     int64_t nStakeCombineThreshold;
+    int limitFutureDrift;
 };
 } // namespace Consensus
 
