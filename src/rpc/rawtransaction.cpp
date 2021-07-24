@@ -445,6 +445,8 @@ UniValue createrawtransaction(const UniValue& params, bool fHelp)
         }
     }
 
+    rawTx.nTime = GetAdjustedTime();
+
     return EncodeHexTx(rawTx);
 }
 
